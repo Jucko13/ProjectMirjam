@@ -30,6 +30,7 @@ SOFTWARE.
 #include "src/door.h"
 #include "src/light.h"
 #include "src/wekker.h"
+#include "src/motionsensor.h"
 //#include "src/knxsensors.h"
 
 #include <iostream>
@@ -144,7 +145,8 @@ int main (int argc, char *argv[])
 	
 	vector<Door *> door;
 	vector<Light *> lamp;
-	
+	vector<MotionSensor *> motion;
+
 	vector<Wekker *> wekkers;
 	wekkercompressed wekkerData;
 	
@@ -272,7 +274,13 @@ int main (int argc, char *argv[])
 		}
 		
 		response = "HTTP/1.1 200 OK\r\n\r\n";
-		if(pageurl.find("/door/") != std::string::npos){
+		if(pageurl.find("/all/") != std::string::npos){
+			for (int t = 0; t < door.size(); t++){ response += "data.door[" + func::toString(t) + "] = " + func::toString(door[t]->getStatus()) + ";\r\n"; }
+			for (int t = 0; t < lamp.size(); t++) { response += "data.lamp[" + func::toString(t) + "] = " + func::toString(lamp[t]->getStatus()) + ";\r\n"; }
+			for (int t = 0; t < motion.size(); t++) { response += "data.motion[" + func::toString(t) + "] = " + func::toString(motion[t]->getStatus()) + ";\r\n"; }
+
+
+		}else if (pageurl.find("/door/") != std::string::npos) {
 			switch(get_toggle_set(pageurl,&objectIndex,&objectSettings,&objectState)){
 				case 0:
 					response += "data.door[" + func::toString(objectIndex) + "] = " + func::toString(door[objectIndex]->getStatus()) + ";"; 
