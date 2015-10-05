@@ -282,9 +282,9 @@ int main (int argc, char *argv[])
 
 		}else if (pageurl.find("/door/") != std::string::npos) {
 			switch(get_toggle_set(pageurl,&objectIndex,&objectSettings,&objectState)){
-				case 0:
-					response += "data.door[" + func::toString(objectIndex) + "] = " + func::toString(door[objectIndex]->getStatus()) + ";"; 
-					break;
+				//case 0:
+					//response += "data.door[" + func::toString(objectIndex) + "] = " + func::toString(door[objectIndex]->getStatus()) + ";"; 
+					//break;
 				case 1:
 					if(door[objectIndex]->getStatus()) {
 						door[objectIndex]->close();
@@ -304,9 +304,9 @@ int main (int argc, char *argv[])
 			}
 		}else if(pageurl.find("/lamp/") != std::string::npos){
 			switch(get_toggle_set(pageurl,&objectIndex,&objectSettings,&objectState)){
-				case 0:
-					response += "data.lamp[" + func::toString(objectIndex) + "] = " + func::toString(lamp[objectIndex]->getStatus()) + ";"; 
-					break;
+				//case 0:
+					//response += "data.lamp[" + func::toString(objectIndex) + "] = " + func::toString(lamp[objectIndex]->getStatus()) + ";"; 
+					//break;
 				case 1:
 					
 					lamp[objectIndex]->toggle();
@@ -347,9 +347,9 @@ int main (int argc, char *argv[])
 			}
 		}else if(pageurl.find("/blinds/") != std::string::npos){
 			switch(get_toggle_set(pageurl,&objectIndex,&objectSettings,&objectState)){
-				case 0:
-					response += "data.blinds[" + func::toString(objectIndex) + "] = " + func::toString(lamp[objectIndex]->getStatus()) + ";"; 
-					break;
+				//case 0:
+					//response += "data.blinds[" + func::toString(objectIndex) + "] = " + func::toString(lamp[objectIndex]->getStatus()) + ";"; 
+					//break;
 				case 1:
 					
 					lamp[objectIndex]->toggle();
