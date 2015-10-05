@@ -1,7 +1,7 @@
 
 	
 	
-	<div class="window visible" id="rgb">
+	<div class="window hidden" id="rgb">
 		<div class="title" >
 			RGB Ledstrip Settings
 			<button onclick="closeWindow('rgb')">Close</button>
@@ -268,18 +268,19 @@
 		
 		var data = {
 			rgb:     [0,0,0,255], //R, G, B, White
-			door:    [0,0,0], 
+			door:    [0,0], 
 			lamp:    [0,0,0],
 			motion:	 [0,1,0],
+			sunblind: [0]
 		}
-		
+		console.log(data);
 		var times = {
 			lamp: [
 				["00:00","00:00",0],
 				["00:00","00:00",0],
 				["00:00","00:00",0]
 			],
-			sunblinds: ["00:00","00:00",0]
+			sunblind: ["00:00","00:00",0]
 		}
 		
 		
@@ -302,12 +303,6 @@
 		var clickLocations = [{
 				x1: 0,   y1: 145, x2: 60,  y2: 200,
 				f: function(){command("toggle/door/0")}
-			},{
-				x1: 140,	y1: 175, x2: 200, y2: 235,
-				f: function(){command('toggle/door/1')}
-			},{
-				x1: 325, y1: 95,  x2: 410, y2: 240,
-				f: function(){command('toggle/door/2')}
 			},{
 				x1: 105, y1: 60,  x2: 170, y2: 120,
 				f: function(){command('toggle/lamp/0')}
@@ -450,6 +445,7 @@
 			ctx.textBaseline = 'middle';
 			ctx.fillText("Door1",c(25),c(170));
 			
+			/*
 		//door2
 			if(data.door[1] == 0){
 				ctx.beginPath();
@@ -504,7 +500,7 @@
 			ctx.textAlign = 'center';
 			ctx.textBaseline = 'middle';
 			ctx.fillText("Door3",c(360),c(170));
-			
+			*/
 		
 		//lamp 1, 2 & 3
 			for(var i = 0; i < data.lamp.length; i++){
@@ -749,7 +745,7 @@
 			
 			//command('time/lamp/0/1/13' + '%3A' + '50');
 			//command('time/lamp/0/0/17' + '%3A' + '00');
-			timedCommandList[listCount] = 'time/times/0/0/'; 
+			timedCommandList[listCount] = 'time/times/0/0/0'; 
 			listCount++;
 					
 					
@@ -1016,6 +1012,7 @@
 			setTimeout(function(){
 				document.getElementById('timeSave').style.visibility = "hidden";
 			},2000);
+			refreshTimers();
 		}
 		
 		//Type: 					Event Function
@@ -1026,11 +1023,17 @@
 		//Triggered By:			button(click)
 		function timeSaveClick(){
 			var lIndex = document.getElementById("timeObject").value.split(":");
-			times[ lIndex[0] ] [ lIndex[1] ][0] = document.getElementById('time1').value + ":" + document.getElementById('time2').value;
-			times[ lIndex[0] ] [ lIndex[1] ][1] = document.getElementById('time3').value + ":" + document.getElementById('time4').value;
-			times[ lIndex[0] ] [ lIndex[1] ][2] = document.getElementById('timeCheck').checked;
+			//times[ lIndex[0] ] [ lIndex[1] ][0] = document.getElementById('time1').value + ":" + document.getElementById('time2').value;
+			//times[ lIndex[0] ] [ lIndex[1] ][1] = document.getElementById('time3').value + ":" + document.getElementById('time4').value;
+			//times[ lIndex[0] ] [ lIndex[1] ][2] = document.getElementById('timeCheck').checked;
+			
+			timedCommandList = [];
+			timedCommandList[0] = "time/" + lIndex[0] + "/" + lIndex[1] + "/0/" + document.getElementById('time1').value + ":" + document.getElementById('time2').value;
+			timedCommandList[1] = "time/" + lIndex[0] + "/" + lIndex[1] + "/1/" + document.getElementById('time3').value + ":" + document.getElementById('time4').value;
+			timedCommand(0);
+			
 			refreshTimers();
-			timeSaved(); //remove it when done!
+			//timeSaved(); //remove it when done!
 		}
 		
 		//set this with a really small timeout to prevent window freezing.

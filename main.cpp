@@ -53,7 +53,7 @@ typedef union {
 	int comp;
 } wekkercompressed;
 
-enum devtype { LAMPS, TOILETALARM };
+enum devtype { LAMPS, SUNBLINDS, TOILETALARM };
 
 
 int countChars(string input, char whatChar){
@@ -103,10 +103,10 @@ int get_toggle_set(std::string pageurl, int * sensorNumber, string * sensorData,
 		if(countChars(pageurl,'/') != 5) return -1;
 		tmpPlace = pageurl.rfind("/");
 		*sensorData = pageurl.substr(tmpPlace+1,pageurl.length() - tmpPlace);
-		tmpPlace = pageurl.rfind("/",tmpPlace);
+		tmpPlace = pageurl.rfind("/",tmpPlace-1);
 		tmpString = pageurl.substr(tmpPlace + 1, 1); if (tmpString.size() == 0) return -1;
 		*sensorState = atoi(tmpString.c_str());
-		tmpPlace = pageurl.rfind("/",tmpPlace);
+		tmpPlace = pageurl.rfind("/",tmpPlace-1);
 		tmpString = pageurl.substr(tmpPlace + 1, 1); if (tmpString.size() == 0) return -1;
 		*sensorNumber = atoi(tmpString.c_str());
 		return returnmode;
@@ -146,7 +146,7 @@ int main (int argc, char *argv[])
 	vector<Light *> lamp;
 	
 	vector<Wekker *> wekkers;
-	wekkercompressed wekkerdata;
+	wekkercompressed wekkerData;
 	
 	//KnxSensors k;
 	//k.test();
@@ -172,17 +172,17 @@ int main (int argc, char *argv[])
 	lamp.push_back(new Light(10));
 	lamp.push_back(new Light(9));
 	
-	wekkerdata.uncomp.devicetype = LAMPS;
-	wekkerdata.uncomp.deviceindex = 1;
-	wekkerdata.uncomp.state = 1;
-	wekkerdata.uncomp.reserved = 0;
-	wekkers.push_back(new Wekker(1, wekkerdata.comp));//relative 1 min from now
+	//wekkerData.uncomp.devicetype = LAMPS;
+	//wekkerData.uncomp.deviceindex = 1;
+	//wekkerData.uncomp.state = 1;
+	//wekkerData.uncomp.reserved = 0;
+	//wekkers.push_back(new Wekker(1, wekkerData.comp));//relative 1 min from now
 
-	wekkerdata.uncomp.devicetype = LAMPS;
-	wekkerdata.uncomp.deviceindex = 1;
-	wekkerdata.uncomp.state = 0;
-	wekkerdata.uncomp.reserved = 0;
-	wekkers.push_back(new Wekker("13:10", true, wekkerdata.comp));//absolute repeated
+	//wekkerData.uncomp.devicetype = LAMPS;
+	//wekkerData.uncomp.deviceindex = 1;
+	//wekkerData.uncomp.state = 0;
+	//wekkerData.uncomp.reserved = 0;
+	//wekkers.push_back(new Wekker("13:10", true, wekkerData.comp));//absolute repeated
 	
 	std::cout << "Creating Server...\r\n";
     if (listener.openServerOnPort(PORTNUMBER) < 0 || listener.listenToPort() < 0){
@@ -195,22 +195,29 @@ int main (int argc, char *argv[])
 	while(1){
 		
 		for (vector<Wekker *>::iterator i = wekkers.begin(); i != wekkers.end(); /*i++*/) {
-			if ((*i)->isdue()) {
-				//cout << ((*i)->gettime()) << endl;
-				wekkerdata.comp = (*i)->getdata();
-				switch(wekkerdata.uncomp.devicetype){
+			if ((*i)->isDue()) {
+				//cout << ((*i)->getTime()) << endl;
+				wekkerData.comp = (*i)->getData();
+				switch(wekkerData.uncomp.devicetype){
 					case LAMPS:
-						if(wekkerdata.uncomp.state != 0) {
-							lamp[wekkerdata.uncomp.deviceindex]->on();
+						if(wekkerData.uncomp.state != 0) {
+							lamp[wekkerData.uncomp.deviceindex]->on();
 						}else{
-							lamp[wekkerdata.uncomp.deviceindex]->off();
+							lamp[wekkerData.uncomp.deviceindex]->off();
+						}
+						break;
+					case SUNBLINDS:
+						if(wekkerData.uncomp.state != 0) {
+							//<blinds>[wekkerData.uncomp.deviceindex]->on();
+						}else{
+							//<blinds>[wekkerData.uncomp.deviceindex]->off();
 						}
 						break;
 					case TOILETALARM:
 						break;
 				}
-				if ((*i)->isrepeating()) {//runonce or recuring
-					(*i)->recalculatetime();
+				if ((*i)->isRepeating()) {//runonce or recuring
+					(*i)->recalculateTime();
 					i++;
 				} else {
 					delete *i;
@@ -258,12 +265,6 @@ int main (int argc, char *argv[])
 		}else if(pageurl.find(".png") != std::string::npos){
 			response = "HTTP/1.1 200 OK\r\n";
 			response += "Content-Type: image/png;\r\n\r\n";
-			/*
-			int fsize = 0;
-			string filesend = func::openBinaryFile("html/boost_build.png",&fsize;
-			inbound->sendMessage(response);
-			inbound->sendMessage(&filesend, fsize);
-			* */
 			
 			inbound->sendFile("html" + pageurl);
 			inbound->closeConnection();
@@ -313,32 +314,92 @@ int main (int argc, char *argv[])
 					break;
 				
 				case 3:
-					//objectSettings contains your time. if its empty, disable the time
+					//objectSettings="00:00";
+					//objectState = 0; //0 moet aan gaan om <tijd>, 1 moet uit gaan om <tijd>
+					//objectIndex = index van lamp
+					int t = 0;
+					for (; t < wekkers.size(); t++) {
+						wekkerData.comp = wekkers[t]->getData();
+
+						if ((wekkerData.uncomp.devicetype == LAMPS) && (wekkerData.uncomp.deviceindex == objectIndex) && (wekkerData.uncomp.state == objectState)) {
+							wekkers[t]->setTime(objectSettings.c_str());
+							break;//end the for loop
+						}
+					}
+					if (t >= wekkers.size()) {
+						wekkerData.uncomp.devicetype = LAMPS;
+						wekkerData.uncomp.deviceindex = objectIndex;
+						wekkerData.uncomp.state = objectState;
+						wekkerData.uncomp.reserved = 0;
+						wekkers.push_back(new Wekker(objectSettings.c_str(), true, wekkerData.comp));//absolute repeated
+					}
+					
+					response += "timeSaved();";
+					break;
+			}
+		}else if(pageurl.find("/blinds/") != std::string::npos){
+			switch(get_toggle_set(pageurl,&objectIndex,&objectSettings,&objectState)){
+				case 0:
+					response += "data.blinds[" + func::toString(objectIndex) + "] = " + func::toString(lamp[objectIndex]->getStatus()) + ";"; 
+					break;
+				case 1:
+					
+					lamp[objectIndex]->toggle();
+					response += "data.blinds[" + func::toString(objectIndex) + "] = " + func::toString(lamp[objectIndex]->getStatus()) + ";"; 
+					break;
+				case 2:
+					if(objectSettings == "1") {
+						lamp[objectIndex]->on();
+					}else{
+						lamp[objectIndex]->off();
+					}
+					response += "data.blinds[" + func::toString(objectIndex) + "] = " + func::toString(lamp[objectIndex]->getStatus()) + ";"; 
+					break;
+				
+				case 3:
+					//objectSettings="00:00";
+					//objectState = 0; //0 moet aan gaan om <tijd>, 1 moet uit gaan om <tijd>
+					//objectIndex = index van lamp
+					int t = 0;
+					for (; t < wekkers.size(); t++) {
+						wekkerData.comp = wekkers[t]->getData();
+
+						if ((wekkerData.uncomp.devicetype == LAMPS) && (wekkerData.uncomp.deviceindex == objectIndex) && (wekkerData.uncomp.state == objectState)) {
+							wekkers[t]->setTime(objectSettings.c_str());
+							break;//end the for loop
+						}
+					}
+					if (t >= wekkers.size()) {
+						wekkerData.uncomp.devicetype = SUNBLINDS;
+						wekkerData.uncomp.deviceindex = objectIndex;
+						wekkerData.uncomp.state = objectState;
+						wekkerData.uncomp.reserved = 0;
+						wekkers.push_back(new Wekker(objectSettings.c_str(), true, wekkerData.comp));//absolute repeated
+					}
+					
+					response += "timeSaved();";
 					break;
 			}
 		} else if (pageurl.find("/times/") != std::string::npos) {
 			switch (get_toggle_set(pageurl, &objectIndex, &objectSettings, &objectState)) {
 				case 3:
-					if (objectSettings == "") { //send all times back
-						for (int t = 0; t != wekkers.size(); t++) {
-							wekkerdata.comp = wekkers[t]->getdata();
+					for (int t = 0; t < wekkers.size(); t++) {
+						wekkerData.comp = wekkers[t]->getData();
 
-							switch (wekkerdata.uncomp.devicetype) {
-								case LAMPS:
-									response += "timers.lamp[" + func::toString((int)wekkerdata.uncomp.deviceindex) + "][" + func::toString((int)wekkerdata.uncomp.state) + "] = \"" + wekkers[t]->gettime() + "\";\r\n";
-									response += "timers.lamp[" + func::toString((int)wekkerdata.uncomp.deviceindex) + "][2] = 1;\r\n";
-									break;
-								case TOILETALARM:
-									break;
-							}
+						switch (wekkerData.uncomp.devicetype) {
+							case LAMPS:
+								response += "times.lamp[" + func::toString((int)wekkerData.uncomp.deviceindex) + "][" + func::toString((int)wekkerData.uncomp.state) + "] = \"" + wekkers[t]->getTime() + "\";\r\n";
+								response += "times.lamp[" + func::toString((int)wekkerData.uncomp.deviceindex) + "][2] = 1;\r\n";
+								break;
+							case TOILETALARM:
+								break;
 						}
-
-						response += "timeSelectionChange();\r\n";
-					} else { //set an timer
-
 					}
 
+					response += "timeSelectionChange();\r\n";
+
 					break;
+					
 			}
 		}else{
 			response += ERR_MESSAGE;

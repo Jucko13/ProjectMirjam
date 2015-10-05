@@ -4,7 +4,7 @@
 #include <ctime>
 #include <string>
 
-using namespace std;
+//using namespace std;
 
 class Wekker {
 
@@ -14,16 +14,16 @@ public:
 	Wekker(int dueinmin, int userdata);
 	virtual ~Wekker();
 
-	void settime(char const* duetimestr);
-	void settime(int dueinmin);
-	string gettime();
-	bool isdue();
-	void recalculatetime();
-	int getdata();
-	bool isrepeating();
+	void setTime(char const* duetimestr);
+	void setTime(int dueinmin);
+	std::string getTime();
+	bool isDue();
+	void recalculateTime();
+	int getData();
+	bool isRepeating();
 
 private:
-	std::tm endtime;
+	std::tm endTime;
 	int data;
 	bool repeating;
 };
