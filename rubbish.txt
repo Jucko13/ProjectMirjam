@@ -1,0 +1,32 @@
+/*
+        std::cout << "Received request from " <<
+                     inbound->getIpAddress() << "\r\n";
+        std::cout << "(socket#=" << toString(socketNumber) << ")\r\n";
+        size_t receivedBytes=inbound->receive(inboundMessage, INBOUND_BUFFER_SIZE);
+        std::cout << "Received " << toString(receivedBytes) << " bytes.\r\n";
+        std::cout << "Sending response...\r\n";
+        // Message isn't null-terminated necessarily so need to do this:
+        string inboundString = listener.messageToString(inboundMessage, receivedBytes);
+        // Construct a response message.
+        string response;
+        // Do this to let HTTP client know request worked... won't show up in
+        // browser but will make some HTTP clients feel better.
+        response = "HTTP/1.1 200 OK\r\n\r\n";
+        response += "Hello Socket!\r\n\r\n";
+        response += "Recieved request from " + inbound->getIpAddress() + "\r\n";
+        response += "on socket #" + toString(socketNumber) + "\r\n";
+        response += "(" + toString(receivedBytes) + " bytes)\r\n";
+        response += "Inbound request contents: \r\n\r\n" + inboundString;
+        // Send response message
+        size_t sentBytes = inbound->sendMessage(response);
+        // You can send as many as you please as long as the connection stays open.
+        // This is the string variant of sendMessage, but there's another
+        // variant for binary data as well which you can use to shove images or
+        // serialized objects or what have you.
+        // Send another message to say how big the previous message was.
+        inbound->sendMessage( "\r\n\r\n(" + toString(sentBytes) + " bytes sent)\r\n");
+        std::cout << "Sent " << toString(sentBytes) << " bytes.\r\n\r\n";
+        * 
+        * inbound->sendMessage( "\r\n\r\n(" + toString(sentBytes) + " bytes sent)\r\n");
+
+*/

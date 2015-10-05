@@ -1,0 +1,29 @@
+int getUrl (string *url)
+{
+  string str = "GET /index.htm HTTP/1.1";
+
+  size_t pos = str.find("GET");
+  size_t pos2 = str.find("HTTP");
+
+
+  if(pos != string::npos)
+  {
+      pos += 4;
+  } else {
+      return 0;
+  }
+
+  if(pos2 != string::npos)
+  {
+      pos2 -= 5;
+  } else {
+      return 0;
+  }
+
+  *url = str.substr(pos, pos2);
+
+  if(url->size() != 0)
+    return 1;
+  else
+    return 0;
+}
