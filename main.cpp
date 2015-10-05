@@ -345,7 +345,7 @@ int main (int argc, char *argv[])
 					response += "timeSaved();";
 					break;
 			}
-		}else if(pageurl.find("/blinds/") != std::string::npos){
+		}else if(pageurl.find("/sunblinds/") != std::string::npos){
 			switch(get_toggle_set(pageurl,&objectIndex,&objectSettings,&objectState)){
 				//case 0:
 					//response += "data.blinds[" + func::toString(objectIndex) + "] = " + func::toString(lamp[objectIndex]->getStatus()) + ";"; 
