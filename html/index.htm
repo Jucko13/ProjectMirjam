@@ -1,7 +1,9 @@
 
+	<div onclick="closeWindow('rgb');closeWindow('settings');closeWindow('time');" class="hidden" id="blackness" style="opacity: 0.5; z-index: 11000; background-color: #000; position:fixed; top: 0px; left: 0px; bottom: 0px; right: 0px;">
+		
+	</div>
 	
-	
-	<div class="window hidden" id="rgb">
+	<div class="window hidden" id="rgb" style="z-index: 11001;">
 		<div class="title" >
 			RGB Ledstrip Settings
 			<button onclick="closeWindow('rgb')">Close</button>
@@ -25,7 +27,7 @@
 		<button onclick="location.reload()" class="">Refresh</button>
 	</div>
 	
-	<div class="window" id="settings" style="visibility: hidden;">
+	<div class="window hidden" id="settings" style="z-index: 11002;">
 		<div class="title" >
 			Settings
 			<button onclick="closeWindow('settings')">Close</button>
@@ -33,7 +35,7 @@
 		<button onclick="location.reload()" class="">Refresh</button>
 	</div>
 	
-	<div class="window" id="time" style="visibility: hidden;">
+	<div class="window hidden" id="time" style="z-index: 11002;">
 		<div class="title">
 			Timer settings
 			<button onclick="closeWindow('time')">Close</button>
@@ -270,8 +272,8 @@
 			rgb:      [0,0,0,255], //R, G, B, White
 			door:     [0,0], 
 			lamp:     [0,0,0],
-			motion:	 [0,1,0],
-			sunblinds: [1]
+			motion:	 [0,0,0],
+			sunblinds: [0]
 		}
 		
 		var times = {
@@ -897,6 +899,7 @@
 		//Triggered By:			rgb (window close button)
 		function showWindow(whatwindow){
 			document.getElementById(whatwindow).style.visibility = "visible";
+			blackness.style.visibility = "visible";
 		}
 		
 		//Type: 					Function
@@ -907,6 +910,7 @@
 		//Triggered By:			rgb (window close button)
 		function closeWindow(whatwindow){
 			document.getElementById(whatwindow).style.visibility = "hidden";
+			blackness.style.visibility = "hidden";
 		}
 		
 		//Type: 					Function
