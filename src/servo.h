@@ -9,10 +9,8 @@ public:
     Servo(int);
     ~Servo();
     void setAngle(int);
-    int getAngle();
 private:
     int pin;
-    int position;
 };
 
 #endif // SERVO_H

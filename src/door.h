@@ -14,8 +14,6 @@ class Door
         bool getStatus();
     private:
         bool status;
-        int pin;
-        void setAngle(int angleDelay);
 			
         /*void * ServoThread(void * dummyptr);
         pthread_t servo;*/
