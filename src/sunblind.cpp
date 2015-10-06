@@ -22,6 +22,16 @@ void Sunblind::close()
     servo.setAngle(0);
 }
 
+void Sunblind::setPosition(int a)
+{
+	if(!a)
+		status = false;
+		servo.setAngle(a);
+	else
+		status = true;
+		servo.setAngle(a);
+}
+
 bool Sunblind::getStatus()
 {
     return status;

@@ -12,6 +12,7 @@ class Sunblind
         virtual ~Sunblind();
         void open();
         void close();
+		void setPosition();
         bool getStatus();
     private:
         bool status;
