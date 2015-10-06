@@ -153,22 +153,11 @@ int main (int argc, char *argv[])
 	//KnxSensors k;
 	//k.test();
 	
-	/*pthread_t webhost;
-	
-	std::cout << "Creating Connection Thread...\r\n";
-	if(pthread_create (&webhost, NULL, connectionThread, NULL) != 0){
-		
-		std::cout << "Thread creation failed. Shutting down...\r\n";
-		exit(0);
-	}
-	std::cout << "Thread creation successfull!\r\n";
-	*/
+
 	
 	
 
 	door.push_back(new Door(7));
-	door.push_back(new Door(6));
-	door.push_back(new Door(5));
 	
 	lamp.push_back(new Light(11));
 	lamp.push_back(new Light(10));
@@ -180,12 +169,6 @@ int main (int argc, char *argv[])
 	//wekkerData.uncomp.reserved = 0;
 	//wekkers.push_back(new Wekker(1, wekkerData.comp));//relative 1 min from now
 
-	//wekkerData.uncomp.devicetype = LAMPS;
-	//wekkerData.uncomp.deviceindex = 1;
-	//wekkerData.uncomp.state = 0;
-	//wekkerData.uncomp.reserved = 0;
-	//wekkers.push_back(new Wekker("13:10", true, wekkerData.comp));//absolute repeated
-	
 	std::cout << "Creating Server...\r\n";
     if (listener.openServerOnPort(PORTNUMBER) < 0 || listener.listenToPort() < 0){
         std::cout << "Error opening port " << PORTNUMBER << "!\r\n";
@@ -198,7 +181,6 @@ int main (int argc, char *argv[])
 		
 		for (vector<Wekker *>::iterator i = wekkers.begin(); i != wekkers.end(); /*i++*/) {
 			if ((*i)->isDue()) {
-				//cout << ((*i)->getTime()) << endl;
 				wekkerData.comp = (*i)->getData();
 				switch(wekkerData.uncomp.devicetype){
 					case LAMPS:
@@ -274,12 +256,12 @@ int main (int argc, char *argv[])
 		}
 		
 		response = "HTTP/1.1 200 OK\r\n\r\n";
+		
 		if(pageurl.find("/all/") != std::string::npos){
 			for (int t = 0; t < door.size(); t++){ response += "data.door[" + func::toString(t) + "] = " + func::toString(door[t]->getStatus()) + ";\r\n"; }
 			for (int t = 0; t < lamp.size(); t++) { response += "data.lamp[" + func::toString(t) + "] = " + func::toString(lamp[t]->getStatus()) + ";\r\n"; }
 			for (int t = 0; t < motion.size(); t++) { response += "data.motion[" + func::toString(t) + "] = " + func::toString(motion[t]->getStatus()) + ";\r\n"; }
-
-
+		
 		}else if (pageurl.find("/door/") != std::string::npos) {
 			switch(get_toggle_set(pageurl,&objectIndex,&objectSettings,&objectState)){
 				//case 0:
@@ -308,7 +290,7 @@ int main (int argc, char *argv[])
 					//response += "data.lamp[" + func::toString(objectIndex) + "] = " + func::toString(lamp[objectIndex]->getStatus()) + ";"; 
 					//break;
 				case 1:
-					
+					//cout<<objectIndex;
 					lamp[objectIndex]->toggle();
 					response += "data.lamp[" + func::toString(objectIndex) + "] = " + func::toString(lamp[objectIndex]->getStatus()) + ";"; 
 					break;
@@ -353,7 +335,7 @@ int main (int argc, char *argv[])
 				case 1:
 					
 					lamp[objectIndex]->toggle();
-					response += "data.blinds[" + func::toString(objectIndex) + "] = " + func::toString(lamp[objectIndex]->getStatus()) + ";"; 
+					response += "data.sunblinds[" + func::toString(objectIndex) + "] = " + func::toString(lamp[objectIndex]->getStatus()) + ";"; 
 					break;
 				case 2:
 					if(objectSettings == "1") {
@@ -361,13 +343,10 @@ int main (int argc, char *argv[])
 					}else{
 						lamp[objectIndex]->off();
 					}
-					response += "data.blinds[" + func::toString(objectIndex) + "] = " + func::toString(lamp[objectIndex]->getStatus()) + ";"; 
+					response += "data.sunblinds[" + func::toString(objectIndex) + "] = " + func::toString(lamp[objectIndex]->getStatus()) + ";"; 
 					break;
 				
 				case 3:
-					//objectSettings="00:00";
-					//objectState = 0; //0 moet aan gaan om <tijd>, 1 moet uit gaan om <tijd>
-					//objectIndex = index van lamp
 					int t = 0;
 					for (; t < wekkers.size(); t++) {
 						wekkerData.comp = wekkers[t]->getData();

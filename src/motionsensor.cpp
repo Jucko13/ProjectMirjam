@@ -1,4 +1,5 @@
 #include "motionsensor.h"
+#include "arduPi.h"
 
 MotionSensor::MotionSensor(int a) : pin(a)
 {
