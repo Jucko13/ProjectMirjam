@@ -1,21 +1,42 @@
 #include "motionsensor.h"
-#include "arduPi.h"
 
-MotionSensor::MotionSensor(int a) : pin(a)
+motionsensor::motionsensor(int a) : pin(a), status(false)
 {
-
+    pinMode(a, INPUT);
+    attachInterrupt(a,setStatus,RISING);
 }
 
-MotionSensor::~MotionSensor() {
-
+motionsensor::~motionsensor()
+{
+    //dtor
 }
 
-
-bool MotionSensor::getStatus() {
-    int value = analogRead(pin);
-    if(value < 1000)
-        return true;
-    return false;
+void motionsensor::initMotion()
+{
+    digitalWrite(pin, LOW);
+    for(int i = 0; i < calibrationTime; i++){
+        delay(1000);
+    }
 }
 
+void motionsensor::setStatus()
+{
+    status = true;
+    timeTicks = 0;
+}
 
+bool motionsensor::getStatus() const
+{
+    return status;
+}
+
+void motionsensor::timeCheck()
+{
+    if(status == true && digitalRead(pin) == LOW){
+        timeTicks++;
+
+        if (timeTicks > 50){
+            status = false;
+        }
+    }
+}
