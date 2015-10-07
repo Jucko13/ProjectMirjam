@@ -1,17 +1,11 @@
 #include "motionsensor.h"
 
-<<<<<<< HEAD
-#include <iostream>
 
-MotionSensor::MotionSensor(int a) : pin(a)
-{
-	pinMode(a, INPUT);
-=======
 motionsensor::motionsensor(int a) : pin(a), status(false)
 {
     pinMode(a, INPUT);
     attachInterrupt(a,setStatus,RISING);
->>>>>>> origin/master
+
 }
 
 motionsensor::~motionsensor()
@@ -33,18 +27,9 @@ void motionsensor::setStatus()
     timeTicks = 0;
 }
 
-<<<<<<< HEAD
-bool MotionSensor::getStatus() {
-    int value = digitalRead(pin);
-    std::cout<<value << "\r\n";
-    if(value < 1000)
-        return true;
-    return false;
-=======
 bool motionsensor::getStatus() const
 {
     return status;
->>>>>>> origin/master
 }
 
 void motionsensor::timeCheck()
