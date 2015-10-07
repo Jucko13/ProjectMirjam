@@ -1,19 +1,19 @@
 #include "motionsensor.h"
+#include <iostream>
 
-
-motionsensor::motionsensor(int a) : pin(a), status(false)
+MotionSensor::MotionSensor(int a, void (*b)()) : pin(a), status(false), calibrationTime(5), timeTicks(0)
 {
     pinMode(a, INPUT);
-    attachInterrupt(a,setStatus,RISING);
+    attachInterrupt(a,b,RISING);
 
 }
 
-motionsensor::~motionsensor()
+MotionSensor::~MotionSensor()
 {
     //dtor
 }
 
-void motionsensor::initMotion()
+void MotionSensor::initMotion()
 {
     digitalWrite(pin, LOW);
     for(int i = 0; i < calibrationTime; i++){
@@ -21,22 +21,23 @@ void motionsensor::initMotion()
     }
 }
 
-void motionsensor::setStatus()
+void MotionSensor::setStatus()
 {
     status = true;
     timeTicks = 0;
+    std::cout<<"interrupt!!!" << "\r\n";
 }
 
-bool motionsensor::getStatus() const
+bool MotionSensor::getStatus() const
 {
     return status;
 }
 
-void motionsensor::timeCheck()
+void MotionSensor::timeCheck()
 {
     if(status == true && digitalRead(pin) == LOW){
         timeTicks++;
-
+		std::cout<<timeTicks << "\r\n";
         if (timeTicks > 50){
             status = false;
         }

@@ -4,17 +4,17 @@
 #include "arduPi.h"
 
 
-class motionsensor
+class MotionSensor
 {
     public:
-        motionsensor(int a);
-        virtual ~motionsensor();
+        MotionSensor(int a,void (*b)());
+        virtual ~MotionSensor();
         void initMotion();
         bool getStatus() const;
         void setStatus();
         void timeCheck();
     private:
-        int pin, calibrationTime = 30, timeTicks = 0;
+        int pin, calibrationTime, timeTicks;
         bool status;
 
 };

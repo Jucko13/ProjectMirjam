@@ -177,6 +177,15 @@ int get_toggle_set(std::string pageurl, int * sensorNumber, string * sensorData,
 }
 
 
+
+vector<MotionSensor *> * blatest = NULL;
+
+void triggerMotion(){
+	if (blatest != NULL) {
+		(*blatest)[0]->setStatus();
+	}
+}
+
 int main (int argc, char *argv[])
 {
 	InboundConnection inboundConnection;
@@ -195,6 +204,7 @@ int main (int argc, char *argv[])
 	vector<Door *> door;
 	vector<Light *> lamp;
 	vector<MotionSensor *> motion;
+	blatest = &motion;
 	vector<Sunblind *> sunblinds;
 
 	vector<Wekker *> wekkers;
@@ -204,8 +214,8 @@ int main (int argc, char *argv[])
 	//k.test(argc, argv);
 	
 
-	
-	motion.push_back(new MotionSensor(0));
+
+	motion.push_back(new MotionSensor(2, triggerMotion));
 	
 	sunblinds.push_back(new Sunblind(6));
 	
@@ -236,6 +246,7 @@ int main (int argc, char *argv[])
 		
 		/*##########################################################*/
 		usleep(100000);
+		for (int t = 0; t < motion.size(); t++) { motion[t]->timeCheck(); }
 		
         int socketNumber = listener.acceptInbound(inbound);
         if(socketNumber == -1 && (errno == EAGAIN || errno == EWOULDBLOCK)) continue;
