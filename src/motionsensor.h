@@ -9,7 +9,6 @@ class MotionSensor
     public:
         MotionSensor(int a,void (*b)());
         virtual ~MotionSensor();
-        void initMotion();
         bool getStatus() const;
         void setStatus();
         void timeCheck();

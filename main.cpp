@@ -178,11 +178,12 @@ int get_toggle_set(std::string pageurl, int * sensorNumber, string * sensorData,
 
 
 
-vector<MotionSensor *> * blatest = NULL;
+vector<MotionSensor *> * motionPointer = NULL;
 
 void triggerMotion(){
-	if (blatest != NULL) {
-		(*blatest)[0]->setStatus();
+	if (!motionPointer) return;
+	for(int i = 0; i < motionPointer->size(); i++){
+		(*motionPointer)[i]->setStatus();
 	}
 }
 
@@ -204,7 +205,7 @@ int main (int argc, char *argv[])
 	vector<Door *> door;
 	vector<Light *> lamp;
 	vector<MotionSensor *> motion;
-	blatest = &motion;
+	motionPointer = &motion;
 	vector<Sunblind *> sunblinds;
 
 	vector<Wekker *> wekkers;
@@ -216,6 +217,8 @@ int main (int argc, char *argv[])
 
 
 	motion.push_back(new MotionSensor(2, triggerMotion));
+	motion.push_back(new MotionSensor(3, triggerMotion));
+	motion.push_back(new MotionSensor(4, triggerMotion));
 	
 	sunblinds.push_back(new Sunblind(6));
 	
@@ -238,6 +241,7 @@ int main (int argc, char *argv[])
     }
 	
     std::cout << "Server Created! URL: http://" << func::getIpAddress() << ":" << func::toString(PORTNUMBER) << "\r\n" << "Waiting for incomming connections...\r\n";
+
 
 	while(1){
 		checkAllWekkers(wekkers, lamp, sunblinds);	

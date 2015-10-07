@@ -330,6 +330,10 @@
 			return Math.floor(v * scale);
 		}
 		
+		setInterval(function(){
+			command("get/all/0/0",true);
+		}, 1000);
+		
 		//Type: 					Function
 		//Author: 				Ricardo de Roode
 		//Description:			Function that draws all the necessary things on the canvas. Doors, lights, motion sensors, ledstrip and walls.
@@ -590,7 +594,9 @@
 			ctx.arc(c(200) - c(8)/2, c(320) - c(8), c(10), 1 * Math.PI, 1.5 * Math.PI, false);
 			ctx.fill();
 			ctx.stroke();
-		
+			
+			//document.getElementById('xycoords').value = data.motion[1];
+			
 		//motion sensor 2
 			ctx.beginPath();
 			ctx.fillStyle = (data.motion[1] == 0 ? '#3a3' : '#a33');
@@ -664,9 +670,11 @@
 		//Description:			function to execute a direct command to the PI
 		//Part of FunctionChain: 	
 		//Triggered By:			buttons: toggle door1(click), toggle door2(click), toggle door3(click)
-		function command(ltype){
+		function command(ltype, silent){
 			if(maySendCommand == false) return; //if we already sending commands
 			maySendCommand = false;
+			
+			if(typeof(silent) === 'undefined') silent = false;
 			
 			var request=new XMLHttpRequest();
 			
@@ -687,7 +695,7 @@
 				}
 			}
 			
-			message.show("Sending data...");
+			if(!silent) message.show("Sending data...");
 			request.open("GET",ltype,true);
 			request.send();
 		}
