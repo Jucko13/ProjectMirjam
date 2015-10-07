@@ -6,7 +6,7 @@ class KnxSensors
     public:
         KnxSensors();
         virtual ~KnxSensors();
-        void test();
+        void test(int argc, char *argv[]);
     private:
 
 };

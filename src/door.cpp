@@ -18,7 +18,7 @@ void Door::open()
 void Door::close()
 {
 	status = false;
-	setAngle(0);
+	servo.setAngle(0);
 }
 
 bool Door::getStatus()

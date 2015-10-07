@@ -3,6 +3,7 @@
 
 #include <pthread.h>
 #include <iostream>
+#include "servo.h"
 
 class Door
 {
@@ -14,7 +15,7 @@ class Door
         bool getStatus();
     private:
         bool status;
-			
+		Servo servo;
         /*void * ServoThread(void * dummyptr);
         pthread_t servo;*/
 };

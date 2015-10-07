@@ -22,14 +22,22 @@ void Sunblind::close()
     servo.setAngle(0);
 }
 
+void Sunblind::toggle(){
+	status = (status ? false : true);
+	if(status)
+		open();
+	else
+		close();
+}
+
 void Sunblind::setPosition(int a)
 {
 	if(!a)
 		status = false;
-		servo.setAngle(a);
 	else
 		status = true;
-		servo.setAngle(a);
+	
+	servo.setAngle(a);
 }
 
 bool Sunblind::getStatus()

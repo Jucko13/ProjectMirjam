@@ -30,9 +30,11 @@ SOFTWARE.
 #include "src/door.h"
 #include "src/light.h"
 #include "src/wekker.h"
+#include "src/sunblind.h"
 #include "src/motionsensor.h"
 //#include "src/knxsensors.h"
 
+#include <unistd.h>
 #include <iostream>
 #include <string>
 #include <cstring>
@@ -55,6 +57,65 @@ typedef union {
 } wekkercompressed;
 
 enum devtype { LAMPS, SUNBLINDS, TOILETALARM };
+
+void modifyWekkers(vector<Wekker*>& wekkers, wekkercompressed modifyWekkerData, string time){
+	wekkercompressed wekkerData;
+	int t = 0;
+	modifyWekkerData.uncomp.reserved = 0;
+	for (; t < wekkers.size(); t++) {
+		wekkerData.comp = wekkers[t]->getData();
+		wekkerData.uncomp.reserved = 0;
+
+		if (wekkerData.comp == modifyWekkerData.comp) {
+			if (time == "-1") {//delete wekker
+				delete wekkers[t];
+				wekkers.erase(wekkers.begin() + t);
+			} else {//change wekker time
+				wekkers[t]->setTime(time.c_str());
+			}
+			break;//end the for loop
+		}
+	}
+	if (t >= wekkers.size()) {// create new wekker
+		wekkers.push_back(new Wekker(time.c_str(), true, modifyWekkerData.comp));//absolute repeated
+	}
+}
+
+void checkAllWekkers(vector<Wekker*>& wekkers, vector<Light *> &lamp, vector<Sunblind *> &sunblinds){
+	wekkercompressed wekkerData;
+	for (vector<Wekker *>::iterator i = wekkers.begin(); i != wekkers.end(); /*i++*/) {
+		if ((*i)->isDue()) {
+			wekkerData.comp = (*i)->getData();
+			switch(wekkerData.uncomp.devicetype){
+				case LAMPS:
+					if(wekkerData.uncomp.state != 0) {
+						lamp[wekkerData.uncomp.deviceindex]->on();
+					}else{
+						lamp[wekkerData.uncomp.deviceindex]->off();
+					}
+					break;
+				case SUNBLINDS:
+					if(wekkerData.uncomp.state != 0) {
+						sunblinds[wekkerData.uncomp.deviceindex]->open();
+					}else{
+						sunblinds[wekkerData.uncomp.deviceindex]->close();
+					}
+					break;
+				case TOILETALARM:
+					break;
+			}
+			if ((*i)->isRepeating()) {//recuring
+				(*i)->recalculateTime();
+				i++;
+			} else {//runonce
+				delete *i;
+				i = wekkers.erase(i);
+			}
+		} else {
+			i++;
+		}
+	}
+}
 
 
 int countChars(string input, char whatChar){
@@ -115,18 +176,6 @@ int get_toggle_set(std::string pageurl, int * sensorNumber, string * sensorData,
 	return -1;
 }
 
-/*	
-void * connectionThread(void * dummyptr){
-	
-    while (1){
-		
-        
-        
-    }
-	
-}
-*/
-
 
 int main (int argc, char *argv[])
 {
@@ -146,17 +195,20 @@ int main (int argc, char *argv[])
 	vector<Door *> door;
 	vector<Light *> lamp;
 	vector<MotionSensor *> motion;
+	vector<Sunblind *> sunblinds;
 
 	vector<Wekker *> wekkers;
 	wekkercompressed wekkerData;
 	
 	//KnxSensors k;
-	//k.test();
+	//k.test(argc, argv);
 	
 
 	
+	motion.push_back(new MotionSensor(0));
 	
-
+	sunblinds.push_back(new Sunblind(6));
+	
 	door.push_back(new Door(7));
 	
 	lamp.push_back(new Light(11));
@@ -178,45 +230,13 @@ int main (int argc, char *argv[])
     std::cout << "Server Created! URL: http://" << func::getIpAddress() << ":" << func::toString(PORTNUMBER) << "\r\n" << "Waiting for incomming connections...\r\n";
 
 	while(1){
-		
-		for (vector<Wekker *>::iterator i = wekkers.begin(); i != wekkers.end(); /*i++*/) {
-			if ((*i)->isDue()) {
-				wekkerData.comp = (*i)->getData();
-				switch(wekkerData.uncomp.devicetype){
-					case LAMPS:
-						if(wekkerData.uncomp.state != 0) {
-							lamp[wekkerData.uncomp.deviceindex]->on();
-						}else{
-							lamp[wekkerData.uncomp.deviceindex]->off();
-						}
-						break;
-					case SUNBLINDS:
-						if(wekkerData.uncomp.state != 0) {
-							//<blinds>[wekkerData.uncomp.deviceindex]->on();
-						}else{
-							//<blinds>[wekkerData.uncomp.deviceindex]->off();
-						}
-						break;
-					case TOILETALARM:
-						break;
-				}
-				if ((*i)->isRepeating()) {//runonce or recuring
-					(*i)->recalculateTime();
-					i++;
-				} else {
-					delete *i;
-					i = wekkers.erase(i);
-				}
-			} else {
-				i++;
-			}
-		}
-		
+		checkAllWekkers(wekkers, lamp, sunblinds);	
 		
 		
 		
 		/*##########################################################*/
-		delay(100);
+		usleep(100000);
+		
         int socketNumber = listener.acceptInbound(inbound);
         if(socketNumber == -1 && (errno == EAGAIN || errno == EWOULDBLOCK)) continue;
 		
@@ -307,22 +327,10 @@ int main (int argc, char *argv[])
 					//objectSettings="00:00";
 					//objectState = 0; //0 moet aan gaan om <tijd>, 1 moet uit gaan om <tijd>
 					//objectIndex = index van lamp
-					int t = 0;
-					for (; t < wekkers.size(); t++) {
-						wekkerData.comp = wekkers[t]->getData();
-
-						if ((wekkerData.uncomp.devicetype == LAMPS) && (wekkerData.uncomp.deviceindex == objectIndex) && (wekkerData.uncomp.state == objectState)) {
-							wekkers[t]->setTime(objectSettings.c_str());
-							break;//end the for loop
-						}
-					}
-					if (t >= wekkers.size()) {
-						wekkerData.uncomp.devicetype = LAMPS;
-						wekkerData.uncomp.deviceindex = objectIndex;
-						wekkerData.uncomp.state = objectState;
-						wekkerData.uncomp.reserved = 0;
-						wekkers.push_back(new Wekker(objectSettings.c_str(), true, wekkerData.comp));//absolute repeated
-					}
+					wekkerData.uncomp.devicetype = LAMPS;
+					wekkerData.uncomp.deviceindex = objectIndex;
+					wekkerData.uncomp.state = objectState;
+					modifyWekkers(wekkers, wekkerData, objectSettings);
 					
 					response += "timeSaved();";
 					break;
@@ -334,35 +342,23 @@ int main (int argc, char *argv[])
 					//break;
 				case 1:
 					
-					lamp[objectIndex]->toggle();
-					response += "data.sunblinds[" + func::toString(objectIndex) + "] = " + func::toString(lamp[objectIndex]->getStatus()) + ";"; 
+					sunblinds[objectIndex]->toggle();
+					response += "data.sunblinds[" + func::toString(objectIndex) + "] = " + func::toString(sunblinds[objectIndex]->getStatus()) + ";"; 
 					break;
 				case 2:
 					if(objectSettings == "1") {
-						lamp[objectIndex]->on();
+						sunblinds[objectIndex]->open();
 					}else{
-						lamp[objectIndex]->off();
+						sunblinds[objectIndex]->close();
 					}
-					response += "data.sunblinds[" + func::toString(objectIndex) + "] = " + func::toString(lamp[objectIndex]->getStatus()) + ";"; 
+					response += "data.sunblinds[" + func::toString(objectIndex) + "] = " + func::toString(sunblinds[objectIndex]->getStatus()) + ";"; 
 					break;
 				
 				case 3:
-					int t = 0;
-					for (; t < wekkers.size(); t++) {
-						wekkerData.comp = wekkers[t]->getData();
-
-						if ((wekkerData.uncomp.devicetype == LAMPS) && (wekkerData.uncomp.deviceindex == objectIndex) && (wekkerData.uncomp.state == objectState)) {
-							wekkers[t]->setTime(objectSettings.c_str());
-							break;//end the for loop
-						}
-					}
-					if (t >= wekkers.size()) {
-						wekkerData.uncomp.devicetype = SUNBLINDS;
-						wekkerData.uncomp.deviceindex = objectIndex;
-						wekkerData.uncomp.state = objectState;
-						wekkerData.uncomp.reserved = 0;
-						wekkers.push_back(new Wekker(objectSettings.c_str(), true, wekkerData.comp));//absolute repeated
-					}
+					wekkerData.uncomp.devicetype = SUNBLINDS;
+					wekkerData.uncomp.deviceindex = objectIndex;
+					wekkerData.uncomp.state = objectState;
+					modifyWekkers(wekkers, wekkerData, objectSettings);
 					
 					response += "timeSaved();";
 					break;
