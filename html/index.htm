@@ -1,1091 +1,1060 @@
 
-	<div onclick="closeWindow('rgb');closeWindow('settings');closeWindow('time');" class="hidden" id="blackness" style="opacity: 0.5; z-index: 11000; background-color: #000; position:fixed; top: 0px; left: 0px; bottom: 0px; right: 0px;">
-		
+<div onclick="closeWindow('rgb');closeWindow('settings');closeWindow('time');" class="hidden" id="blackness" style="opacity: 0.5; z-index: 11000; background-color: #000; position:fixed; top: 0px; left: 0px; bottom: 0px; right: 0px;">
+	
+</div>
+
+<div class="hidden" id="slideSunblindsHeight" style="height: 300px; position: absolute; z-index: 101;">
+	<div style='height: 100%'>
+		<table style='height: 100%;' border="0">
+			<tr>
+				<td style='height: 100%;'>
+					<div id="slideSunblindsBar" class='outline' style='float: right; height: 100%; width: 10px; position: relative; '>
+						<input id='slideSunblindsIndex' type='hidden' value='0'/>
+						<div id='slideSunblinds' style='top:0px; color: #ccc; left: 0px;height: 50px; position: relative; left: -20px; width: 50px; background-color: red;'></div>
+					</div>
+				</td>
+				
+			</tr>
+		</table>
+	</div>
+</div>
+
+<div class="window hidden" id="rgb" style="z-index: 11001;">
+	<div class="title" >
+		RGB Ledstrip Settings
+		<button onclick="closeWindow('rgb')">Close</button>
 	</div>
 	
-	<div class="window hidden" id="rgb" style="z-index: 11001;">
-		<div class="title" >
-			RGB Ledstrip Settings
-			<button onclick="closeWindow('rgb')">Close</button>
-		</div>
-		
-		<div id="rgbContent" class="content" style="text-align: center;">
-			<b>Preview</b>
-			<div id="rgbPreview" class="border p"></div>
-			</br>
-			Pre-defined Colors:
-			</br>
-			<div class="c" style="background-color: #000;" onclick="setColor('0,0,0')"></div>
-			<div class="c" style="background-color: #f00;" onclick="setColor('255,0,0')"></div>
-			<div class="c" style="background-color: #0f0;" onclick="setColor('0,255,0')"></div>
-			<div class="c" style="background-color: #00f;" onclick="setColor('0,0,255')"></div>
-			<div class="c" style="background-color: #ff0;" onclick="setColor('255,255,0')"></div>
-			<div class="c" style="background-color: #0ff;" onclick="setColor('0,255,255')"></div>
-			<div class="c" style="background-color: #f0f;" onclick="setColor('255,0,255')"></div>
-		</div>
+	<div id="rgbContent" class="content" style="text-align: center;">
+		<b>Preview</b>
+		<div id="rgbPreview" class="border p"></div>
 		</br>
-		<button onclick="location.reload()" class="">Refresh</button>
+		Pre-defined Colors:
+		</br>
+		<div class="c" style="background-color: #000;" onclick="setColor('0,0,0')"></div>
+		<div class="c" style="background-color: #f00;" onclick="setColor('255,0,0')"></div>
+		<div class="c" style="background-color: #0f0;" onclick="setColor('0,255,0')"></div>
+		<div class="c" style="background-color: #00f;" onclick="setColor('0,0,255')"></div>
+		<div class="c" style="background-color: #ff0;" onclick="setColor('255,255,0')"></div>
+		<div class="c" style="background-color: #0ff;" onclick="setColor('0,255,255')"></div>
+		<div class="c" style="background-color: #f0f;" onclick="setColor('255,0,255')"></div>
 	</div>
-	
-	<div class="window hidden" id="settings" style="z-index: 11002;">
-		<div class="title" >
-			Settings
-			<button onclick="closeWindow('settings')">Close</button>
-		</div>
-		<button onclick="location.reload()" class="">Refresh</button>
+	</br>
+	<button onclick="location.reload()" class="">Refresh</button>
+</div>
+
+<div class="window hidden" id="settings" style="z-index: 11002;">
+	<div class="title" >
+		Settings
+		<button onclick="closeWindow('settings')">Close</button>
 	</div>
-	
-	<div class="window hidden" id="time" style="z-index: 11002;">
-		<div class="title">
-			Timer settings
-			<button onclick="closeWindow('time')">Close</button>
-		</div>
-		<div class="content">
-			<button onclick="location.reload()" class="">Refresh</button>
+	<button onclick="location.reload()" class="">Refresh</button>
+</div>
+
+<div class="window hidden" id="time" style="z-index: 11002;">
+	<div class="title">
+		Timer settings
+		<button onclick="closeWindow('time')">Close</button>
+	</div>
+	<div class="content">
+		<button onclick="location.reload()" class="">Refresh</button>
+		
+		<div style="font-size: 30px; text-align: center;">
+			<select class="selection" id="timeObject" onchange="timeSelectionChange()">
+				
+			</select>
+			</br>
+			<div style="padding-top: 20px; padding-bottom: 10px;">
+			<label><input id="timeCheck" style="width: 23px; height: 23px;" type="checkbox" onclick="checkTimeWindow()">Enabled</label></br>
+			</div>
 			
-			<div style="font-size: 30px; text-align: center;">
-				<select class="selection" id="timeObject" onchange="timeSelectionChange()">
-					
-				</select>
+			<div id="timeWindow" style="">
 				</br>
-				<div style="padding-top: 20px; padding-bottom: 10px;">
-				<label><input id="timeCheck" style="width: 23px; height: 23px;" type="checkbox" onclick="checkTimeWindow()">Enabled</label></br>
-				</div>
-				
-				<div id="timeWindow" style="">
-					</br>
-					<table class="color center" style="font-size: 30px; display: inline-block;">
-						<tr>
-							<td colspan="3">
-								Turns OFF at
-							</td>
-						</tr>
-						<tr>
-							<td align="right">
-								<table class="time">
-									<tr>
-										<td>
-											<button class="outline white bgcolor" onclick="time(1, 'h', 'time1')">&#9650;</button>
-										</td>
-									</tr>
-									<tr>
-										<td>
-											<input type="text" id="time1" class="outline center white bgcolor" style="padding: 0px;" value="0"/>
-										</td>
-									</tr>
-									<tr>
-										<td>
-											<button class="outline white bgcolor" onclick="time(-1, 'h', 'time1')">&#9660;</button>
-										</td>
-									</tr>
-								</table>
-							</td>
-							<td>
-								:
-							</td>
-							<td>
-								<table class="time">
-									<tr>
-										<td>
-											<button class="outline white bgcolor" onclick="time(1, 'm', 'time2')">&#9650;</button>
-										</td>
-									</tr>
-									<tr>
-										<td>
-											<input type="text" id="time2" class="outline center white bgcolor" style="padding: 0px;" value="0"/>
-										</td>
-									</tr>
-									<tr>
-										<td>
-											<button class="outline white bgcolor" onclick="time(-1, 'm', 'time2')">&#9660;</button>
-										</td>
-									</tr>
-								</table>
-							</td>
-						</tr>
-					</table>
-					&nbsp;&nbsp;&nbsp;&nbsp;
-					<table class="color center" style="font-size: 30px; display: inline-block; ">
-						<tr>
-							<td colspan="3">
-								Turns ON at
-							</td>
-						</tr>
-						<tr>
-							<td align="right">
-								<table class="time">
-									<tr>
-										<td>
-											<button class="outline white bgcolor" onclick="time(1, 'h', 'time3')">&#9650;</button>
-										</td>
-									</tr>
-									<tr>
-										<td>
-											<input type="text" id="time3" class="outline center white bgcolor" style="padding: 0px;" value="0"/>
-										</td>
-									</tr>
-									<tr>
-										<td>
-											<button class="outline white bgcolor" onclick="time(-1, 'h', 'time3')">&#9660;</button>
-										</td>
-									</tr>
-								</table>
-							</td>
-							<td>
-								:
-							</td>
-							<td>
-								<table class="time">
-									<tr>
-										<td>
-											<button class="outline white bgcolor" onclick="time(1, 'm', 'time4')">&#9650;</button>
-										</td>
-									</tr>
-									<tr>
-										<td>
-											<input type="text" id="time4" class="outline center white bgcolor" style="padding: 0px;" value="0"/>
-										</td>
-									</tr>
-									<tr>
-										<td>
-											<button class="outline white bgcolor" onclick="time(-1, 'm', 'time4')">&#9660;</button>
-										</td>
-									</tr>
-								</table>
-							</td>
-						</tr>
-					</table>
-				</div>
-				</br>
-				<button class="outline white bgcolor" style="font-size: 30px;" onclick="timeSaveClick();">Save</button>
-				</br>
-				</br>
-				<div id="timeSave" style="visibility: hidden;" class="outline bgcolor white">Settings Saved!!!</div>
-				<div id="timeLegenda">
-				
-				</div>
+				<table class="color center" style="font-size: 30px; display: inline-block;">
+					<tr>
+						<td colspan="3">
+							Turns OFF at
+						</td>
+					</tr>
+					<tr>
+						<td align="right">
+<table class="time">
+	<tr>
+		<td>
+			<button class="outline white bgcolor" onclick="time(1, 'h', 'time1')">&#9650;</button>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<input type="text" id="time1" class="outline center white bgcolor" style="padding: 0px;" value="0"/>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<button class="outline white bgcolor" onclick="time(-1, 'h', 'time1')">&#9660;</button>
+		</td>
+	</tr>
+</table>
+						</td>
+						<td>
+							:
+						</td>
+						<td>
+<table class="time">
+	<tr>
+		<td>
+			<button class="outline white bgcolor" onclick="time(1, 'm', 'time2')">&#9650;</button>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<input type="text" id="time2" class="outline center white bgcolor" style="padding: 0px;" value="0"/>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<button class="outline white bgcolor" onclick="time(-1, 'm', 'time2')">&#9660;</button>
+		</td>
+	</tr>
+</table>
+						</td>
+					</tr>
+				</table>
+				&nbsp;&nbsp;&nbsp;&nbsp;
+				<table class="color center" style="font-size: 30px; display: inline-block; ">
+					<tr>
+						<td colspan="3">
+							Turns ON at
+						</td>
+					</tr>
+					<tr>
+						<td align="right">
+<table class="time">
+	<tr>
+		<td>
+			<button class="outline white bgcolor" onclick="time(1, 'h', 'time3')">&#9650;</button>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<input type="text" id="time3" class="outline center white bgcolor" style="padding: 0px;" value="0"/>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<button class="outline white bgcolor" onclick="time(-1, 'h', 'time3')">&#9660;</button>
+		</td>
+	</tr>
+</table>
+						</td>
+						<td>
+							:
+						</td>
+						<td>
+<table class="time">
+	<tr>
+		<td>
+			<button class="outline white bgcolor" onclick="time(1, 'm', 'time4')">&#9650;</button>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<input type="text" id="time4" class="outline center white bgcolor" style="padding: 0px;" value="0"/>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<button class="outline white bgcolor" onclick="time(-1, 'm', 'time4')">&#9660;</button>
+		</td>
+	</tr>
+</table>
+						</td>
+					</tr>
+				</table>
+			</div>
+			</br>
+			<button class="outline white bgcolor" style="font-size: 30px;" onclick="timeSaveClick();">Save</button>
+			</br>
+			</br>
+			<div id="timeSave" style="visibility: hidden;" class="outline bgcolor white">Settings Saved!!!</div>
+			<div id="timeLegenda">
+			
 			</div>
 		</div>
 	</div>
+</div>
+
+<canvas class="room" id="room" style="z-index: 100;">
 	
-	<canvas class="room" id="room">
-		
-	</canvas>
-	
-	</br>
-	<input id="xycoords" style="position: absolute; top: 10px; -webkit-appearance:none; margin-left: 10px;" class="white bgcolor outline visible" type="text" value="0 0"/>
-	</br>
-	<!--
-	<div style="margin: 10px; width: auto; vertical-align: top; text-align: justify; -ms-text-justify: distribute-all-lines; text-justify: distribute-all-lines;">
-	
-		<button onclick="showWindow('time')" class="button">Timers</button>
-		<button onclick="showWindow('rgb')" class="button">Led Strip</button>
-		<button onclick="location.reload()" class="button">Refresh</button>
-	
-		<span class="spacer" style=""></span>
+</canvas>
+
+</br>
+<input id="xycoords" style="position: absolute; top: 10px; -webkit-appearance:none; margin-left: 10px;" class="white bgcolor outline visible" type="text" value="0 0"/>
+</br>
+
+<div class="bbox hidden" id="touchCircle" style="width: 300px; height: 300px; border: 20px solid #53fa00; position: fixed; z-index: 10000; top: 50%; left: 50%; border-radius: 50%; background-color: transparent;">
+	<div class="bbox" id="touchCircleBand" style="width: 280px; height: 280px; top: -10px; left: -10px; border: 15px solid #a0ff71; position: relative; z-index: 10000; border-radius: 50%; background-color: transparent;">
+		<div style="width: 50%; height: 1px; left: 25%; top:50%; position:relative; background-color: #008df9;"></div>
+		<div style="width: 1px; height: 50%; top: 25%; left:50%; position:relative; background-color: #008df9;"></div>
 	</div>
+</div>
 	
-	</br>
 	
-	<div style="margin: 10px; width: auto; display: inline-block;text-align: justify; -ms-text-justify: distribute-all-lines; text-justify: distribute-all-lines;">
-		
-			
-		<span class="spacer" style=""></span>
-	</div>
-	-->
+<script>
+var CircleOpacity = 0;
+var CircleShowing = false;
+
+var scale;
+var flipHorizontal = false;
+var maySendCommand = true;
+var timedCommandList = [];
+var mayTriggerTimedCommand = true;
+
+var dragRGB = {
+	StartMouseX: 0,
+	StartElementX: 0,
+	dragging: false,
+	element: undefined
+};
+
+var dragSunblinds = {
+	StartMouseY: 0,
+	StartElementY: 0,
+	dragging: false,
+	element: undefined
+};
+
+var windowResizeTimer;
+
+var data = {
+	rgb:      [0,0,0,255], //R, G, B, White
+	door:     [0,0],
+	lamp:     [0,0,0],
+	motion:	 [0,0,0],
+	sunblinds: [100]
+};
+
+var temp = {
+	rgb:      [0,0,0,255]
+};
+
+var times = {
+	lamp: [
+		["00:00","00:00",0],
+		["00:00","00:00",0],
+		["00:00","00:00",0]
+	],
+	sunblinds: [
+		["00:00","00:00",0]
+	]
+};
+
+var message = {
+	visible: false, 
+	text: "",
+	show: function(newText, time){
+		if(typeof(time) !== 'undefined') setTimeout(function(){message.hide()},time);
+		this.text = newText;
+		this.visible = true;
+		drawRoom();
+	},
+	hide: function(){
+		this.visible = false;
+		drawRoom();
+	}
+};
+
+var clickLocations = [{
+		x1: 0,   y1: 145, x2: 60,  y2: 200,
+		f: function(){addTimedCommand("toggle/door/0")}
+	},{
+		x1: 105, y1: 60,  x2: 170, y2: 120,
+		f: function(){addTimedCommand('toggle/lamp/0')}
+	},{
+		x1: 125, y1: 240, x2: 155, y2: 265,
+		f: function(){addTimedCommand('toggle/lamp/1')}
+	},{
+		x1: 265, y1: 45,  x2: 310, y2: 85,
+		f: function(){addTimedCommand('toggle/lamp/2')}
+	},{
+		x1: 390, y1: 95,  x2: 440, y2: 245,
+		f: toggleSunblindsSlide
+	},{
+		x1: 240, y1: 135,  x2: 330, y2: 185,
+		f: function() {
+			if(confirm("Are you in need?")){
+				//message.show("Help is on it's way!",2000); //print this message from raspberrypi
+				addTimedCommand("helpme/");
+			}
+		}
+}];
+
+function clickFeedback(e, clickedSomething){
+	var tC = document.getElementById('touchCircle').style;
+	var tCB = document.getElementById('touchCircleBand').style;
+	var size = 200;
 	
-	<script>
-		var CircleOpacity;
-		var CircleShowing = false;
-		
-		function clickFeedback(e, clickedSomething){
+	tC.left = (e.clientX-size/2) + "px";
+	tC.top = (e.clientY-size/2) + "px";
+	tC.width = size + "px";
+	tC.height = size + "px";
+	
+	tCB.width = (size-20) + "px";
+	tCB.height = (size-20) + "px";
+	
+	tC.opacity = 0;
+	tC.visibility = "visible";
+	
+	if(clickedSomething){
+		tC.borderColor = "#53fa00";
+		tCB.borderColor = "#a0ff71";
+	}else{
+		tC.borderColor = "#ff7171";
+		tCB.borderColor = "#f90000";
+	}
+	
+	CircleOpacity = 0.0;
+	CircleShowing = true;
+	for(var i = 0; i < 21; i++){
+		setTimeout(function(){
 			var tC = document.getElementById('touchCircle').style;
-			var tCB = document.getElementById('touchCircleBand').style;
-			var size = 200;
+			tC.opacity = CircleOpacity;
 			
-			tC.left = (e.clientX-size/2) + "px";
-			tC.top = (e.clientY-size/2) + "px";
-			tC.width = size + "px";
-			tC.height = size + "px";
-			
-			tCB.width = (size-20) + "px";
-			tCB.height = (size-20) + "px";
-			
-			tC.opacity = 0;
-			tC.visibility = "visible";
-			
-			if(clickedSomething){
-				tC.borderColor = "#53fa00";
-				tCB.borderColor = "#a0ff71";
+			if(CircleShowing){
+				CircleOpacity += 0.1;
+				if(CircleOpacity > 1){
+					CircleShowing = false;
+					CircleOpacity = 1;
+				}
 			}else{
-				tC.borderColor = "#ff7171";
-				tCB.borderColor = "#f90000";
+				CircleOpacity -= 0.1;
+				if(CircleOpacity < 0.1){
+					tC.visibility = "hidden";
+				}
 			}
-			
-			CircleOpacity = 0.0;
-			CircleShowing = true;
-			for(var i = 0; i < 21; i++){
-				setTimeout(function(){
-					var tC = document.getElementById('touchCircle').style;
-					tC.opacity = CircleOpacity;
+		}, i*10);
+	}
+}
+
+
+function toggleSunblindsSlide(){
+	if(document.getElementById('slideSunblindsHeight').style.visibility == "visible"){
+		document.getElementById('slideSunblindsHeight').style.visibility = "hidden";
+	}else{
+		document.getElementById('slideSunblindsHeight').style.visibility = "visible";
+	}
+}
+
+
+//Type: 					Function
+//Author: 				Ricardo de Roode
+//Description:			Function to scale the canvas coordinates.
+//Part of FunctionChain: 	
+//Triggered By:			drawRoom
+function c(v){
+	return Math.floor(v * scale);
+}
+
+setInterval(function(){
+	addTimedCommand("get/all/");
+}, 1000);
+
+//Type: 					Function
+//Author: 				Ricardo de Roode
+//Description:			Function that draws all the necessary things on the canvas. Doors, lights, motion sensors, ledstrip and walls.
+//Part of FunctionChain: 	
+//Triggered By:			initialize, command, timedCommand
+function drawRoom(){
+	var canvas = document.getElementById("room");
+	var canvasSurrounding = document.getElementById("body");
+	var ctx = canvas.getContext("2d");
+	
+	canvas.style.visibility = "visible";
+	
+	var w = 440; //canvasSurrounding.offsetWidth - 20; //width
+	var h = 320; //height
+	
+	var aspectRatio = h / w;
+	
+	if((canvasSurrounding.offsetWidth - 20) * aspectRatio < (canvasSurrounding.offsetHeight - 50 )){
+		w = (canvasSurrounding.offsetWidth - 20);
+		h = ((canvasSurrounding.offsetWidth - 20) * aspectRatio) ;
+	}else{
+		w = (canvasSurrounding.offsetHeight - 50 ) / aspectRatio;
+		h = (canvasSurrounding.offsetHeight - 50) ;
+	}
+	
+	scale = w / 440;
+	//scale = 1;
+	
+	canvas.width = w;
+	canvas.height = h;
+	canvas.style.left = (canvasSurrounding.offsetWidth - 20) / 2 - w/2 + "px";
+	canvas.style.top = (canvasSurrounding.offsetHeight - 50) / 2 - h/2 + "px";
+	
+	
+	var lamps = [{	x: c(140), 	y: c(90), 	r: c(25) },{
+					x: c(140), 	y: c(255), 	r: c(10) },{
+					x: c(290),	y: c(65),	r: c(15) }];
 					
-					if(CircleShowing){
-						CircleOpacity += 0.1;
-						if(CircleOpacity > 1){
-							CircleShowing = false;
-							CircleOpacity = 1;
-						}
-					}else{
-						CircleOpacity -= 0.1;
-						if(CircleOpacity < 0.1){
-							tC.visibility = "hidden";
-						}
-					}
-				}, i*10);
-			}
-		}
-	</script>
+	document.getElementById('slideSunblinds').style.height = c(140)+"px";
+	document.getElementById('slideSunblinds').style.width = c(30)+"px";
+	document.getElementById('slideSunblinds').style.height = c(30)+"px";
+	document.getElementById('slideSunblinds').style.left = -c(15) + c(4) + "px";
+	document.getElementById('slideSunblindsHeight').style.right = (((canvasSurrounding.offsetWidth - 20) / 2 - w/2) + c(70))  + "px";
+	document.getElementById('slideSunblindsHeight').style.top = ((canvasSurrounding.offsetHeight - 50) / 2 - h/2 + c(104))+4 + "px";
+	document.getElementById('slideSunblindsHeight').style.height = c(140) + "px";
+	document.getElementById('slideSunblindsBar').style.width = c(8) + "px";
+	
+	if (flipHorizontal){
+		ctx.translate(w, 0 );
+		ctx.scale(-1, 1);
+	}
+	
+	ctx.fillStyle = "#71c1ff";
+	ctx.fillRect(0,0,w,h);
+	ctx.lineWidth = c(8);
+	ctx.strokeStyle = '#000';
+	
+	ctx.beginPath();
+	ctx.moveTo(c(55),c(150));
+	ctx.lineTo(c(55),ctx.lineWidth/2);
+	ctx.lineTo(c(400),ctx.lineWidth/2);
+	ctx.lineTo(c(400),c(100));
+	ctx.stroke();
+	
+	ctx.beginPath();
+	ctx.lineTo(c(400),c(240));
+	ctx.lineTo(c(400),c(320) - ctx.lineWidth/2);
+	ctx.lineTo(c(55),c(320) - ctx.lineWidth/2);
+	ctx.lineTo(c(55),c(200));
+	ctx.stroke();
+	
+//wall top-left-room bottom
+	ctx.beginPath();
+	ctx.moveTo(c(55),c(130));
+	ctx.lineTo(c(150),c(130));
+	ctx.stroke();
+	
+//wall top-left-room right
+	ctx.beginPath();
+	ctx.moveTo(c(200),0);
+	ctx.lineTo(c(200),c(120));
+	ctx.stroke();
+	
+//wall bottom-left-room top
+	ctx.beginPath();
+	ctx.moveTo(c(55),c(230));
+	ctx.lineTo(c(150),c(230));
+	ctx.stroke();
+	
+//wall bottom-left-room right
+	ctx.beginPath();
+	ctx.moveTo(c(200),c(200));
+	ctx.lineTo(c(200),c(320) - ctx.lineWidth/2);
+	ctx.stroke();
 	
 	
-	<div class="bbox hidden" id="touchCircle" style="width: 300px; height: 300px; border: 20px solid #53fa00; position: fixed; z-index: 10000; top: 50%; left: 50%; border-radius: 50%; background-color: transparent;">
-		<div class="bbox" id="touchCircleBand" style="width: 280px; height: 280px; top: -10px; left: -10px; border: 15px solid #a0ff71; position: relative; z-index: 10000; border-radius: 50%; background-color: transparent;">
-			<div style="width: 50%; height: 1px; left: 25%; top:50%; position:relative; background-color: #008df9;"></div>
-			<div style="width: 1px; height: 50%; top: 25%; left:50%; position:relative; background-color: #008df9;"></div>
-		</div>
-	</div>
+//door 1
+	if(data.door[0] == 0){
+		ctx.beginPath();
+		ctx.moveTo(c(55),c(150));
+		ctx.lineTo(c(55),c(200));
+		
+		ctx.strokeStyle = '#fff';
+		ctx.stroke();
+	}else if (data.door[0] == 1){
+		ctx.beginPath();
+		ctx.moveTo(c(5),c(200) - ctx.lineWidth/2);
+		ctx.lineTo(c(55) + ctx.lineWidth/2,c(200) - ctx.lineWidth/2);
+		
+		ctx.strokeStyle = '#fff';
+		ctx.stroke();
+		
+	}
+	ctx.fillStyle = '#000';
+	ctx.font = c(15)+"px Georgia";
+	ctx.textAlign = 'center';
+	ctx.textBaseline = 'middle';
+	ctx.fillText("Door1",c(25),c(170));
 	
 	
-	<script>
-		var scale;
-		var flipHorizontal = false;
-		var maySendCommand = true;
-		var timedCommandList = [];
-		
-		var dragStartMouseX = 0;
-		var dragStartElementX = 0;
-		var dragging = false;
-		var dragElement;
-		
-		var windowResizeTimer;
-		
-		var data = {
-			rgb:      [0,0,0,255], //R, G, B, White
-			door:     [0,0], 
-			lamp:     [0,0,0],
-			motion:	 [0,0,0],
-			sunblinds: [0]
-		}
-		
-		var times = {
-			lamp: [
-				["00:00","00:00",0],
-				["00:00","00:00",0],
-				["00:00","00:00",0]
-			],
-			sunblinds: [
-				["00:00","00:00",0]
-			]
-		}
-		
-		
-		
-		var message = {
-			visible: false, 
-			text: "",
-			show: function(newText){
-				this.text = newText;
-				this.visible = true;
-				drawRoom();
-			},
-			hide: function(){
-				this.visible = false;
-				drawRoom();
-			}
-		};
-		
-		
-		var clickLocations = [{
-				x1: 0,   y1: 145, x2: 60,  y2: 200,
-				f: function(){command("toggle/door/0")}
-			},{
-				x1: 105, y1: 60,  x2: 170, y2: 120,
-				f: function(){command('toggle/lamp/0')}
-			},{
-				x1: 125, y1: 240, x2: 155, y2: 265,
-				f: function(){command('toggle/lamp/1')}
-			},{
-				x1: 265, y1: 45,  x2: 310, y2: 85,
-				f: function(){command('toggle/lamp/2')}
-			},{
-				x1: 390, y1: 95,  x2: 440, y2: 245,
-				f: function(){command('toggle/sunblinds/0')}
-		}];
+	ctx.lineWidth = c(8);
+	ctx.beginPath();
+	ctx.moveTo(c(400),c(100));
+	ctx.lineTo(c(400),c(240));
+	ctx.strokeStyle = '#fff';
+	ctx.stroke();
 	
-		//Type: 					Function
-		//Author: 				Ricardo de Roode
-		//Description:			Function to scale the canvas coordinates.
-		//Part of FunctionChain: 	
-		//Triggered By:			drawRoom
-		function c(v){
-			return Math.floor(v * scale);
-		}
+//help me!
+	ctx.beginPath();
+	ctx.fillStyle = "#ff7171";
+	ctx.fillRect(c(240),c(135),c(90),c(50));
+	ctx.rect(c(240),c(135),c(90),c(50));
+	ctx.strokeStyle = '#f90000';
+	ctx.lineWidth = c(2);
+	ctx.stroke();
+	
+	ctx.shadowBlur = 1;
+	ctx.shadowColor = "";
+	ctx.fillStyle = "#fff";
+	ctx.font= c(15)+"px Georgia";
+	ctx.textAlign = 'center';
+	ctx.textBaseline = 'middle';
+	ctx.fillText("Help Me!",c(285),c(160));
+	
+//sunblinds
+	ctx.lineWidth = c(2);
+	
+	ctx.fillStyle = "rgba(0,0,0,0.5)";
+	ctx.strokeStyle = '#000';
+	ctx.fillRect(c(400) + c(4),c(100),c(4) + c(30/100*data.sunblinds[0]),c(140));
+	
+	ctx.beginPath();
+	ctx.moveTo(c(408) + c(30/100*data.sunblinds[0]),c(100));
+	ctx.lineTo(c(408) + c(30/100*data.sunblinds[0]),c(240));
+	ctx.strokeStyle = '#fff';
+	ctx.stroke();
+
+//lamp 1, 2 & 3
+	for(var i = 0; i < data.lamp.length; i++){
 		
-		setInterval(function(){
-			command("get/all/0/0",true);
-		}, 1000);
-		
-		//Type: 					Function
-		//Author: 				Ricardo de Roode
-		//Description:			Function that draws all the necessary things on the canvas. Doors, lights, motion sensors, ledstrip and walls.
-		//Part of FunctionChain: 	
-		//Triggered By:			initialize, command, timedCommand
-		function drawRoom(){
-			var canvas = document.getElementById("room");
-			var canvasSurrounding = document.getElementById("body");
-			var ctx = canvas.getContext("2d");
-			
-			canvas.style.visibility = "visible";
-			
-			
-			
-			
-			var w = 440; //canvasSurrounding.offsetWidth - 20; //width
-			var h = 320; //height
-			
-			var aspectRatio = h / w;
-			
-			//document.body.style.zoom="100%"
-			
-			//canvas.style.width = 430; //(canvasSurrounding.offsetWidth - 20);
-			//canvas.style.height = 320; //((canvasSurrounding.offsetWidth - 20) / aspectRatio) ;
-			//alert(canvasSurrounding.offsetHeight);
-			if((canvasSurrounding.offsetWidth - 20) * aspectRatio < (canvasSurrounding.offsetHeight - 50 )){
-				w = (canvasSurrounding.offsetWidth - 20);
-				h = ((canvasSurrounding.offsetWidth - 20) * aspectRatio) ;
-			}else{
-				w = (canvasSurrounding.offsetHeight - 50 ) / aspectRatio;
-				h = (canvasSurrounding.offsetHeight - 50) ;
-			}
-			
-			scale = w / 440;
-			//scale = 1;
-			
-			canvas.width = w;
-			canvas.height = h;
-			canvas.style.left = (canvasSurrounding.offsetWidth - 20) / 2 - w/2 + "px";
-			canvas.style.top = (canvasSurrounding.offsetHeight - 50) / 2 - h/2 + "px";
-			
-			
-			var lamps = [{	x: c(140), 	y: c(90), 	r: c(25) },{
-							x: c(140), 	y: c(255), 	r: c(10) },{
-							x: c(290),	y: c(65),	r: c(15) }];
-							
-							
-			//alert(w);
-			
-			if (flipHorizontal){
-				ctx.translate(w, 0 );
-				ctx.scale(-1, 1);
-			}
-			
-			ctx.fillStyle = "#71c1ff";
-			ctx.fillRect(0,0,w,h);
-			ctx.lineWidth = c(8);
+		if(data.lamp[i] >= 0){
+			ctx.beginPath();
 			ctx.strokeStyle = '#000';
+			ctx.lineWidth = c(3);
+			ctx.arc(lamps[i].x, lamps[i].y, lamps[i].r, 0, 2 * Math.PI, false);
 			
-			ctx.beginPath();
-			ctx.moveTo(c(55),c(150));
-			ctx.lineTo(c(55),ctx.lineWidth/2);
-			ctx.lineTo(c(400),ctx.lineWidth/2);
-			ctx.lineTo(c(400),c(100));
-			ctx.stroke();
-			
-			ctx.beginPath();
-			ctx.lineTo(c(400),c(240));
-			ctx.lineTo(c(400),c(320) - ctx.lineWidth/2);
-			ctx.lineTo(c(55),c(320) - ctx.lineWidth/2);
-			ctx.lineTo(c(55),c(200));
-			ctx.stroke();
-			
-		//wall top-left-room bottom
-			ctx.beginPath();
-			ctx.moveTo(c(55),c(130));
-			ctx.lineTo(c(150),c(130));
-			ctx.stroke();
-			
-		//wall top-left-room right
-			ctx.beginPath();
-			ctx.moveTo(c(200),0);
-			ctx.lineTo(c(200),c(120));
-			ctx.stroke();
-			
-		//wall bottom-left-room top
-			ctx.beginPath();
-			ctx.moveTo(c(55),c(230));
-			ctx.lineTo(c(150),c(230));
-			ctx.stroke();
-			
-		//wall bottom-left-room right
-			ctx.beginPath();
-			ctx.moveTo(c(200),c(200));
-			ctx.lineTo(c(200),c(320) - ctx.lineWidth/2);
-			ctx.stroke();
-			
-			
-		//door 1
-			if(data.door[0] == 0){
-				ctx.beginPath();
-				ctx.moveTo(c(55),c(150));
-				ctx.lineTo(c(55),c(200));
-				
-				ctx.strokeStyle = '#fff';
-				ctx.stroke();
-			}else if (data.door[0] == 1){
-				ctx.beginPath();
-				ctx.moveTo(c(5),c(200) - ctx.lineWidth/2);
-				ctx.lineTo(c(55) + ctx.lineWidth/2,c(200) - ctx.lineWidth/2);
-				
-				ctx.strokeStyle = '#fff';
-				ctx.stroke();
-				
-			}
+		}else{
 			ctx.fillStyle = '#000';
-			ctx.font = c(15)+"px Georgia";
-			ctx.textAlign = 'center';
-			ctx.textBaseline = 'middle';
-			ctx.fillText("Door1",c(25),c(170));
-			
-			
-			ctx.lineWidth = c(8);
-			ctx.beginPath();
-			ctx.moveTo(c(400),c(100));
-			ctx.lineTo(c(400),c(240));
-			ctx.strokeStyle = '#fff';
-			ctx.stroke();
-			
-			
-			ctx.lineWidth = c(2);
-			if(data.sunblinds[0] == 0){
-				ctx.beginPath();
-				ctx.moveTo(c(408),c(100));
-				ctx.lineTo(c(408),c(240));
-				ctx.strokeStyle = '#fff';
-				ctx.stroke();
-				
-				ctx.fillStyle = "rgba(0,0,0,0.5)";
-				ctx.strokeStyle = '#000';
-				ctx.fillRect(c(400) + c(4),c(100),c(4),c(140));
-			}else if(data.sunblinds[0] == 1){
-				ctx.fillStyle = "rgba(0,0,0,0.5)";
-				ctx.strokeStyle = '#000';
-				ctx.fillRect(c(400) + c(4),c(100),c(31),c(140));
-				
-				ctx.beginPath();
-				ctx.moveTo(c(435),c(100));
-				ctx.lineTo(c(435),c(240));
-				ctx.strokeStyle = '#fff';
-				ctx.stroke();
-				
-				
-			}
-			
-			//ctx.fillStyle = "#000";
-			
-			/*
-		//door2
-			if(data.door[1] == 0){
-				ctx.beginPath();
-				ctx.moveTo(c(150),c(230));
-				ctx.lineTo(c(200)-ctx.lineWidth/2,c(230));
-				
-				ctx.strokeStyle = '#fff';
-				ctx.stroke();
-			}else if (data.door[1] == 1){
-				ctx.beginPath();
-				ctx.moveTo(c(200)-ctx.lineWidth,c(180));
-				ctx.lineTo(c(200)-ctx.lineWidth,c(230) + ctx.lineWidth/2);
-				
-				ctx.strokeStyle = '#fff';
-				ctx.stroke();
-			}
-			ctx.fillStyle = '#000';
-			ctx.font = c(15)+"px Georgia";
-			ctx.textAlign = 'center';
-			ctx.textBaseline = 'middle';
-			ctx.fillText("Door2",c(165),c(215));
-			
-		//door 3 & 4
-			if(data.door[2] == 0){
-				ctx.beginPath();
-				ctx.moveTo(c(400),c(240));
-				ctx.lineTo(c(400),c(170) + ctx.lineWidth/2);
-				ctx.strokeStyle = '#fff';
-				ctx.stroke();
-				
-				ctx.beginPath();
-				ctx.moveTo(c(400),c(100));
-				ctx.lineTo(c(400),c(170)-ctx.lineWidth/2);
-				ctx.strokeStyle = '#fff';
-				ctx.stroke();
-				
-			}else if (data.door[2] == 1){
-				ctx.beginPath();
-				ctx.moveTo(c(400)+ ctx.lineWidth/2,c(240) - ctx.lineWidth/2);
-				ctx.lineTo(c(330),c(240) - ctx.lineWidth/2);
-				ctx.strokeStyle = '#fff';
-				ctx.stroke();
-				
-				ctx.beginPath();
-				ctx.moveTo(c(400) + ctx.lineWidth/2,c(100)+ctx.lineWidth/2);
-				ctx.lineTo(c(330),c(100)+ctx.lineWidth/2);
-				ctx.strokeStyle = '#fff';
-				ctx.stroke();
-			}
-			ctx.fillStyle = '#000';
-			ctx.font = c(15)+"px Georgia";
-			ctx.textAlign = 'center';
-			ctx.textBaseline = 'middle';
-			ctx.fillText("Door3",c(360),c(170));
-			*/
-		
-		//lamp 1, 2 & 3
-			for(var i = 0; i < data.lamp.length; i++){
-				
-				if(data.lamp[i] >= 0){
-					ctx.beginPath();
-					ctx.strokeStyle = '#000';
-					ctx.lineWidth = c(3);
-					ctx.arc(lamps[i].x, lamps[i].y, lamps[i].r, 0, 2 * Math.PI, false);
-					
-				}else{
-					ctx.fillStyle = '#000';
-				}
-				
-				if(data.lamp[i] == 0){
-					ctx.fillStyle = '#222';
-					ctx.fill();
-					ctx.stroke();
-					
-					ctx.fillStyle = '#fff';
-					
-				}else if(data.lamp[i] == 1){
-					ctx.shadowColor = "#ff7";
-					ctx.shadowBlur = 50;
-					ctx.fillStyle = '#ff7';
-					ctx.fill();
-					ctx.stroke();
-					
-					ctx.fillStyle = '#000';
-				}
-				
-				ctx.shadowBlur = 0;
-				ctx.shadowColor = "";
-				ctx.font= c(15)+"px Georgia";
-				ctx.textAlign = 'center';
-				ctx.textBaseline = 'middle';
-				ctx.fillText("L" + (i+1),lamps[i].x, lamps[i].y);
-			}
-		
-		//motion sensor 1
-			ctx.beginPath();
-			ctx.fillStyle = (data.motion[0] == 0 ? '#3a3' : '#a33');
-			ctx.strokeStyle = (data.motion[0] == 0 ? '#3a3' : '#a33');
-			ctx.lineWidth = c(18);
-			ctx.arc(c(200) - c(8)/2, c(320) - c(8), c(10), 1 * Math.PI, 1.5 * Math.PI, false);
-			ctx.fill();
-			ctx.stroke();
-			
-			//document.getElementById('xycoords').value = data.motion[1];
-			
-		//motion sensor 2
-			ctx.beginPath();
-			ctx.fillStyle = (data.motion[1] == 0 ? '#3a3' : '#a33');
-			ctx.strokeStyle = (data.motion[1] == 0 ? '#3a3' : '#a33');
-			ctx.lineWidth = c(18);
-			ctx.arc(c(200) - c(8)/2, c(8), c(10), 0.5* Math.PI, 1 * Math.PI, false);
-			ctx.fill();
-			ctx.stroke();
-			
-		//motion sensor 3
-			ctx.beginPath();
-			ctx.fillStyle = (data.motion[2] == 0 ? '#3a3' : '#a33');
-			ctx.strokeStyle = (data.motion[2] == 0 ? '#3a3' : '#a33');
-			ctx.lineWidth = c(18);
-			ctx.arc(c(200) + c(8)/2, c(100) + c(1), c(10), 1.5* Math.PI, 0.5 * Math.PI, false);
-			ctx.fill();
-			ctx.stroke();
-			
-			
-		//rgb led strip
-			ctx.beginPath();
-			ctx.lineWidth = c(4);
-			ctx.moveTo(c(300),c(8));
-			ctx.lineTo(c(200) + ctx.lineWidth,c(8) );
-			
-			ctx.lineTo(c(200)+ ctx.lineWidth,c(80) );
-			ctx.strokeStyle = "rgb(" +data.rgb[0]+","+data.rgb[1]+","+data.rgb[2]+ ")";
-			ctx.stroke();
-			ctx.stroke();//scaling anti-aliasing hack
-			
-			var colorBrightness = ((data.rgb[0]*299)+(data.rgb[1]*587)+(data.rgb[2]*114))/1000;
-			
-			if(colorBrightness > 0){
-				ctx.shadowColor = "rgba("+data.rgb[0]+","+data.rgb[1]+","+data.rgb[2]+","+(1/255*colorBrightness)+")";
-				ctx.shadowBlur = 20;
-				ctx.shadowOffsetX = 0;
-				ctx.shadowOffsetY = 0;
-				ctx.stroke();
-				ctx.stroke();
-				ctx.stroke();
-			}
-			
-			ctx.shadowBlur = 0;
-			ctx.shadowColor = "#000";
-			
-			if(message.visible == true){
-				ctx.fillStyle = "rgba(0,0,0,0.5)";
-				ctx.strokeStyle = '#000';
-				ctx.fillRect(0,0,w,h);
-				
-				ctx.beginPath();
-				ctx.lineWidth = 2;
-				ctx.strokeStyle = '#008df9';
-				ctx.fillStyle = "#71c1ff";
-				ctx.fillRect(w/2-w/4,h/2-h/8,w/2,h/4);
-				ctx.rect(w/2-w/4,h/2-h/8,w/2,h/4);
-				ctx.stroke();
-				
-				ctx.fillStyle = '#fff';
-				ctx.font= c(18)+"px Georgia";
-				ctx.textAlign = 'center';
-				ctx.textBaseline = 'middle'; 
-				ctx.fillText(message.text,w/2,h/2);
-			}
-			
-			
 		}
 		
-		//Type: 					Function
-		//Author: 				Ricardo de Roode
-		//Description:			function to execute a direct command to the PI
-		//Part of FunctionChain: 	
-		//Triggered By:			buttons: toggle door1(click), toggle door2(click), toggle door3(click)
-		function command(ltype, silent){
-			if(maySendCommand == false) return; //if we already sending commands
-			maySendCommand = false;
+		if(data.lamp[i] == 0){
+			ctx.fillStyle = '#222';
+			ctx.fill();
+			ctx.stroke();
 			
-			if(typeof(silent) === 'undefined') silent = false;
+			ctx.fillStyle = '#fff';
 			
-			var request=new XMLHttpRequest();
+		}else if(data.lamp[i] == 1){
+			ctx.shadowColor = "#ff7";
+			ctx.shadowBlur = 50;
+			ctx.fillStyle = '#ff7';
+			ctx.fill();
+			ctx.stroke();
 			
-			request.onreadystatechange=function(){
-				if (request.readyState==4) {
-					if(request.status==200){
-						message.hide();
-						eval(request.responseText);
-						drawRoom();
-						maySendCommand = true;
-					}else{
-						message.show("something went wrong?");
-						setTimeout(function(){
-							message.hide();
-							maySendCommand = true;
-						}, 1500);
-					}
-				}
-			}
-			
-			if(!silent) message.show("Sending data...");
-			request.open("GET",ltype,true);
-			request.send();
+			ctx.fillStyle = '#000';
 		}
 		
-		//Type: 					Function
-		//Author: 				Ricardo de Roode
-		//Description:			Function to delay all the commands send to the pi when initializing the sensor data. (makes it posible to show a progressbar).
-		//Part of FunctionChain: 	createTimedCommandList, addTimedCommand, sendTimedCommands
-		//Triggered By:			initialize()
-		function sendTimedCommands(lIndex){
-			if (typeof(lIndex)==='undefined') lIndex = 0;
-			
-			if(lIndex >= timedCommandList.length){
-				message.hide();
-				maySendCommand = true;
+		ctx.shadowBlur = 0;
+		ctx.shadowColor = "";
+		ctx.font= c(15)+"px Georgia";
+		ctx.textAlign = 'center';
+		ctx.textBaseline = 'middle';
+		ctx.fillText("L" + (i+1),lamps[i].x, lamps[i].y);
+	}
+
+//motion sensor 1
+	ctx.beginPath();
+	ctx.fillStyle = (data.motion[0] == 0 ? '#3a3' : '#a33');
+	ctx.strokeStyle = (data.motion[0] == 0 ? '#3a3' : '#a33');
+	ctx.lineWidth = c(18);
+	ctx.arc(c(200) - c(8)/2, c(320) - c(8), c(10), 1 * Math.PI, 1.5 * Math.PI, false);
+	ctx.fill();
+	ctx.stroke();
+	
+//motion sensor 2
+	ctx.beginPath();
+	ctx.fillStyle = (data.motion[1] == 0 ? '#3a3' : '#a33');
+	ctx.strokeStyle = (data.motion[1] == 0 ? '#3a3' : '#a33');
+	ctx.lineWidth = c(18);
+	ctx.arc(c(200) - c(8)/2, c(8), c(10), 0.5* Math.PI, 1 * Math.PI, false);
+	ctx.fill();
+	ctx.stroke();
+	
+//motion sensor 3
+	ctx.beginPath();
+	ctx.fillStyle = (data.motion[2] == 0 ? '#3a3' : '#a33');
+	ctx.strokeStyle = (data.motion[2] == 0 ? '#3a3' : '#a33');
+	ctx.lineWidth = c(18);
+	ctx.arc(c(200) + c(8)/2, c(100) + c(1), c(10), 1.5* Math.PI, 0.5 * Math.PI, false);
+	ctx.fill();
+	ctx.stroke();
+	
+	
+//rgb led strip
+	ctx.beginPath();
+	ctx.lineWidth = c(4);
+	ctx.moveTo(c(300),c(8));
+	ctx.lineTo(c(200) + ctx.lineWidth,c(8) );
+	
+	ctx.lineTo(c(200)+ ctx.lineWidth,c(80) );
+	ctx.strokeStyle = "rgb(" +data.rgb[0]+","+data.rgb[1]+","+data.rgb[2]+ ")";
+	ctx.stroke();
+	ctx.stroke();//scaling anti-aliasing hack
+	
+	var colorBrightness = ((data.rgb[0]*299)+(data.rgb[1]*587)+(data.rgb[2]*114))/1000;
+	if(colorBrightness > 0){
+		ctx.shadowColor = "rgba("+data.rgb[0]+","+data.rgb[1]+","+data.rgb[2]+","+(1/255*colorBrightness)+")";
+		ctx.shadowBlur = 20;
+		ctx.shadowOffsetX = 0;
+		ctx.shadowOffsetY = 0;
+		ctx.stroke();
+		ctx.stroke();
+		ctx.stroke();
+		ctx.shadowBlur = 0; //reset settings for next drawing
+		ctx.shadowColor = "#000";
+	}
+	
+//message
+	if(message.visible == true){
+		ctx.fillStyle = "rgba(0,0,0,0.5)";
+		ctx.strokeStyle = '#000';
+		ctx.fillRect(0,0,w,h);
+		
+		ctx.beginPath();
+		ctx.lineWidth = 2;
+		ctx.strokeStyle = '#008df9';
+		ctx.fillStyle = "#71c1ff";
+		ctx.fillRect(w/2-w/4,h/2-h/8,w/2,h/4);
+		ctx.rect(w/2-w/4,h/2-h/8,w/2,h/4);
+		ctx.stroke();
+		
+		ctx.fillStyle = '#fff';
+		ctx.font= c(18)+"px Georgia";
+		ctx.textAlign = 'center';
+		ctx.textBaseline = 'middle'; 
+		ctx.fillText(message.text,w/2,h/2);
+	}
+}
+
+//Type: 					Function
+//Author: 				Ricardo de Roode
+//Description:			Function to delay all the commands send to the pi when initializing the sensor data. (makes it posible to show a progressbar).
+//Part of FunctionChain: 	createTimedCommandList, addTimedCommand, sendTimedCommands
+//Triggered By:			initialize()
+function sendTimedCommands(){
+	if(mayTriggerTimedCommand == false) return;
+	mayTriggerTimedCommand = false;
+	
+	if(timedCommandList.length == 0){
+		if(maySendCommand == false){
+			message.hide();
+		}
+		mayTriggerTimedCommand = true;
+		maySendCommand = true;
+		return;
+	}
+	
+	setTimeout(function() {
+		var request = new XMLHttpRequest();
+
+		request.onreadystatechange=function(){
+			if (request.readyState==4){
+				if(request.status==200) eval(request.responseText);
+				drawRoom();
+				mayTriggerTimedCommand = true;
+				sendTimedCommands(); //execute next command with 
+			}
+		}
+		
+		var lsend = timedCommandList.pop()
+		request.open('GET', lsend, true);
+		request.send();		
+	},10);
+}
+
+function addTimedCommand(newCommand){
+	timedCommandList.push(newCommand);
+}
+
+//Type: 					Function
+//Author: 				Ricardo de Roode
+//Description:			Function triggers when the whole document is downloaded and rendered. Initializes all events and sensor data.
+//Part of FunctionChain: 	
+//Triggered By:			Window(load)
+function initialize(){
+	message.show("Loading...");
+	maySendCommand = false; //prevent user from clicking till finnished
+	
+	//dummy event for x and y drawing
+	document.getElementById('room').addEventListener("click", canvasClick);
+	
+	var names = ['Red', 'Green', 'Blue'];
+	
+	for(var i = 0; i < 3; i++){
+		document.getElementById('rgbContent').innerHTML += "<div style='padding: 40px; height: 30px;'><table style='width: 100%;'><tr><td style='width: 80%;'><div class='outline' style=' height: 10px; position: relative;'><input id='slide" + names[i] + "Index' type='hidden' value='" + i + "'/><div id='slide" + names[i] + "' style='left: 0px;height: 50px; position: relative; top: -20px; width: 50px; background-color: " + names[i] + ";'></div></div></td><td><input id='slide" + names[i] + "Text' type='text' class='border center white bgcolor' value='0' style='width: 100%; height: 30px;'/></td></tr></table></div>";
+	}
+	
+	for(var i = 0; i < 3; i++){
+		document.getElementById('slide' + names[i]).addEventListener("touchstart", function(e){ dragDown(e,'rgb')} );
+		document.getElementById('slide' + names[i]).addEventListener("mousedown", function(e){ dragDown(e,'rgb')});
+		document.getElementById('slide' + names[i] + 'Text').value = data.rgb[i];
+		document.getElementById('slide' + names[i]).style.left = ((document.getElementById('slide' + names[i]).parentElement.offsetWidth - 50) / 255 * data.rgb[i]);
+	}
+	
+	document.getElementById('slideSunblinds').addEventListener("touchstart", function(e){ dragDown(e,'sunblinds')});
+	document.getElementById('slideSunblinds').addEventListener("mousedown", function(e){ dragDown(e,'sunblinds')});
+	
+	//events for the RGB sliding
+	document.addEventListener("touchmove", dragMove);
+	document.addEventListener("mousemove", dragMove);
+	document.addEventListener("touchend", dragUp);
+	document.addEventListener("mouseup", dragUp);
+	
+	document.getElementById('rgbPreview').style.backgroundColor = "rgb(" + data.rgb[0] + ", " + data.rgb[1] + ", " + data.rgb[2] + ")";
+	
+	//add all timed functions to the dropdown list in the timer window.
+	Object.getOwnPropertyNames(times).forEach( function(val, idx, array){
+		for(var i in times[val]){
+			document.getElementById('timeObject').innerHTML += "<option value='" + val + ":" + i + "'>" + val + " " + (parseInt(i)+1) + "</option>";
+		}
+	});
+	timeSelectionChange();
+	setInterval(refreshTimers, 500);
+	
+	window.onresize = function(){
+		clearTimeout(windowResizeTimer);
+		windowResizeTimer = setTimeout(function(){
+			drawRoom();
+			redrawHandle("slideRed");
+			redrawHandle("slideGreen");
+			redrawHandle("slideBlue");
+			redrawHandleSunblinds("slideSunblinds");
+		}, 200);
+		
+	}
+	
+	addTimedCommand('time/times/0/0/0');
+	addTimedCommand('get/all/');
+	
+	setInterval(sendTimedCommands, 10);
+	
+	drawRoom(); //draw the room and set the scaling settings
+	window.onresize(); //recalculate everything: room and sliders.
+}
+
+//Type: 					Event Function
+//Author: 				Ricardo de Roode
+//Description:			dummy function for x and y coordinate system. This projects the clicked position x and y in a textbox
+//Part of FunctionChain: 	
+//Triggered By:			canvas(click)
+function canvasClick(e){
+	var currX = Math.floor(e.offsetX / scale);
+	var currY = Math.floor(e.offsetY / scale);
+	
+	document.getElementById('xycoords').value = currX + " " + currY;
+	clickedSomething = false;
+	for(var i =0; i < clickLocations.length; i++){
+		if(currX >= clickLocations[i].x1 && currX <= clickLocations[i].x2){
+			if(currY >= clickLocations[i].y1 && currY <= clickLocations[i].y2){
+				clickFeedback(e, true);
+				clickLocations[i].f();
 				return;
 			}
-			
-			setTimeout(function() {
-				var request = new XMLHttpRequest();
+		}
+	}
+	clickFeedback(e, false);
+}
+
+//Type: 					Function
+//Author: 				Ricardo de Roode
+//Description:			This function is triggerd when the user pushes the mousebutton down, or puts his/her finger on the screen.
+//Part of FunctionChain: 	dragDown, dragMove, dragUp
+//Triggers When:			
+//Triggered By:			slideRed(touchstart, mousedown), slideGreen(touchstart, mousedown), slideBlue(touchstart, mousedown)
+function dragDown(e,ltype){
+	if(ltype == 'rgb'){
+		dragRGB.element = e.target;
+		dragRGB.StartMouseX = (e.type == "touchstart" ? e.changedTouches[0].clientX : e.clientX);
+		dragRGB.StartElementX = parseInt(dragRGB.element.style.left);
+		dragRGB.dragging = true;
+		
+	}else if(ltype == 'sunblinds'){
+		dragSunblinds.element = e.target;
+		dragSunblinds.StartMouseY = (e.type == "touchstart" ? e.changedTouches[0].clientY : e.clientY);
+		dragSunblinds.StartElementY = parseInt(dragSunblinds.element.style.top);
+		dragSunblinds.dragging = true;
 	
-				request.onreadystatechange=function(){
-					if (request.readyState==4){
-						if(request.status==200){
-							eval(request.responseText);
-						}
-						drawRoom();
-						sendTimedCommands(lIndex + 1); //execute next command with 
-					}
-				}
-				request.open('GET', timedCommandList[lIndex], true);  // `false` makes the request synchronous
-				request.send();
-				message.show("Loading Sensors (" + (lIndex + 1) + " / " + timedCommandList.length + ")");			
-			},10);
-		}
-		
-		function createTimedCommandList(){
-			timedCommandList = [];
-		}
-		
-		function addTimedCommand(newCommand){
-			timedCommandList[timedCommandList.length] = newCommand;
-		}
-		
-		
-		//Type: 					Function
-		//Author: 				Ricardo de Roode
-		//Description:			Function triggers when the whole document is downloaded and rendered. Initializes all events and sensor data.
-		//Part of FunctionChain: 	
-		//Triggered By:			Window(load)
-		function initialize(){
-			message.show("Loading...");
-			maySendCommand = false; //prevent user from clicking till finnished
-			
-			//dummy event for x and y drawing
-			document.getElementById('room').addEventListener("click", canvasClick);
-			
-			var names = ['Red', 'Green', 'Blue'];
-			
-			for(var i = 0; i < 3; i++){
-				document.getElementById('rgbContent').innerHTML += "<div style='padding: 40px; height: 30px;'><table style='width: 100%;'><tr><td style='width: 80%;'><div class='outline' style=' height: 10px; position: relative;'><input id='slide" + names[i] + "Index' type='hidden' value='" + i + "'/><div id='slide" + names[i] + "' style='left: 0px;height: 50px; position: relative; top: -20px; width: 50px; background-color: " + names[i] + ";'></div></div></td><td><input id='slide" + names[i] + "Text' type='text' class='border center white bgcolor' value='0' style='width: 100%; height: 30px;'/></td></tr></table></div>";
-			}
-			
-			for(var i = 0; i < 3; i++){
-				document.getElementById('slide' + names[i]).addEventListener("touchstart", dragDown);
-				document.getElementById('slide' + names[i]).addEventListener("mousedown", dragDown);
-				document.getElementById('slide' + names[i] + 'Text').value = data.rgb[i];
-				document.getElementById('slide' + names[i]).style.left = ((document.getElementById('slide' + names[i]).parentElement.offsetWidth - 50) / 255 * data.rgb[i]);
-			}
-				
-			//events for the RGB sliding
-			document.addEventListener("touchmove", dragMove);
-			document.addEventListener("mousemove", dragMove);
-			document.addEventListener("touchend", dragUp);
-			document.addEventListener("mouseup", dragUp);
-			
-			document.getElementById('rgbPreview').style.backgroundColor = "rgb(" + data.rgb[0] + ", " + data.rgb[1] + ", " + data.rgb[2] + ")";
-			
-			//add all timed functions to the dropdown list in the timer window.
-			Object.getOwnPropertyNames(times).forEach( function(val, idx, array){
-				for(var i in times[val]){
-					document.getElementById('timeObject').innerHTML += "<option value='" + val + ":" + i + "'>" + val + " " + (parseInt(i)+1) + "</option>";
-				}
-			});
-			timeSelectionChange();
-			setInterval(refreshTimers, 500);
-			
-			window.onresize = function(){
-				clearTimeout(windowResizeTimer);
-				windowResizeTimer = setTimeout(drawRoom, 100);
-				redrawHandle("slideRed");
-				redrawHandle("slideGreen");
-				redrawHandle("slideBlue");
-			}
-			
-			createTimedCommandList();
-			addTimedCommand('time/times/0/0/0');
-			addTimedCommand('get/all/');
-			sendTimedCommands();
-			
-			window.onresize(); //recalculate everything: room and sliders.
-		}
-		
-		//Type: 					Event Function
-		//Author: 				Ricardo de Roode
-		//Description:			dummy function for x and y coordinate system. This projects the clicked position x and y in a textbox
-		//Part of FunctionChain: 	
-		//Triggered By:			canvas(click)
-		function canvasClick(e){
-			var currX = Math.floor(e.offsetX / scale);
-			var currY = Math.floor(e.offsetY / scale);
-			
-			document.getElementById('xycoords').value = currX + " " + currY;
-			clickedSomething = false;
-			for(var i =0; i < clickLocations.length; i++){
-				if(currX >= clickLocations[i].x1 && currX <= clickLocations[i].x2){
-					if(currY >= clickLocations[i].y1 && currY <= clickLocations[i].y2){
-						clickFeedback(e, true);
-						clickLocations[i].f();
-						return;
-					}
-				}
-			}
-			clickFeedback(e, false);
-		}
+	}
+	e.preventDefault();
+}
 
-		//Type: 					Function
-		//Author: 				Ricardo de Roode
-		//Description:			This function is triggerd when the user pushes the mousebutton down, or puts his/her finger on the screen.
-		//Part of FunctionChain: 	dragDown, dragMove, dragUp
-		//Triggers When:			
-		//Triggered By:			slideRed(touchstart, mousedown), slideGreen(touchstart, mousedown), slideBlue(touchstart, mousedown)
-		function dragDown(e){
-			dragElement = e.target;
-			dragStartMouseX = (e.type == "touchstart" ? e.changedTouches[0].clientX : dragStartMouseX = e.clientX);
-			dragStartElementX = parseInt(dragElement.style.left);
-			dragging = true;
-			e.preventDefault();
-		}
+//Type: 					Event Function
+//Author: 				Ricardo de Roode
+//Description:			This function is triggerd when the user moves the mouse, or moves his/her finger around on the screen.
+//Part of FunctionChain: 	dragDown, dragMove, dragUp
+//Triggers When:			
+//Triggered By:			Document(touchmove, mousemove)
+function dragMove(e){
+	if(dragRGB.dragging){
+		var newLeft = dragRGB.StartElementX + ((e.type == "touchmove" ? e.changedTouches[0].clientX : e.clientX) - dragRGB.StartMouseX);
+		if(newLeft < 0) newLeft = 0;
+		if(newLeft > dragRGB.element.parentElement.offsetWidth - 50) newLeft = dragRGB.element.parentElement.offsetWidth - 50;
+		var colorValue = parseInt(255 / (dragRGB.element.parentElement.offsetWidth - 50) * newLeft);
+		temp.rgb[document.getElementById(dragRGB.element.id+"Index").value] = colorValue;
+		document.getElementById(dragRGB.element.id+"Text").value = colorValue;
+		dragRGB.element.style.left = newLeft + "px";
 		
-		//Type: 					Event Function
-		//Author: 				Ricardo de Roode
-		//Description:			This function is triggerd when the user moves the mouse, or moves his/her finger around on the screen.
-		//Part of FunctionChain: 	dragDown, dragMove, dragUp
-		//Triggers When:			
-		//Triggered By:			Document(touchmove, mousemove)
-		function dragMove(e){
-			if(dragging){
-				var newLeft = dragStartElementX + ((e.type == "touchmove" ? e.changedTouches[0].clientX : e.clientX) - dragStartMouseX);
-				if(newLeft < 0) newLeft = 0;
-				if(newLeft > dragElement.parentElement.offsetWidth - 50) newLeft = dragElement.parentElement.offsetWidth - 50;
-				var colorValue = parseInt(255 / (dragElement.parentElement.offsetWidth - 50) * newLeft);
-				data.rgb[document.getElementById(dragElement.id+"Index").value] = colorValue;
-				document.getElementById(dragElement.id+"Text").value = colorValue;
-				dragElement.style.left = newLeft + "px";
-				
-				document.getElementById('rgbPreview').style.backgroundColor = "rgb(" + data.rgb[0] + ", " + data.rgb[1] + ", " + data.rgb[2] + ")";
-				e.preventDefault();
-			}
-		}
+		document.getElementById('rgbPreview').style.backgroundColor = "rgb(" + temp.rgb[0] + ", " + temp.rgb[1] + ", " + temp.rgb[2] + ")";
+		e.preventDefault();
+	}else if(dragSunblinds.dragging){
+		var dragWidth = parseInt(dragSunblinds.element.style.width);
 		
-		//Type: 					Function
-		//Author: 				Ricardo de Roode
-		//Description:			This function is triggerd when the user clicks on the pre-defined colors in the RGB settings window.
-		//Part of FunctionChain: 	
-		//Triggers When:			
-		//Triggered By:			divs(click)
-		function setColor(newColor){
-			var names = ['Red', 'Green', 'Blue'];
-			var colors = newColor.split(",");
-			
-			for(var i = 0; i < names.length; i++){
-				document.getElementById('slide' + names[i] + 'Text').value = colors[i];
-				data.rgb[i] = colors[i];
-				redrawHandle('slide' + names[i]);
-			}
-			document.getElementById('rgbPreview').style.backgroundColor = "rgb(" + newColor + ")";
-			
-			drawRoom();
-		}
+		var newTop = dragSunblinds.StartElementY + ((e.type == "touchmove" ? e.changedTouches[0].clientY : e.clientY) - dragSunblinds.StartMouseY);
+		if(newTop < 0) newTop = 0;
+		if(newTop > dragSunblinds.element.parentElement.offsetHeight - dragWidth) newTop = dragSunblinds.element.parentElement.offsetHeight - dragWidth;
 		
-		//Type: 					Event Function
-		//Author: 				Ricardo de Roode
-		//Description:			This function is triggerd when the user resizes the window. This recalculates the style.left position of the RGB sliders.
-		//Part of FunctionChain: 	
-		//Triggers When:			
-		//Triggered By:			window(resize)
-		function redrawHandle(id){
-			var newLeft = (document.getElementById(id).parentElement.offsetWidth - 50) / 255 * data.rgb[document.getElementById(id+"Index").value]
-			document.getElementById(id).style.left = newLeft + "px";
-		}
-		
-		//Type: 					Event Function
-		//Author: 				Ricardo de Roode
-		//Description:			This function is triggerd when the user releases the mousebutton, or while removing his/her finger off the screen.
-		//Triggers When:			
-		//Part of FunctionChain: 	dragDown, dragMove, dragUp
-		//Triggered By:			Document(touchend, mouseup)
-		function dragUp(){
-			dragging = false;
-			drawRoom();
-		}
-		
-		//Type: 					Function
-		//Author: 				Ricardo de Roode
-		//Description:			Shows an hidden settings window
-		//Part of FunctionChain: 	showWindow, closeWindow
-		//Triggers When:			
-		//Triggered By:			rgb (window close button)
-		function showWindow(whatwindow){
-			document.getElementById(whatwindow).style.visibility = "visible";
-			blackness.style.visibility = "visible";
-		}
-		
-		//Type: 					Function
-		//Author: 				Ricardo de Roode
-		//Description:			Hides a visible settings window
-		//Part of FunctionChain: 	showWindow, closeWindow
-		//Triggers When:			
-		//Triggered By:			rgb (window close button)
-		function closeWindow(whatwindow){
-			document.getElementById(whatwindow).style.visibility = "hidden";
-			blackness.style.visibility = "hidden";
-		}
-		
-		//Type: 					Function
-		//Author: 				Ricardo de Roode
-		//Description:			Sets the new time in the timer settings window. The buttons above and underneith the hours and minutes
-		//						call this function to increase or decrease the time.
-		//Part of FunctionChain: 	
-		//Triggers When:			
-		//Triggered By:			time1(button UP and DOWN click), time2(button UP and DOWN click), time3(button UP and DOWN click), time4(button UP and DOWN click)
-		function time(increment, type, elName){
-			var timeInput = document.getElementById(elName);;
-			var currTime;
-			
-			if(type == 'h'){
-				currTime = parseInt(timeInput.value);
-				
-				if(currTime + increment > 23){
-					timeInput.value = "00";
-				}else if(currTime + increment < 0){
-					timeInput.value = 23;
-				}else{
-					timeInput.value = currTime + increment;
-					if(timeInput.value < 10) timeInput.value = "0" + timeInput.value;
-				}
-			}else{
-				currTime = parseInt(timeInput.value);
-				
-				if(currTime + increment > 59){
-					timeInput.value = "00";
-				}else if(currTime + increment < 0){
-					timeInput.value = 59;
-				}else{
-					timeInput.value = (currTime + increment);
-					if(timeInput.value < 10) timeInput.value = "0" + timeInput.value;
-						
-				}
-			}
-		}
-		
-		function convertTime(timeCompare){
-			var timeStart = new Date();
-			var timeEnd = new Date();
-			timeEnd.setSeconds(0);
-			var splittedTime = timeCompare.split(":");
-			var printTime;
-			
-			timeEnd.setMinutes(splittedTime[1]);
-			timeEnd.setHours(splittedTime[0]);
-			
-			if(timeEnd - timeStart < 0) {
-				printTime = timeEnd - timeStart + 24*60*60*1000;
-				//printTime = new Date();
-			}else{
-				printTime = timeEnd - timeStart;
-			}
-			
-			var diffHours = Math.floor(printTime / 3600000) % 24;
-			var diffMinutes = Math.floor((printTime / 1000) / 60) % 60;
-			var diffSeconds = Math.floor((printTime / 1000)) % 60;
-			
-			if(diffHours < 10) diffHours = "0" + diffHours;
-			if(diffMinutes < 10) diffMinutes = "0" + diffMinutes;
-			if(diffSeconds < 10) diffSeconds = "0" + diffSeconds ;
-			
-			return diffHours + ":" + diffMinutes + ":" + diffSeconds;
-		}
-		
-		//Type: 					Function
-		//Author: 				Ricardo de Roode
-		//Description:			Refreshes the remaining time that an object turns On or Off
-		//Part of FunctionChain: 	refreshTimers, convertTime, timeSelectionChange, checkTimeWindow , timeSaved
-		//Triggers When:			Every second
-		//Triggered By:			timeObject (selection dropdown-box change)
-		function refreshTimers(){
-			var result = "";
-			var i = document.getElementById('timeObject').value.split(":");
-			if(times[i[0]][i[1]][2] == "1"){
-				result += i[0] + " " + (parseInt(i[1])+1) + " Goes off in: " + convertTime(times[i[0]][i[1]][0]);
-				result += "</br>";
-				result += i[0] + " " + (parseInt(i[1])+1) + " Goes on in: " + convertTime(times[i[0]][i[1]][1]);
-				result += "</br>";
-			}else{
-				result += i[0] + " " + (parseInt(i[1])+1) + " timer is disabled!";
-			}
-			document.getElementById('timeLegenda').innerHTML = result;
-		}
-		
-		//Type: 					Function
-		//Author: 				Ricardo de Roode
-		//Description:			Function to fill in the selected time with the selection dropdown-box
-		//Part of FunctionChain: 	refreshTimers, convertTime, timeSelectionChange, checkTimeWindow, timeSaved
-		//Triggers When:			
-		//Triggered By:			timeObject (selection dropdown-box change)
-		function timeSelectionChange(){
-			var lIndex = document.getElementById("timeObject").value.split(":");
+		dragSunblinds.element.style.top = newTop + "px";
+	}
+}
 
-			document.getElementById('time1').value = times[ lIndex[0] ] [ lIndex[1] ][0].split(":")[0];
-			document.getElementById('time2').value = times[ lIndex[0] ] [ lIndex[1] ][0].split(":")[1];
-			
-			document.getElementById('time3').value = times[ lIndex[0] ] [ lIndex[1] ][1].split(":")[0];
-			document.getElementById('time4').value = times[ lIndex[0] ] [ lIndex[1] ][1].split(":")[1];
-			
-			document.getElementById('timeCheck').checked = times[ lIndex[0] ] [ lIndex[1] ][2];
-			
-			checkTimeWindow();
-			refreshTimers()
-		}
+//Type: 					Function
+//Author: 				Ricardo de Roode
+//Description:			This function is triggerd when the user clicks on the pre-defined colors in the RGB settings window.
+//Part of FunctionChain: 	
+//Triggers When:			
+//Triggered By:			divs(click)
+function setColor(newColor){
+	var names = ['Red', 'Green', 'Blue'];
+	var colors = newColor.split(",");
+	for(var i = 0; i < names.length; i++){
+		document.getElementById('slide' + names[i] + 'Text').value = colors[i];
+		temp.rgb[i] = colors[i];
+		redrawHandle('slide' + names[i]);
+		data.rgb[i] = temp.rgb[i];
+	}
+	document.getElementById('rgbPreview').style.backgroundColor = "rgb(" + newColor + ")";
+	
+	drawRoom();
+}
+
+//Type: 					Event Function
+//Author: 				Ricardo de Roode
+//Description:			This function is triggerd when the user resizes the window. This recalculates the style.left position of the RGB sliders.
+//Part of FunctionChain: 	
+//Triggers When:			
+//Triggered By:			window(resize)
+function redrawHandle(id){
+	var newLeft = (document.getElementById(id).parentElement.offsetWidth - 50) / 255 * temp.rgb[document.getElementById(id+"Index").value]
+	console.log(newLeft);
+	document.getElementById(id).style.left = newLeft + "px";
+}
+
+function redrawHandleSunblinds(id){
+	var dragWidth = parseInt(document.getElementById(id).style.width);
+	var newTop = (document.getElementById(id).parentElement.offsetHeight - dragWidth) / 100 * data.sunblinds[0];
+
+	document.getElementById(id).style.top = newTop + "px";
+}
+
+//Type: 					Event Function
+//Author: 				Ricardo de Roode
+//Description:			This function is triggerd when the user releases the mousebutton, or while removing his/her finger off the screen.
+//Triggers When:			
+//Part of FunctionChain: 	dragDown, dragMove, dragUp
+//Triggered By:			Document(touchend, mouseup)
+function dragUp(){
+	if(dragRGB.dragging){
+		dragRGB.dragging = false;
+		dragRGB.element = undefined;
+		drawRoom();
+	}else if(dragSunblinds.dragging){
 		
-		//Type: 					Function
-		//Author: 				Ricardo de Roode
-		//Description:			Enables or disables the opacity and clickability of the controls in the Timer Settings window.
-		//Part of FunctionChain: 	refreshTimers, convertTime, timeSelectionChange, checkTimeWindow , timeSaved
-		//Triggers When:			
-		//Triggered By:			timeCheck (checkbox change), initialize
-		function checkTimeWindow(){
-			var divs = document.getElementById("timeWindow");
-			
-			if(!document.getElementById('timeCheck').checked){
-				divs.style.pointerEvents = "none";
-				divs.style.opacity = "0.4";
+		var dragWidth = parseInt(dragSunblinds.element.style.width);
+		data.sunblinds[0] = parseInt(100 / (dragSunblinds.element.parentElement.offsetHeight - dragWidth) * parseInt(dragSunblinds.element.style.top));
+		
+		dragSunblinds.dragging = false;
+		dragSunblinds.element = undefined;
+		
+		addTimedCommand('set/sunblinds/0/' + data.sunblinds[0]);
+	}
+}
+
+//Type: 					Function
+//Author: 				Ricardo de Roode
+//Description:			Shows an hidden settings window
+//Part of FunctionChain: 	showWindow, closeWindow
+//Triggers When:			
+//Triggered By:			rgb (window close button), settings (window close button), rgb (window close button)
+function showWindow(whatwindow){
+	document.getElementById(whatwindow).style.visibility = "visible";
+	blackness.style.visibility = "visible";
+	if(whatwindow == 'rgb'){
+		setColor(data.rgb[0]+","+data.rgb[1]+","+data.rgb[2]);
+	}
+}
+
+//Type: 					Function
+//Author: 				Ricardo de Roode
+//Description:			Hides a visible settings window
+//Part of FunctionChain: 	showWindow, closeWindow
+//Triggers When:			
+//Triggered By:			rgb (window close button)
+function closeWindow(whatwindow){
+	document.getElementById(whatwindow).style.visibility = "hidden";
+	blackness.style.visibility = "hidden";
+}
+
+//Type: 					Function
+//Author: 				Ricardo de Roode
+//Description:			Sets the new time in the timer settings window. The buttons above and underneith the hours and minutes
+//						call this function to increase or decrease the time.
+//Part of FunctionChain: 	
+//Triggers When:			
+//Triggered By:			time1(button UP and DOWN click), time2(button UP and DOWN click), time3(button UP and DOWN click), time4(button UP and DOWN click)
+function time(increment, type, elName){
+	var timeInput = document.getElementById(elName);;
+	var currTime;
+	
+	if(type == 'h'){
+		currTime = parseInt(timeInput.value);
+		
+		if(currTime + increment > 23){
+			timeInput.value = "00";
+		}else if(currTime + increment < 0){
+			timeInput.value = 23;
+		}else{
+			timeInput.value = currTime + increment;
+			if(timeInput.value < 10) timeInput.value = "0" + timeInput.value;
+		}
+	}else{
+		currTime = parseInt(timeInput.value);
+		
+		if(currTime + increment > 59){
+			timeInput.value = "00";
+		}else if(currTime + increment < 0){
+			timeInput.value = 59;
+		}else{
+			timeInput.value = (currTime + increment);
+			if(timeInput.value < 10) timeInput.value = "0" + timeInput.value;
 				
-			}else{
-				divs.style.pointerEvents = "auto";
-				divs.style.opacity = "1";
-			}
 		}
+	}
+}
+
+function convertTime(timeCompare){
+	var timeStart = new Date();
+	var timeEnd = new Date();
+	timeEnd.setSeconds(0);
+	var splittedTime = timeCompare.split(":");
+	var printTime;
+	
+	timeEnd.setMinutes(splittedTime[1]);
+	timeEnd.setHours(splittedTime[0]);
+	
+	if(timeEnd - timeStart < 0) {
+		printTime = timeEnd - timeStart + 24*60*60*1000;
+		//printTime = new Date();
+	}else{
+		printTime = timeEnd - timeStart;
+	}
+	
+	var diffHours = Math.floor(printTime / 3600000) % 24;
+	var diffMinutes = Math.floor((printTime / 1000) / 60) % 60;
+	var diffSeconds = Math.floor((printTime / 1000)) % 60;
+	
+	if(diffHours < 10) diffHours = "0" + diffHours;
+	if(diffMinutes < 10) diffMinutes = "0" + diffMinutes;
+	if(diffSeconds < 10) diffSeconds = "0" + diffSeconds ;
+	
+	return diffHours + ":" + diffMinutes + ":" + diffSeconds;
+}
+
+//Type: 					Function
+//Author: 				Ricardo de Roode
+//Description:			Refreshes the remaining time that an object turns On or Off
+//Part of FunctionChain: 	refreshTimers, convertTime, timeSelectionChange, checkTimeWindow , timeSaved
+//Triggers When:			Every second
+//Triggered By:			timeObject (selection dropdown-box change)
+function refreshTimers(){
+	var result = "";
+	var i = document.getElementById('timeObject').value.split(":");
+	if(times[i[0]][i[1]][2] == "1"){
+		result += i[0] + " " + (parseInt(i[1])+1) + " Goes off in: " + convertTime(times[i[0]][i[1]][0]);
+		result += "</br>";
+		result += i[0] + " " + (parseInt(i[1])+1) + " Goes on in: " + convertTime(times[i[0]][i[1]][1]);
+		result += "</br>";
+	}else{
+		result += i[0] + " " + (parseInt(i[1])+1) + " timer is disabled!";
+	}
+	document.getElementById('timeLegenda').innerHTML = result;
+}
+
+//Type: 					Function
+//Author: 				Ricardo de Roode
+//Description:			Function to fill in the selected time with the selection dropdown-box
+//Part of FunctionChain: 	refreshTimers, convertTime, timeSelectionChange, checkTimeWindow, timeSaved
+//Triggers When:			
+//Triggered By:			timeObject (selection dropdown-box change)
+function timeSelectionChange(){
+	var lIndex = document.getElementById("timeObject").value.split(":");
+	document.getElementById('time1').value = times[ lIndex[0] ] [ lIndex[1] ][0].split(":")[0];
+	document.getElementById('time2').value = times[ lIndex[0] ] [ lIndex[1] ][0].split(":")[1];
+	document.getElementById('time3').value = times[ lIndex[0] ] [ lIndex[1] ][1].split(":")[0];
+	document.getElementById('time4').value = times[ lIndex[0] ] [ lIndex[1] ][1].split(":")[1];
+	document.getElementById('timeCheck').checked = times[ lIndex[0] ] [ lIndex[1] ][2];
+	
+	checkTimeWindow();
+	refreshTimers()
+}
+
+//Type: 					Function
+//Author: 				Ricardo de Roode
+//Description:			Enables or disables the opacity and clickability of the controls in the Timer Settings window.
+//Part of FunctionChain: 	refreshTimers, convertTime, timeSelectionChange, checkTimeWindow , timeSaved
+//Triggers When:			
+//Triggered By:			timeCheck (checkbox change), initialize
+function checkTimeWindow(){
+	var divs = document.getElementById("timeWindow");
+	
+	if(!document.getElementById('timeCheck').checked){
+		divs.style.pointerEvents = "none";
+		divs.style.opacity = "0.4";
 		
-		//Type: 					Function
-		//Author: 				Ricardo de Roode
-		//Description:			Shows a message that the current timersettings are saved.
-		//Part of FunctionChain: 	refreshTimers, convertTime, timeSelectionChange, checkTimeWindow , timeSaved
-		//Triggers When:			The Raspberry Pi saved the data.
-		//Triggered By:			Raspberry Pi (when time is saved)
-		function timeSaved(){
-			document.getElementById('timeSave').style.visibility = "visible";
-			setTimeout(function(){
-				document.getElementById('timeSave').style.visibility = "hidden";
-			},2000);
-		}
-		
-		//Type: 					Event Function
-		//Author: 				Ricardo de Roode
-		//Description:			Sets the new time to the memory and triggers an update at the Raspberry Pi
-		//Part of FunctionChain: 	refreshTimers, convertTime, timeSelectionChange, checkTimeWindow , timeSaved
-		//Triggers When:			if the user clicks on the save
-		//Triggered By:			button(click)
-		function timeSaveClick(){
-			var lIndex = document.getElementById("timeObject").value.split(":");
-			//times[ lIndex[0] ] [ lIndex[1] ][0] = document.getElementById('time1').value + ":" + document.getElementById('time2').value;
-			//times[ lIndex[0] ] [ lIndex[1] ][1] = document.getElementById('time3').value + ":" + document.getElementById('time4').value;
-			//times[ lIndex[0] ] [ lIndex[1] ][2] = document.getElementById('timeCheck').checked;
-			
-			createTimedCommandList();
-			
-			if(document.getElementById('timeCheck').checked == 1){
-				addTimedCommand("time/" + lIndex[0] + "/" + lIndex[1] + "/0/" + document.getElementById('time1').value + ":" + document.getElementById('time2').value);
-				addTimedCommand("time/" + lIndex[0] + "/" + lIndex[1] + "/1/" + document.getElementById('time3').value + ":" + document.getElementById('time4').value);
-			}else{
-				addTimedCommand("time/" + lIndex[0] + "/" + lIndex[1] + "/0/-1");
-				addTimedCommand("time/" + lIndex[0] + "/" + lIndex[1] + "/1/-1");
-			}
-			
-			sendTimedCommands();
-			refreshTimers();
-			//timeSaved(); //remove it when done!
-		}
-		
-		//set this with a really small timeout to prevent window freezing.
-		window.onload = setTimeout(initialize, 1);
-	</script>
+	}else{
+		divs.style.pointerEvents = "auto";
+		divs.style.opacity = "1";
+	}
+}
+
+//Type: 					Function
+//Author: 				Ricardo de Roode
+//Description:			Shows a message that the current timersettings are saved.
+//Part of FunctionChain: 	refreshTimers, convertTime, timeSelectionChange, checkTimeWindow , timeSaved
+//Triggers When:			The Raspberry Pi saved the data.
+//Triggered By:			Raspberry Pi (when time is saved)
+function timeSaved(){
+	document.getElementById('timeSave').style.visibility = "visible";
+	setTimeout(function(){
+		document.getElementById('timeSave').style.visibility = "hidden";
+	},2000);
+}
+
+//Type: 					Event Function
+//Author: 				Ricardo de Roode
+//Description:			Sets the new time to the memory and triggers an update at the Raspberry Pi
+//Part of FunctionChain: 	refreshTimers, convertTime, timeSelectionChange, checkTimeWindow , timeSaved
+//Triggers When:			if the user clicks on the save
+//Triggered By:			button(click)
+function timeSaveClick(){
+	var lIndex = document.getElementById("timeObject").value.split(":");
+
+	if(document.getElementById('timeCheck').checked == 1){
+		addTimedCommand("time/" + lIndex[0] + "/" + lIndex[1] + "/0/" + document.getElementById('time1').value + ":" + document.getElementById('time2').value);
+		addTimedCommand("time/" + lIndex[0] + "/" + lIndex[1] + "/1/" + document.getElementById('time3').value + ":" + document.getElementById('time4').value);
+	}else{
+		addTimedCommand("time/" + lIndex[0] + "/" + lIndex[1] + "/0/-1");
+		addTimedCommand("time/" + lIndex[0] + "/" + lIndex[1] + "/1/-1");
+	}
+	
+	sendTimedCommands();
+	refreshTimers();
+	//timeSaved(); //remove it when done!
+}
+
+//set this with a really small timeout to prevent window freezing.
+window.onload = setTimeout(initialize, 1);
+
+
+</script>
