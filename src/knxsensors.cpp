@@ -1,31 +1,35 @@
 #include "knxsensors.h"
-#include <knx/knx.hpp>
-
-void KnxSensors::test(int argc, char *argv[])
-{
-	
-    knx::config config(argc, argv);
-    config.local_control_host = "10.0.1.3";
-    config.local_control_port = 3617;
-    config.local_data_host = "10.0.1.3";
-    config.local_data_port = 3617;
-    config.remote_host = "10.0.1.2";
-    config.remote_port = 3617;
-	config.logging_filename = "test.txt";
-    config.logging_activated = false;
-    
-	knx::connection connection(config);
-	knx::handle handle(connection);
-	connection.set<knx::dpt_switch>(knx::group("1/2/3"), knx::dpt_switch::ON);
-    
-}
+#include <iostream>
+#include <stdio.h>
+#include <string.h>
+#include "functions.h"
 
 KnxSensors::KnxSensors()
 {
-	
+	init();
 }
 
 KnxSensors::~KnxSensors()
 {
     //dtor
+}
+
+void KnxSensors::init(){
+	FILE *in;
+	if(!(in = popen("killall eibd", "r"))){
+		return;
+	}
+	//login als pi en dan: 'eibd -i ipt:10.0.2.2' uitvoeren
+	pclose(in);
+}
+
+void KnxSensors::setValues(int a, int b, int c){
+	FILE *in;
+	std::string command ="groupwrite ip:localhost 1/2/4 " + func::toString(a) + " " + func::toString(b) + " " + func::toString(c);
+	
+	if(!(in = popen(command.c_str(), "r"))){
+		return;
+	}
+	
+	pclose(in);
 }

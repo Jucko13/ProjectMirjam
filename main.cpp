@@ -34,7 +34,7 @@ SOFTWARE.
 #include "src/motionsensor.h"
 #include "src/buzzer.h"
 #include "src/FileReader.h"
-//#include "src/knxsensors.h"
+#include "src/knxsensors.h"
 
 #include <unistd.h>
 #include <iostream>
@@ -216,8 +216,8 @@ int main (int argc, char *argv[])
 	vector<Wekker *> wekkers;
 	wekkercompressed wekkerData;
 	
-	//KnxSensors k;
-	//k.test(argc, argv);
+	KnxSensors k;
+	k.setValues(255,0,255);
 	
 
 
