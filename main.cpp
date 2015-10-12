@@ -32,6 +32,8 @@ SOFTWARE.
 #include "src/wekker.h"
 #include "src/sunblind.h"
 #include "src/motionsensor.h"
+#include "src/buzzer.h"
+#include "src/FileReader.h"
 //#include "src/knxsensors.h"
 
 #include <unistd.h>
@@ -155,9 +157,9 @@ int get_toggle_set(std::string pageurl, int * sensorNumber, string * sensorData,
 		tmpPlace = pageurl.rfind("/");
 		*sensorData = pageurl.substr(tmpPlace+1,pageurl.length() - tmpPlace);
 
-		tmpPlace = pageurl.rfind("/",tmpPlace);
+		tmpPlace = pageurl.rfind("/",tmpPlace-1);
 		tmpString = pageurl.substr(tmpPlace + 1, 1); if (tmpString.size() == 0) return -1;
-		*sensorData = atoi(tmpString.c_str());
+		*sensorNumber = atoi(tmpString.c_str());
 		return returnmode;
 	}
 	
@@ -207,6 +209,9 @@ int main (int argc, char *argv[])
 	vector<MotionSensor *> motion;
 	motionPointer = &motion;
 	vector<Sunblind *> sunblinds;
+	vector<Buzzer *> buzzers;
+	FileReader fr;
+	fr.readFile();
 
 	vector<Wekker *> wekkers;
 	wekkercompressed wekkerData;
@@ -220,20 +225,16 @@ int main (int argc, char *argv[])
 	motion.push_back(new MotionSensor(3, triggerMotion));
 	motion.push_back(new MotionSensor(4, triggerMotion));
 	
-	sunblinds.push_back(new Sunblind(6));
+	sunblinds.push_back(new Sunblind(12));
 	
-	door.push_back(new Door(7));
+	door.push_back(new Door(8));
 	
-	lamp.push_back(new Light(11));
-	lamp.push_back(new Light(10));
 	lamp.push_back(new Light(9));
+	lamp.push_back(new Light(10));
+	lamp.push_back(new Light(11));
 	
-	//wekkerData.uncomp.devicetype = LAMPS;
-	//wekkerData.uncomp.deviceindex = 1;
-	//wekkerData.uncomp.state = 1;
-	//wekkerData.uncomp.reserved = 0;
-	//wekkers.push_back(new Wekker(1, wekkerData.comp));//relative 1 min from now
-
+	buzzers.push_back(new Buzzer(13));	
+	
 	std::cout << "Creating Server...\r\n";
     if (listener.openServerOnPort(PORTNUMBER) < 0 || listener.listenToPort() < 0){
         std::cout << "Error opening port " << PORTNUMBER << "!\r\n";
@@ -361,12 +362,17 @@ int main (int argc, char *argv[])
 					response += "data.sunblinds[" + func::toString(objectIndex) + "] = " + func::toString(sunblinds[objectIndex]->getStatus()) + ";"; 
 					break;
 				case 2:
+					
+					//cout<<objectSettings<<"\r\n";
+					
+					sunblinds[objectIndex]->setPosition(atoi(objectSettings.c_str()));
+					/*
 					if(objectSettings == "1") {
 						sunblinds[objectIndex]->open();
 					}else{
 						sunblinds[objectIndex]->close();
-					}
-					response += "data.sunblinds[" + func::toString(objectIndex) + "] = " + func::toString(sunblinds[objectIndex]->getStatus()) + ";"; 
+					}*/
+					response += "data.sunblinds[" + func::toString(objectIndex) + "] = " + func::toString(sunblinds[objectIndex]->getPosition()) + ";"; 
 					break;
 				
 				case 3:
@@ -378,6 +384,12 @@ int main (int argc, char *argv[])
 					response += "timeSaved();";
 					break;
 			}
+		}else if(pageurl.find("helpme/") != std::string::npos){
+			//todo: implement buzzer
+			for (int t = 0; t < buzzers.size(); t++) {
+				buzzers[t]->playAlarm();
+				
+			}			
 		} else if (pageurl.find("/times/") != std::string::npos) {
 			switch (get_toggle_set(pageurl, &objectIndex, &objectSettings, &objectState)) {
 				case 3:

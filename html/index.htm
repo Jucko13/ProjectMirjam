@@ -231,7 +231,7 @@ var data = {
 	door:     [0,0],
 	lamp:     [0,0,0],
 	motion:	 [0,0,0],
-	sunblinds: [100]
+	sunblinds: [0]
 };
 
 var temp = {
@@ -248,6 +248,8 @@ var times = {
 		["00:00","00:00",0]
 	]
 };
+
+var sunblindsMax = 180;
 
 var message = {
 	visible: false, 
@@ -508,11 +510,11 @@ function drawRoom(){
 	
 	ctx.fillStyle = "rgba(0,0,0,0.5)";
 	ctx.strokeStyle = '#000';
-	ctx.fillRect(c(400) + c(4),c(100),c(4) + c(30/100*data.sunblinds[0]),c(140));
+	ctx.fillRect(c(400) + c(4),c(100),c(4) + c(30/sunblindsMax*data.sunblinds[0]),c(140));
 	
 	ctx.beginPath();
-	ctx.moveTo(c(408) + c(30/100*data.sunblinds[0]),c(100));
-	ctx.lineTo(c(408) + c(30/100*data.sunblinds[0]),c(240));
+	ctx.moveTo(c(408) + c(30/sunblindsMax*data.sunblinds[0]),c(100));
+	ctx.lineTo(c(408) + c(30/sunblindsMax*data.sunblinds[0]),c(240));
 	ctx.strokeStyle = '#fff';
 	ctx.stroke();
 
@@ -862,7 +864,7 @@ function dragUp(){
 	}else if(dragSunblinds.dragging){
 		
 		var dragWidth = parseInt(dragSunblinds.element.style.width);
-		data.sunblinds[0] = parseInt(100 / (dragSunblinds.element.parentElement.offsetHeight - dragWidth) * parseInt(dragSunblinds.element.style.top));
+		data.sunblinds[0] = parseInt(sunblindsMax / (dragSunblinds.element.parentElement.offsetHeight - dragWidth) * parseInt(dragSunblinds.element.style.top));
 		
 		dragSunblinds.dragging = false;
 		dragSunblinds.element = undefined;

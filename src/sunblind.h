@@ -15,9 +15,12 @@ class Sunblind
 		void setPosition(int a);
         bool getStatus();
         void toggle();
+        int getPosition();
+        
     private:
         bool status;
         int pin;
+        int pos;
         Servo servo;
 
 };

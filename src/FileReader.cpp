@@ -28,11 +28,13 @@ void FileReader::readFile(){
         }
         myfile.close();
     }
+    /*
     else {
         for(int i = 0; i < 10; i++){
-            settings.push_back("00:01");
+            settings.push_back(".");
         }
     }
+    */
 }
 
 /**
@@ -56,6 +58,11 @@ void FileReader::writeFile(){
  * @param string s: is used to to edit the value of the time settings
  */
 void FileReader::changeSettings(unsigned int i, string t){
+    if(settings.size()<i){
+		for(unsigned int a = settings.size(); a < i; a++){
+			settings.push_back(".");
+		}
+	}
     settings[i] = t;
 }
 
@@ -67,6 +74,9 @@ void FileReader::changeSettings(unsigned int i, string t){
  */
 string FileReader::getTime(unsigned int i){
     string time;
+    if(settings.size()<i){
+		return ".";
+	}
     time = settings[i];
     return time;
 }

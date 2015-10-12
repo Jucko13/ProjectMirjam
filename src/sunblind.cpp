@@ -1,6 +1,6 @@
 #include "sunblind.h"
 
-Sunblind::Sunblind(int p): servo(p), status(false)
+Sunblind::Sunblind(int p): servo(p), status(false), pos(0)
 {
 
 }
@@ -37,7 +37,14 @@ void Sunblind::setPosition(int a)
 	else
 		status = true;
 	
+	pos = a;
+	
 	servo.setAngle(a);
+}
+
+int Sunblind::getPosition()
+{
+	return pos;
 }
 
 bool Sunblind::getStatus()

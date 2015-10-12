@@ -1400,7 +1400,8 @@ int raspberryPinNumber(int arduinoPin){
 		case 5: return 25; break;
 		case 6: return  4; break;
 		case 7: return 17; break;
-		case 8: if(REV == 1){return 21;}else{return 27;} break;
+		//case 8: if(REV == 1){return 21;}else{return 27;} break;
+		case 8: return 27; break;
 		case 9: return 22; break;
 		case 10: return 8; break;
 		case 11: return 10; break;
