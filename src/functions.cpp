@@ -7,7 +7,7 @@
 
 #include <cstring>
 #include <string>
-
+#include <vector>
 using namespace std;
 
 /*
@@ -17,6 +17,25 @@ string toString(T item){
 	oss << item;
 	return (oss.str());
 }*/
+
+std::vector<std::string> &func::split(const std::string &s, char delim, std::vector<std::string> &elems) {
+	std::stringstream ss(s);
+	std::string item;
+	while (std::getline(ss, item, delim)) {
+		elems.push_back(item);
+	}
+	return elems;
+}
+
+int func::countChars(string input, char whatChar) {
+	int howmany = 0;
+	for (int i = 0; i < input.size(); i++) {
+		if (input[i] == whatChar) {
+			howmany++;
+		}
+	}
+	return howmany;
+}
 
 int func::getUrl (string str, string *url)
 {

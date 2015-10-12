@@ -24,6 +24,11 @@ SOFTWARE.
 */
 #define ERR_MESSAGE "message.show('unknown request!'); setTimeout(function(){ message.hide();},1500);"
 
+//defines for checkUrlMode();
+#define TTS_TIME 0
+#define TTS_TOGGLE 1
+#define TTS_SET 2
+
 #include "src/IvySox.h"
 #include "src/arduPi.h"
 #include "src/functions.h"
@@ -35,15 +40,15 @@ SOFTWARE.
 #include "src/buzzer.h"
 #include "src/FileReader.h"
 #include "src/knxsensors.h"
+#include "src/rgb.h"
 
 #include <unistd.h>
 #include <iostream>
 #include <string>
 #include <cstring>
-//#include <pthread.h>
-
 #include <vector>
 
+vector<MotionSensor *> * motionPointer = NULL;
 
 #define PORTNUMBER 8077
 #define INBOUND_BUFFER_SIZE 20000
@@ -120,67 +125,60 @@ void checkAllWekkers(vector<Wekker*>& wekkers, vector<Light *> &lamp, vector<Sun
 }
 
 
-int countChars(string input, char whatChar){
-	int howmany = 0;
-	for(int i = 0; i < input.size(); i++){
-		if(input[i] == whatChar){
-			howmany++;
-		}
-	}
-	return howmany;
-}
-
-// 0; /get/
-// 1; /toggle/
-// 2; /set/
-// 3; /time/
-int get_toggle_set(std::string pageurl, int * sensorNumber, string * sensorData, int * sensorState){
+// 0; /toggle/
+// 1; /set/
+// 2; /time/
+int checkUrlMode(std::string pageurl, int * sensorNumber, string * sensorData, int * sensorState){
 	std::string tmpString;
 	std::size_t tmpPlace;
 	
 	int returnmode = -1;
-	returnmode = (pageurl.find("/get/") != std::string::npos ? 0 : returnmode);
-	returnmode = (returnmode == -1 && pageurl.find("/toggle/") != std::string::npos ? 1 : returnmode);
-	returnmode = (returnmode == -1 && pageurl.find("/set/") != std::string::npos ? 2 : returnmode);
-	returnmode = (returnmode == -1 && pageurl.find("/time/") != std::string::npos ? 3 : returnmode);
+	returnmode = (pageurl.find("/toggle/") != std::string::npos ? TTS_TOGGLE : returnmode);
+	returnmode = (returnmode == -1 && pageurl.find("/set/") != std::string::npos ? TTS_SET : returnmode);
+	returnmode = (returnmode == -1 && pageurl.find("/time/") != std::string::npos ? TTS_TIME : returnmode);
 	
-	if(returnmode == 0 || returnmode == 1){
-		if(countChars(pageurl,'/') != 3) return -1;
-		tmpPlace = pageurl.rfind("/");
-		tmpString = pageurl.substr(tmpPlace + 1, pageurl.length() - tmpPlace); if (tmpString.size() == 0) return -1;
-		*sensorNumber = atoi(tmpString.c_str());
-		return returnmode;
-	}
-	
-	if(returnmode == 2){
-		if(countChars(pageurl,'/') != 4) return -1;
-		tmpPlace = pageurl.rfind("/");
-		*sensorData = pageurl.substr(tmpPlace+1,pageurl.length() - tmpPlace);
+	switch(){
+		case TTS_TOGGLE:
+			if (func::countChars(pageurl, '/') != 3) return -1;
+			tmpPlace = pageurl.rfind("/");
+			tmpString = pageurl.substr(tmpPlace + 1, pageurl.length() - tmpPlace); if (tmpString.size() == 0) return -1;
+			*sensorNumber = atoi(tmpString.c_str());
+			return returnmode;
+			break;
 
-		tmpPlace = pageurl.rfind("/",tmpPlace-1);
-		tmpString = pageurl.substr(tmpPlace + 1, 1); if (tmpString.size() == 0) return -1;
-		*sensorNumber = atoi(tmpString.c_str());
-		return returnmode;
+		case TTS_SET:
+			if (func::countChars(pageurl, '/') != 4) return -1;
+			tmpPlace = pageurl.rfind("/");
+			*sensorData = pageurl.substr(tmpPlace + 1, pageurl.length() - tmpPlace);
+
+			tmpPlace = pageurl.rfind("/", tmpPlace - 1);
+			tmpString = pageurl.substr(tmpPlace + 1, 1); if (tmpString.size() == 0) return -1;
+			*sensorNumber = atoi(tmpString.c_str());
+			return returnmode;
+			break;
+
+		case TTS_TIME:
+			if (func::countChars(pageurl, '/') != 5) return -1;
+			tmpPlace = pageurl.rfind("/");
+			*sensorData = pageurl.substr(tmpPlace + 1, pageurl.length() - tmpPlace);
+			tmpPlace = pageurl.rfind("/", tmpPlace - 1);
+			tmpString = pageurl.substr(tmpPlace + 1, 1); if (tmpString.size() == 0) return -1;
+			*sensorState = atoi(tmpString.c_str());
+			tmpPlace = pageurl.rfind("/", tmpPlace - 1);
+			tmpString = pageurl.substr(tmpPlace + 1, 1); if (tmpString.size() == 0) return -1;
+			*sensorNumber = atoi(tmpString.c_str());
+			return returnmode;
+			break;
+
+		default:
+			return -1;
+			break;
 	}
-	
-	if(returnmode == 3){
-		if(countChars(pageurl,'/') != 5) return -1;
-		tmpPlace = pageurl.rfind("/");
-		*sensorData = pageurl.substr(tmpPlace+1,pageurl.length() - tmpPlace);
-		tmpPlace = pageurl.rfind("/",tmpPlace-1);
-		tmpString = pageurl.substr(tmpPlace + 1, 1); if (tmpString.size() == 0) return -1;
-		*sensorState = atoi(tmpString.c_str());
-		tmpPlace = pageurl.rfind("/",tmpPlace-1);
-		tmpString = pageurl.substr(tmpPlace + 1, 1); if (tmpString.size() == 0) return -1;
-		*sensorNumber = atoi(tmpString.c_str());
-		return returnmode;
-	}
+
 	return -1;
 }
 
 
-
-vector<MotionSensor *> * motionPointer = NULL;
 
 void triggerMotion(){
 	if (!motionPointer) return;
@@ -216,6 +214,7 @@ int main (int argc, char *argv[])
 	vector<Wekker *> wekkers;
 	wekkercompressed wekkerData;
 	
+	rgb ledStrip;
 	KnxSensors k;
 	k.setValues(255,0,255);
 	
@@ -297,13 +296,11 @@ int main (int argc, char *argv[])
 			for (int t = 0; t < door.size(); t++){ response += "data.door[" + func::toString(t) + "] = " + func::toString(door[t]->getStatus()) + ";\r\n"; }
 			for (int t = 0; t < lamp.size(); t++) { response += "data.lamp[" + func::toString(t) + "] = " + func::toString(lamp[t]->getStatus()) + ";\r\n"; }
 			for (int t = 0; t < motion.size(); t++) { response += "data.motion[" + func::toString(t) + "] = " + func::toString(motion[t]->getStatus()) + ";\r\n"; }
-		
+			for (int t = 0; t < 3; t++) { response += "data.rgb[" + func::toString(t) + "] = " + func::toString(ledStrip.getColor(t)) + ";\r\n"; }
+
 		}else if (pageurl.find("/door/") != std::string::npos) {
-			switch(get_toggle_set(pageurl,&objectIndex,&objectSettings,&objectState)){
-				//case 0:
-					//response += "data.door[" + func::toString(objectIndex) + "] = " + func::toString(door[objectIndex]->getStatus()) + ";"; 
-					//break;
-				case 1:
+			switch (checkUrlMode(pageurl, &objectIndex, &objectSettings, &objectState)) {
+				case TTS_TOGGLE:
 					if(door[objectIndex]->getStatus()) {
 						door[objectIndex]->close();
 					}else{
@@ -311,7 +308,8 @@ int main (int argc, char *argv[])
 					}
 					response += "data.door[" + func::toString(objectIndex) + "] = " + func::toString(door[objectIndex]->getStatus()) + ";"; 
 					break;
-				case 2:
+
+				case TTS_SET:
 					if(objectSettings == "1") {
 						door[objectIndex]->open();
 					}else{
@@ -320,17 +318,29 @@ int main (int argc, char *argv[])
 					response += "data.door[" + func::toString(objectIndex) + "] = " + func::toString(lamp[objectIndex]->getStatus()) + ";"; 
 					break;
 			}
+		}else if (pageurl.find("/rgb/") != std::string::npos) {
+			switch (checkUrlMode(pageurl, &objectIndex, &objectSettings, &objectState)) {
+				case TTS_SET:
+					if (objectSettings.count('_') == 2){
+						std::vector<std::string> rgbColors;
+						func::split(objectSettings, '_', rgbColors);
+
+						for(int t; t = 0; t < 3; t++){
+							ledStrip.setColor(t, atoi(rgbColors[t].c_str()));
+							response += "data.rgb[" + func::toString(t) + "] = " + rgbColors[t] + ";";
+						}
+						k.setValues(ledStrip.getColor(0), ledStrip.getColor(1), ledStrip.getColor(2));
+					}
+					break;
+			}
 		}else if(pageurl.find("/lamp/") != std::string::npos){
-			switch(get_toggle_set(pageurl,&objectIndex,&objectSettings,&objectState)){
-				//case 0:
-					//response += "data.lamp[" + func::toString(objectIndex) + "] = " + func::toString(lamp[objectIndex]->getStatus()) + ";"; 
-					//break;
-				case 1:
-					//cout<<objectIndex;
+			switch (checkUrlMode(pageurl, &objectIndex, &objectSettings, &objectState)) {
+				case TTS_TOGGLE:
 					lamp[objectIndex]->toggle();
 					response += "data.lamp[" + func::toString(objectIndex) + "] = " + func::toString(lamp[objectIndex]->getStatus()) + ";"; 
 					break;
-				case 2:
+
+				case TTS_SET:
 					if(objectSettings == "1") {
 						lamp[objectIndex]->on();
 					}else{
@@ -339,43 +349,28 @@ int main (int argc, char *argv[])
 					response += "data.lamp[" + func::toString(objectIndex) + "] = " + func::toString(lamp[objectIndex]->getStatus()) + ";"; 
 					break;
 				
-				case 3:
-					//objectSettings="00:00";
-					//objectState = 0; //0 moet aan gaan om <tijd>, 1 moet uit gaan om <tijd>
-					//objectIndex = index van lamp
+				case TTS_TIME:
 					wekkerData.uncomp.devicetype = LAMPS;
 					wekkerData.uncomp.deviceindex = objectIndex;
 					wekkerData.uncomp.state = objectState;
 					modifyWekkers(wekkers, wekkerData, objectSettings);
-					
 					response += "timeSaved();";
 					break;
+
 			}
 		}else if(pageurl.find("/sunblinds/") != std::string::npos){
-			switch(get_toggle_set(pageurl,&objectIndex,&objectSettings,&objectState)){
-				//case 0:
-					//response += "data.blinds[" + func::toString(objectIndex) + "] = " + func::toString(lamp[objectIndex]->getStatus()) + ";"; 
-					//break;
-				case 1:
-					
+			switch (checkUrlMode(pageurl, &objectIndex, &objectSettings, &objectState)) {
+				case TTS_TOGGLE:
 					sunblinds[objectIndex]->toggle();
 					response += "data.sunblinds[" + func::toString(objectIndex) + "] = " + func::toString(sunblinds[objectIndex]->getStatus()) + ";"; 
 					break;
-				case 2:
-					
-					//cout<<objectSettings<<"\r\n";
-					
+
+				case TTS_SET:
 					sunblinds[objectIndex]->setPosition(atoi(objectSettings.c_str()));
-					/*
-					if(objectSettings == "1") {
-						sunblinds[objectIndex]->open();
-					}else{
-						sunblinds[objectIndex]->close();
-					}*/
 					response += "data.sunblinds[" + func::toString(objectIndex) + "] = " + func::toString(sunblinds[objectIndex]->getPosition()) + ";"; 
 					break;
 				
-				case 3:
+				case TTS_TIME:
 					wekkerData.uncomp.devicetype = SUNBLINDS;
 					wekkerData.uncomp.deviceindex = objectIndex;
 					wekkerData.uncomp.state = objectState;
@@ -388,11 +383,11 @@ int main (int argc, char *argv[])
 			//todo: implement buzzer
 			for (int t = 0; t < buzzers.size(); t++) {
 				buzzers[t]->playAlarm();
-				
-			}			
+			}
+
 		} else if (pageurl.find("/times/") != std::string::npos) {
-			switch (get_toggle_set(pageurl, &objectIndex, &objectSettings, &objectState)) {
-				case 3:
+			switch (checkUrlMode(pageurl, &objectIndex, &objectSettings, &objectState)) {
+				case TTS_TIME:
 					for (int t = 0; t < wekkers.size(); t++) {
 						wekkerData.comp = wekkers[t]->getData();
 
