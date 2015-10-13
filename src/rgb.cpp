@@ -1,12 +1,13 @@
 #include "rgb.h"
 
-RGB::RGB()
+RGB::RGB(KnxSensors *k)
 {
-    kleuren[0] = 0;
-    kleuren[1] = 0;
-    kleuren[2] = 0;
+    kleuren[0] = "0";
+    kleuren[1] = "0";
+    kleuren[2] = "0";
     w = 0;
     status = 0;
+    knx = k;
     //ctor
 }
 
@@ -15,24 +16,18 @@ RGB::~RGB()
     //dtor
 }
 
-void RGB::setColor(unsigned char a, unsigned char b)
+void RGB::setColor(int a, std::string b)
 {
     kleuren[a] = b;
 }
 
-void RGB::setWhite(bool a)
+void RGB::setColorString(std::string r, std::string g, std::string b)
 {
-    if (a) {
-        kleuren[0] = 255;
-        kleuren[1] = 255;
-        kleuren[2] = 255;
-        w = 1;
-    } else {
-        kleuren[0] = 0;
-        kleuren[1] = 0;
-        kleuren[2] = 0;
-        w = 0;
-    }
+	kleuren[0] = r;
+	kleuren[1] = g;
+	kleuren[2] = b;
+	
+	knx->groupWrite("1/2/4", r + " " + g + " " + b);
 
 }
 
@@ -52,7 +47,7 @@ bool RGB::getStatus() const
 }
 
 
-unsigned char RGB::getColor(unsigned char a) const
+std::string RGB::getColor(int a) const
 {
     return kleuren[a];
 }

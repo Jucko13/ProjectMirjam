@@ -1,13 +1,15 @@
 #ifndef KNXSENSORS_H
 #define KNXSENSORS_H
 
+#include <string>
+
 class KnxSensors
 {
     public:
         KnxSensors();
         virtual ~KnxSensors();
         void init();
-        void setValues(int a, int b, int c);
+        void groupWrite(std::string a, std::string b);
     private:
 
 };

@@ -7,6 +7,7 @@
 #include <sstream>
 #include <cstdlib>
 #include <stdio.h>
+#include <vector>
 
 using namespace std;
 
@@ -24,8 +25,8 @@ class func {
 	static string openFile(const char * fileName);
 	static string openBinaryFile(const char *fileName, int* fsize);
 	static int getUrl (string str, string *url);
-	static std::vector<std::string> &split(const std::string &s, char delim, std::vector<std::string> &elems);
-	static int countChars(string &input, char whatChar);
+	static vector<string> &split(const string &s, char delim, vector<string> &elems);
+	static int countChars(string input, char whatChar);
 
 };
 

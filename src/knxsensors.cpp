@@ -19,18 +19,8 @@ KnxSensors::~KnxSensors()
  * @brief KnxSensors::init is used to start eibd as user pi for knx
  */
 void KnxSensors::init(){
-	FILE *in;
-	if(!(in = popen("killall eibd", "r"))){
-		return;
-	}
-        if(!(in = popen("user pi", "r"))){
-                return;
-        }
-        if(!(in = popen("eibd -i ipt:10.0.2.2", "r"))){
-                return;
-        }
-	//login als pi en dan: 'eibd -i ipt:10.0.2.2' uitvoeren
-	pclose(in);
+	system("killall eibd");
+	system("su --login pi -c \"eibd -i ipt:10.0.2.2\" &");
 }
 
 /**
@@ -40,9 +30,9 @@ void KnxSensors::init(){
  * @param g integer value for the green part, value can be between 0 and 255.
  * @param b integer value for the blue part, value can be between 0 and 255.
  */
-void KnxSensors::setValues(int r, int g, int b){
+void KnxSensors::groupWrite(std::string group, std::string value){
 	FILE *in;
-        std::string command ="groupwrite ip:localhost 1/2/4 " + func::toString(r) + " " + func::toString(g) + " " + func::toString(b);
+        std::string command ="groupwrite ip:localhost " + group + " " + value;
 	
 	if(!(in = popen(command.c_str(), "r"))){
 		return;

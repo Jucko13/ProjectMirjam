@@ -1,28 +1,31 @@
 #ifndef RGB_H
 #define RGB_H
 
+#include <string>
+#include "knxsensors.h"
 
 class RGB
 {
     public:
-        RGB();
+        RGB(KnxSensors * k);
         virtual ~RGB();
 
         /*void setRed(char);
         void setGreen(char);
         void setBlue(char);*/
-        void setWhite(bool);
-        void setColor(unsigned char,unsigned char);
+        void setColor(int a, std::string b);
+        void setColorString(std::string, std::string, std::string);
 
         void on();
         void off();
 
         bool getStatus() const;
-        unsigned char getColor(unsigned char) const;
+        std::string getColor(int) const;
     private:
-        unsigned char kleuren[3];
+        std::string kleuren[3];
         int w;
         bool status;
+        KnxSensors *knx;
 };
 
 #endif // RGB_H

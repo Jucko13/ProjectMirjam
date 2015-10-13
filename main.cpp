@@ -49,6 +49,7 @@ SOFTWARE.
 #include <vector>
 
 vector<MotionSensor *> * motionPointer = NULL;
+vector<Buzzer *> * buzzerPointer = NULL;
 
 #define PORTNUMBER 8077
 #define INBOUND_BUFFER_SIZE 20000
@@ -137,7 +138,7 @@ int checkUrlMode(std::string pageurl, int * sensorNumber, string * sensorData, i
 	returnmode = (returnmode == -1 && pageurl.find("/set/") != std::string::npos ? TTS_SET : returnmode);
 	returnmode = (returnmode == -1 && pageurl.find("/time/") != std::string::npos ? TTS_TIME : returnmode);
 	
-	switch(){
+	switch(returnmode){
 		case TTS_TOGGLE:
 			if (func::countChars(pageurl, '/') != 3) return -1;
 			tmpPlace = pageurl.rfind("/");
@@ -187,6 +188,15 @@ void triggerMotion(){
 	}
 }
 
+
+
+void triggerButton(){
+	if (!buzzerPointer) return;
+	for(int i = 0; i < buzzerPointer->size(); i++){
+		(*buzzerPointer)[i]->playAlarm();
+	}
+}
+
 int main (int argc, char *argv[])
 {
 	InboundConnection inboundConnection;
@@ -208,17 +218,21 @@ int main (int argc, char *argv[])
 	motionPointer = &motion;
 	vector<Sunblind *> sunblinds;
 	vector<Buzzer *> buzzers;
+	buzzerPointer = &buzzers;
+	
 	FileReader fr;
 	fr.readFile();
-
+	
 	vector<Wekker *> wekkers;
 	wekkercompressed wekkerData;
 	
-	rgb ledStrip;
 	KnxSensors k;
-	k.setValues(255,0,255);
+	RGB ledStrip(&k);
 	
 
+	
+	attachInterrupt(5,triggerButton,RISING);
+	attachInterrupt(6,triggerButton,RISING);
 
 	motion.push_back(new MotionSensor(2, triggerMotion));
 	motion.push_back(new MotionSensor(3, triggerMotion));
@@ -296,7 +310,7 @@ int main (int argc, char *argv[])
 			for (int t = 0; t < door.size(); t++){ response += "data.door[" + func::toString(t) + "] = " + func::toString(door[t]->getStatus()) + ";\r\n"; }
 			for (int t = 0; t < lamp.size(); t++) { response += "data.lamp[" + func::toString(t) + "] = " + func::toString(lamp[t]->getStatus()) + ";\r\n"; }
 			for (int t = 0; t < motion.size(); t++) { response += "data.motion[" + func::toString(t) + "] = " + func::toString(motion[t]->getStatus()) + ";\r\n"; }
-			for (int t = 0; t < 3; t++) { response += "data.rgb[" + func::toString(t) + "] = " + func::toString(ledStrip.getColor(t)) + ";\r\n"; }
+			for (int t = 0; t < 3; t++) { response += "data.rgb[" + func::toString(t) + "] = " + ledStrip.getColor(t) + ";\r\n"; }
 
 		}else if (pageurl.find("/door/") != std::string::npos) {
 			switch (checkUrlMode(pageurl, &objectIndex, &objectSettings, &objectState)) {
@@ -321,15 +335,11 @@ int main (int argc, char *argv[])
 		}else if (pageurl.find("/rgb/") != std::string::npos) {
 			switch (checkUrlMode(pageurl, &objectIndex, &objectSettings, &objectState)) {
 				case TTS_SET:
-					if (objectSettings.count('_') == 2){
+					if (func::countChars(objectSettings,'_') == 2){
 						std::vector<std::string> rgbColors;
 						func::split(objectSettings, '_', rgbColors);
 
-						for(int t; t = 0; t < 3; t++){
-							ledStrip.setColor(t, atoi(rgbColors[t].c_str()));
-							response += "data.rgb[" + func::toString(t) + "] = " + rgbColors[t] + ";";
-						}
-						k.setValues(ledStrip.getColor(0), ledStrip.getColor(1), ledStrip.getColor(2));
+						ledStrip.setColorString(rgbColors[0], rgbColors[1], rgbColors[2]);
 					}
 					break;
 			}
