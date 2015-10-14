@@ -1,0 +1,62 @@
+\hypertarget{class_file_reader}{}\section{File\+Reader Class Reference}
+\label{class_file_reader}\index{File\+Reader@{File\+Reader}}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_file_reader_a34d1e57721856a4ec1d7f567aa0daf33}{}void \hyperlink{class_file_reader_a34d1e57721856a4ec1d7f567aa0daf33}{read\+File} ()\label{class_file_reader_a34d1e57721856a4ec1d7f567aa0daf33}
+
+\begin{DoxyCompactList}\small\item\em \hyperlink{class_file_reader_a34d1e57721856a4ec1d7f567aa0daf33}{File\+Reader\+::read\+File} the read\+File function reads the settings from the settings.\+txt file into the vector settings. \end{DoxyCompactList}\item 
+\hypertarget{class_file_reader_a06f1ab4a931d05cb7a038692c4987406}{}void \hyperlink{class_file_reader_a06f1ab4a931d05cb7a038692c4987406}{write\+File} ()\label{class_file_reader_a06f1ab4a931d05cb7a038692c4987406}
+
+\begin{DoxyCompactList}\small\item\em \hyperlink{class_file_reader_a06f1ab4a931d05cb7a038692c4987406}{File\+Reader\+::write\+File} the write\+File function write the contents of the settings vector into the settings.\+txt file separated by an endline character. \end{DoxyCompactList}\item 
+void \hyperlink{class_file_reader_aead27429cd175a41667790567cceaafd}{change\+Settings} (unsigned int i, string s)
+\begin{DoxyCompactList}\small\item\em \hyperlink{class_file_reader_aead27429cd175a41667790567cceaafd}{File\+Reader\+::change\+Settings} the change\+Settings function allows to change a timeslot in the settings. \end{DoxyCompactList}\item 
+string \hyperlink{class_file_reader_aed9eaba4d0d115bb425ea703a4ee5052}{get\+Time} (unsigned int i)
+\begin{DoxyCompactList}\small\item\em \hyperlink{class_file_reader_aed9eaba4d0d115bb425ea703a4ee5052}{File\+Reader\+::get\+Time} the get\+Time functions allows to retreive the saved time setting for a particular setting slot. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_file_reader_aead27429cd175a41667790567cceaafd}{}\index{File\+Reader@{File\+Reader}!change\+Settings@{change\+Settings}}
+\index{change\+Settings@{change\+Settings}!File\+Reader@{File\+Reader}}
+\subsubsection[{change\+Settings(unsigned int i, string s)}]{\setlength{\rightskip}{0pt plus 5cm}void File\+Reader\+::change\+Settings (
+\begin{DoxyParamCaption}
+\item[{unsigned int}]{i, }
+\item[{string}]{t}
+\end{DoxyParamCaption}
+)}\label{class_file_reader_aead27429cd175a41667790567cceaafd}
+
+
+\hyperlink{class_file_reader_aead27429cd175a41667790567cceaafd}{File\+Reader\+::change\+Settings} the change\+Settings function allows to change a timeslot in the settings. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em unsinged} & integer i\+: is used to selects which setting is changed \\
+\hline
+{\em string} & s\+: is used to to edit the value of the time settings \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_file_reader_aed9eaba4d0d115bb425ea703a4ee5052}{}\index{File\+Reader@{File\+Reader}!get\+Time@{get\+Time}}
+\index{get\+Time@{get\+Time}!File\+Reader@{File\+Reader}}
+\subsubsection[{get\+Time(unsigned int i)}]{\setlength{\rightskip}{0pt plus 5cm}string File\+Reader\+::get\+Time (
+\begin{DoxyParamCaption}
+\item[{unsigned int}]{i}
+\end{DoxyParamCaption}
+)}\label{class_file_reader_aed9eaba4d0d115bb425ea703a4ee5052}
+
+
+\hyperlink{class_file_reader_aed9eaba4d0d115bb425ea703a4ee5052}{File\+Reader\+::get\+Time} the get\+Time functions allows to retreive the saved time setting for a particular setting slot. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em integer} & a\+: is used to select which time setting is to be requested \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the time is returned as an integer, if the time was not set, 1 is returned. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/\+Erwin/\+Documents/\+Project\+S\+D/\+Project\+Mirjam/src/File\+Reader.\+h\item 
+C\+:/\+Users/\+Erwin/\+Documents/\+Project\+S\+D/\+Project\+Mirjam/src/File\+Reader.\+cpp\end{DoxyCompactItemize}

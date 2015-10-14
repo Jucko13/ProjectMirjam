@@ -1,0 +1,95 @@
+\hypertarget{class_ivy_sox}{}\section{Ivy\+Sox Class Reference}
+\label{class_ivy_sox}\index{Ivy\+Sox@{Ivy\+Sox}}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_ivy_sox_a0163ec7295912de86eed220d94475bf6}{}void {\bfseries close\+Socket} ()\label{class_ivy_sox_a0163ec7295912de86eed220d94475bf6}
+
+\item 
+\hypertarget{class_ivy_sox_ab0be0c4bc597a4d548316867e26c27e5}{}void {\bfseries close\+Inbound} ()\label{class_ivy_sox_ab0be0c4bc597a4d548316867e26c27e5}
+
+\item 
+\hypertarget{class_ivy_sox_a5386037f948f1090e584b33a821f71f6}{}void {\bfseries close\+Socket} (int socket\+To\+Close)\label{class_ivy_sox_a5386037f948f1090e584b33a821f71f6}
+
+\item 
+\hypertarget{class_ivy_sox_a172ab20ae241912f22e30eaf3fcf89bd}{}Ivy\+Sox\+State {\bfseries get\+State} ()\label{class_ivy_sox_a172ab20ae241912f22e30eaf3fcf89bd}
+
+\item 
+\hypertarget{class_ivy_sox_a68f70b61eacdfc82af809738a0ddad32}{}int {\bfseries set\+Ip\+Address} (string ip\+Address)\label{class_ivy_sox_a68f70b61eacdfc82af809738a0ddad32}
+
+\item 
+\hypertarget{class_ivy_sox_a92692a133fa3d26b4882e66cb874d2d7}{}int {\bfseries set\+Ip\+Address} (const char $\ast$address)\label{class_ivy_sox_a92692a133fa3d26b4882e66cb874d2d7}
+
+\item 
+\hypertarget{class_ivy_sox_a21a767ad2cd771d3558945d218945cb5}{}string {\bfseries get\+Ip\+Address} ()\label{class_ivy_sox_a21a767ad2cd771d3558945d218945cb5}
+
+\item 
+\hypertarget{class_ivy_sox_ae3c8d855d2ea2446d6e0751e22431909}{}string {\bfseries get\+Inbound\+Ip\+Address} ()\label{class_ivy_sox_ae3c8d855d2ea2446d6e0751e22431909}
+
+\item 
+\hypertarget{class_ivy_sox_ac8cb7a98dfb8788d33609cc06d1c7bd4}{}unsigned short int {\bfseries get\+Inbound\+Port\+Number} ()\label{class_ivy_sox_ac8cb7a98dfb8788d33609cc06d1c7bd4}
+
+\item 
+\hypertarget{class_ivy_sox_aff0fa52c220a3aa04495ab0dcfcc26ac}{}int {\bfseries get\+Address\+Info} (const char $\ast$node, const char $\ast$service, const struct addrinfo $\ast$hints, struct addrinfo $\ast$$\ast$res)\label{class_ivy_sox_aff0fa52c220a3aa04495ab0dcfcc26ac}
+
+\item 
+\hypertarget{class_ivy_sox_a8a80d74a1d4063760b510b8b70b68827}{}int {\bfseries connect\+To} (const char $\ast$url, const char $\ast$service)\label{class_ivy_sox_a8a80d74a1d4063760b510b8b70b68827}
+
+\item 
+\hypertarget{class_ivy_sox_a07a9fd863e1505e42463039e22b1b559}{}int {\bfseries connect\+To} (string url, string service)\label{class_ivy_sox_a07a9fd863e1505e42463039e22b1b559}
+
+\item 
+\hypertarget{class_ivy_sox_a71b5da686074a1d701018923fabb5825}{}int {\bfseries get\+Connection\+Info} (string url, string service)\label{class_ivy_sox_a71b5da686074a1d701018923fabb5825}
+
+\item 
+\hypertarget{class_ivy_sox_a38e73e2c356bedc86324f6fbda9ad70a}{}int {\bfseries get\+Connection\+Info} (const char $\ast$url, const char $\ast$service)\label{class_ivy_sox_a38e73e2c356bedc86324f6fbda9ad70a}
+
+\item 
+\hypertarget{class_ivy_sox_a55e1513525983a401ad5916244ced260}{}int {\bfseries open\+Port} (int port\+Number)\label{class_ivy_sox_a55e1513525983a401ad5916244ced260}
+
+\item 
+\hypertarget{class_ivy_sox_af6aa28dbf15e687027ee4a9da8a47724}{}int {\bfseries open\+Server\+On\+Port} (int port\+Number)\label{class_ivy_sox_af6aa28dbf15e687027ee4a9da8a47724}
+
+\item 
+\hypertarget{class_ivy_sox_a0a149313db0d575fb8ca9970655b9b92}{}int {\bfseries listen\+To\+Port} ()\label{class_ivy_sox_a0a149313db0d575fb8ca9970655b9b92}
+
+\item 
+\hypertarget{class_ivy_sox_a15e215b14df6ffe8c6d11bcc5b4b64e3}{}int {\bfseries accept\+Inbound} ()\label{class_ivy_sox_a15e215b14df6ffe8c6d11bcc5b4b64e3}
+
+\item 
+\hypertarget{class_ivy_sox_a00f807d8ea581e601df13c21878b01ea}{}int {\bfseries accept\+Inbound} (\hyperlink{class_inbound_connection}{Inbound\+Connection} $\ast$inbound)\label{class_ivy_sox_a00f807d8ea581e601df13c21878b01ea}
+
+\item 
+\hypertarget{class_ivy_sox_a967f09bfa3ff35635d3f1e086193b140}{}int {\bfseries receive\+Inbound} (void $\ast$message, ssize\+\_\+t max\+Length)\label{class_ivy_sox_a967f09bfa3ff35635d3f1e086193b140}
+
+\item 
+\hypertarget{class_ivy_sox_a8cdc56a285fdd5b87873918c1c397e05}{}int {\bfseries send\+Message} (void $\ast$message, ssize\+\_\+t length)\label{class_ivy_sox_a8cdc56a285fdd5b87873918c1c397e05}
+
+\item 
+\hypertarget{class_ivy_sox_a49df5717e5cc8827d5725d832a0c4d17}{}int {\bfseries send\+Message} (string message)\label{class_ivy_sox_a49df5717e5cc8827d5725d832a0c4d17}
+
+\item 
+\hypertarget{class_ivy_sox_a3915fbfdfb0c5dd57da460f3de3fc21b}{}int {\bfseries send\+Partial} (void $\ast$message, ssize\+\_\+t length)\label{class_ivy_sox_a3915fbfdfb0c5dd57da460f3de3fc21b}
+
+\item 
+\hypertarget{class_ivy_sox_a58dac7efa4d8dbf6a08e98924ae9d584}{}string {\bfseries get\+Error\+Message} (int error\+Code)\label{class_ivy_sox_a58dac7efa4d8dbf6a08e98924ae9d584}
+
+\item 
+\hypertarget{class_ivy_sox_a09b0c17b4dda6c69e617e9271e9adb63}{}int {\bfseries get\+Socket\+Number} ()\label{class_ivy_sox_a09b0c17b4dda6c69e617e9271e9adb63}
+
+\item 
+\hypertarget{class_ivy_sox_afe73030aff140d6e1baa8324067d7f1a}{}int {\bfseries bind\+Socket} ()\label{class_ivy_sox_afe73030aff140d6e1baa8324067d7f1a}
+
+\item 
+\hypertarget{class_ivy_sox_a44b37c71adba4bd408fb8a0c36865b50}{}int {\bfseries send\+File} (string filename)\label{class_ivy_sox_a44b37c71adba4bd408fb8a0c36865b50}
+
+\item 
+\hypertarget{class_ivy_sox_ada62b805f634c9652bdd950084f32e33}{}string {\bfseries message\+To\+String} (char $\ast$message, int length)\label{class_ivy_sox_ada62b805f634c9652bdd950084f32e33}
+
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/\+Erwin/\+Documents/\+Project\+S\+D/\+Project\+Mirjam/src/Ivy\+Sox.\+h\item 
+C\+:/\+Users/\+Erwin/\+Documents/\+Project\+S\+D/\+Project\+Mirjam/src/Ivy\+Sox.\+cpp\end{DoxyCompactItemize}

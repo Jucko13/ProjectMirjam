@@ -1,0 +1,76 @@
+\hypertarget{class_sunblind}{}\section{Sunblind Class Reference}
+\label{class_sunblind}\index{Sunblind@{Sunblind}}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_sunblind_a38eeb348b974873737fb86c05fb65d56}{}{\bfseries Sunblind} (int p)\label{class_sunblind_a38eeb348b974873737fb86c05fb65d56}
+
+\item 
+\hypertarget{class_sunblind_a707f2bdcf9b98b362f1f71d05ff85465}{}void \hyperlink{class_sunblind_a707f2bdcf9b98b362f1f71d05ff85465}{open} ()\label{class_sunblind_a707f2bdcf9b98b362f1f71d05ff85465}
+
+\begin{DoxyCompactList}\small\item\em \hyperlink{class_sunblind_a707f2bdcf9b98b362f1f71d05ff85465}{Sunblind\+::open} sets the status of the sunblind to true, then calls \hyperlink{class_servo_aa8ccde828af12dfd201d716fbfe7a13e}{Servo\+::set\+Angle()} to change the angle of the attached servo to it\textquotesingle{}s maximum which is 90. \end{DoxyCompactList}\item 
+\hypertarget{class_sunblind_a4f5157b03235dbd04d2e9d23e5947b05}{}void \hyperlink{class_sunblind_a4f5157b03235dbd04d2e9d23e5947b05}{close} ()\label{class_sunblind_a4f5157b03235dbd04d2e9d23e5947b05}
+
+\begin{DoxyCompactList}\small\item\em \hyperlink{class_sunblind_a4f5157b03235dbd04d2e9d23e5947b05}{Sunblind\+::close} sets the status of the sunblind to false, then calls \hyperlink{class_servo_aa8ccde828af12dfd201d716fbfe7a13e}{Servo\+::set\+Angle()} to change the angle of the attached servo to it\textquotesingle{}s minimum which is 0. \end{DoxyCompactList}\item 
+void \hyperlink{class_sunblind_aca584d938d6c28ec02d80fb287504434}{set\+Position} (int a)
+\begin{DoxyCompactList}\small\item\em \hyperlink{class_sunblind_aca584d938d6c28ec02d80fb287504434}{Sunblind\+::set\+Position} sets status and the angle of the servo in degrees. If the angle is 0, the status is set to false. In all other cases, status is true. \end{DoxyCompactList}\item 
+bool \hyperlink{class_sunblind_a5473ade5297b3c33c1daa55d15b74e15}{get\+Status} ()
+\begin{DoxyCompactList}\small\item\em \hyperlink{class_sunblind_a5473ade5297b3c33c1daa55d15b74e15}{Sunblind\+::get\+Status} gets the status of the sunblind. This status is only false when the sunblind is fully retracted and at position 0. \end{DoxyCompactList}\item 
+\hypertarget{class_sunblind_a1f5b5179a2fe2c1d60a472f3e1ca64b7}{}void \hyperlink{class_sunblind_a1f5b5179a2fe2c1d60a472f3e1ca64b7}{toggle} ()\label{class_sunblind_a1f5b5179a2fe2c1d60a472f3e1ca64b7}
+
+\begin{DoxyCompactList}\small\item\em \hyperlink{class_sunblind_a1f5b5179a2fe2c1d60a472f3e1ca64b7}{Sunblind\+::toggle} checks the status of the sunblind. If the status is false, \hyperlink{class_sunblind_a707f2bdcf9b98b362f1f71d05ff85465}{Sunblind\+::open()} is called, if the status is true, \hyperlink{class_sunblind_a4f5157b03235dbd04d2e9d23e5947b05}{Sunblind\+::close()} is called. \end{DoxyCompactList}\item 
+int \hyperlink{class_sunblind_aace51cdde4d42624cbdda8171f33afba}{get\+Position} ()
+\begin{DoxyCompactList}\small\item\em \hyperlink{class_sunblind_aace51cdde4d42624cbdda8171f33afba}{Sunblind\+::get\+Position} gets the angle which is set on the servo. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_sunblind_aace51cdde4d42624cbdda8171f33afba}{}\index{Sunblind@{Sunblind}!get\+Position@{get\+Position}}
+\index{get\+Position@{get\+Position}!Sunblind@{Sunblind}}
+\subsubsection[{get\+Position()}]{\setlength{\rightskip}{0pt plus 5cm}int Sunblind\+::get\+Position (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_sunblind_aace51cdde4d42624cbdda8171f33afba}
+
+
+\hyperlink{class_sunblind_aace51cdde4d42624cbdda8171f33afba}{Sunblind\+::get\+Position} gets the angle which is set on the servo. 
+
+\begin{DoxyReturn}{Returns}
+the integer value of the position of the servo in degrees. 
+\end{DoxyReturn}
+\hypertarget{class_sunblind_a5473ade5297b3c33c1daa55d15b74e15}{}\index{Sunblind@{Sunblind}!get\+Status@{get\+Status}}
+\index{get\+Status@{get\+Status}!Sunblind@{Sunblind}}
+\subsubsection[{get\+Status()}]{\setlength{\rightskip}{0pt plus 5cm}bool Sunblind\+::get\+Status (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_sunblind_a5473ade5297b3c33c1daa55d15b74e15}
+
+
+\hyperlink{class_sunblind_a5473ade5297b3c33c1daa55d15b74e15}{Sunblind\+::get\+Status} gets the status of the sunblind. This status is only false when the sunblind is fully retracted and at position 0. 
+
+\begin{DoxyReturn}{Returns}
+a boolean status represing whether or not the sunblind is extended. 
+\end{DoxyReturn}
+\hypertarget{class_sunblind_aca584d938d6c28ec02d80fb287504434}{}\index{Sunblind@{Sunblind}!set\+Position@{set\+Position}}
+\index{set\+Position@{set\+Position}!Sunblind@{Sunblind}}
+\subsubsection[{set\+Position(int a)}]{\setlength{\rightskip}{0pt plus 5cm}void Sunblind\+::set\+Position (
+\begin{DoxyParamCaption}
+\item[{int}]{a}
+\end{DoxyParamCaption}
+)}\label{class_sunblind_aca584d938d6c28ec02d80fb287504434}
+
+
+\hyperlink{class_sunblind_aca584d938d6c28ec02d80fb287504434}{Sunblind\+::set\+Position} sets status and the angle of the servo in degrees. If the angle is 0, the status is set to false. In all other cases, status is true. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & is the integer value in degrees for the position to which the sunblind should be set. This value can be between 0 and 90. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/\+Erwin/\+Documents/\+Project\+S\+D/\+Project\+Mirjam/src/sunblind.\+h\item 
+C\+:/\+Users/\+Erwin/\+Documents/\+Project\+S\+D/\+Project\+Mirjam/src/sunblind.\+cpp\end{DoxyCompactItemize}
