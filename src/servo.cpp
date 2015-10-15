@@ -11,6 +11,10 @@ Servo::~Servo()
 
 }
 
+/**
+ * @brief Servo::setAngle sets the angle of the servo in degrees.
+ * @param pos is the integer value for the angle to which the servo should turn in degrees.
+ */
 void Servo::setAngle(int pos)
 {
     float angleDelay;

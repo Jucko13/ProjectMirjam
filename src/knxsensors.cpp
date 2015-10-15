@@ -24,11 +24,10 @@ void KnxSensors::init(){
 }
 
 /**
- * setvalues creates a string that are then thrown into the console
- * @brief KnxSensors::setValues sets the rgb values for the knx led.
- * @param r integer value for the red part, value can be between 0 and 255.
- * @param g integer value for the green part, value can be between 0 and 255.
- * @param b integer value for the blue part, value can be between 0 and 255.
+ * groupWrite allows to select a knx group and send a value to it.
+ * @brief KnxSensors::groupWrite
+ * @param group selects the knxgroup
+ * @param value sets the value of the chosen group
  */
 void KnxSensors::groupWrite(std::string group, std::string value){
 	FILE *in;

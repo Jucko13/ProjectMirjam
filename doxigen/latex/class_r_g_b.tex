@@ -1,0 +1,105 @@
+\hypertarget{class_r_g_b}{}\section{R\+G\+B Class Reference}
+\label{class_r_g_b}\index{R\+G\+B@{R\+G\+B}}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_r_g_b_a20a90bc14a1fafd72c43746877fe5801}{}{\bfseries R\+G\+B} (\hyperlink{class_knx_sensors}{Knx\+Sensors} $\ast$k)\label{class_r_g_b_a20a90bc14a1fafd72c43746877fe5801}
+
+\item 
+void \hyperlink{class_r_g_b_a0104a87de93066bb7572e4f1be73d97f}{set\+Color} (int a, std\+::string b)
+\begin{DoxyCompactList}\small\item\em \hyperlink{class_r_g_b_a0104a87de93066bb7572e4f1be73d97f}{R\+G\+B\+::set\+Color} sets the values for individual colors in the rbg spectrum in an array. \end{DoxyCompactList}\item 
+void \hyperlink{class_r_g_b_a945248479249115011175fb520c89d16}{set\+Color\+String} (std\+::string, std\+::string, std\+::string)
+\begin{DoxyCompactList}\small\item\em \hyperlink{class_r_g_b_a945248479249115011175fb520c89d16}{R\+G\+B\+::set\+Color\+String} requires 3 strings representing the values for red green and blue in the rgb spectrum. It will then call \hyperlink{class_knx_sensors_abf8b11a2204e9d076a0860f14a1f2cdc}{Knx\+Sensors\+::group\+Write()} to write this color to the K\+N\+X. \end{DoxyCompactList}\item 
+\hypertarget{class_r_g_b_af77565f2eae857b144829a9758268b9b}{}void \hyperlink{class_r_g_b_af77565f2eae857b144829a9758268b9b}{on} ()\label{class_r_g_b_af77565f2eae857b144829a9758268b9b}
+
+\begin{DoxyCompactList}\small\item\em \hyperlink{class_r_g_b_af77565f2eae857b144829a9758268b9b}{R\+G\+B\+::on} turns the entire ledstrip on. \end{DoxyCompactList}\item 
+\hypertarget{class_r_g_b_a2639dbdcd15af7dcfc1f81970d34f722}{}void \hyperlink{class_r_g_b_a2639dbdcd15af7dcfc1f81970d34f722}{off} ()\label{class_r_g_b_a2639dbdcd15af7dcfc1f81970d34f722}
+
+\begin{DoxyCompactList}\small\item\em \hyperlink{class_r_g_b_a2639dbdcd15af7dcfc1f81970d34f722}{R\+G\+B\+::off} turns the entire ledstrip off. \end{DoxyCompactList}\item 
+bool \hyperlink{class_r_g_b_a29cc51476f7a4a36dfb501ae2f6b4719}{get\+Status} () const 
+\begin{DoxyCompactList}\small\item\em \hyperlink{class_r_g_b_a29cc51476f7a4a36dfb501ae2f6b4719}{R\+G\+B\+::get\+Status} gets the status that allows the ledstrip to be on or off. \end{DoxyCompactList}\item 
+std\+::string \hyperlink{class_r_g_b_ab03f8e6d34cf93fb712a925d9404f123}{get\+Color} (int) const 
+\begin{DoxyCompactList}\small\item\em \hyperlink{class_r_g_b_ab03f8e6d34cf93fb712a925d9404f123}{R\+G\+B\+::get\+Color} returns the value of either R, G or B from the array that stores the rgb values. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_r_g_b_ab03f8e6d34cf93fb712a925d9404f123}{}\index{R\+G\+B@{R\+G\+B}!get\+Color@{get\+Color}}
+\index{get\+Color@{get\+Color}!R\+G\+B@{R\+G\+B}}
+\subsubsection[{get\+Color(int) const }]{\setlength{\rightskip}{0pt plus 5cm}std\+::string R\+G\+B\+::get\+Color (
+\begin{DoxyParamCaption}
+\item[{int}]{a}
+\end{DoxyParamCaption}
+) const}\label{class_r_g_b_ab03f8e6d34cf93fb712a925d9404f123}
+
+
+\hyperlink{class_r_g_b_ab03f8e6d34cf93fb712a925d9404f123}{R\+G\+B\+::get\+Color} returns the value of either R, G or B from the array that stores the rgb values. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & is an integer that selects the color, its values can be between 0 and 2. 0 selects the red component, 1 selects the green component, 2 selects the blue component of the rgb. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+a string containing the integer representation of the value of the requested color. 
+\end{DoxyReturn}
+\hypertarget{class_r_g_b_a29cc51476f7a4a36dfb501ae2f6b4719}{}\index{R\+G\+B@{R\+G\+B}!get\+Status@{get\+Status}}
+\index{get\+Status@{get\+Status}!R\+G\+B@{R\+G\+B}}
+\subsubsection[{get\+Status() const }]{\setlength{\rightskip}{0pt plus 5cm}bool R\+G\+B\+::get\+Status (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\label{class_r_g_b_a29cc51476f7a4a36dfb501ae2f6b4719}
+
+
+\hyperlink{class_r_g_b_a29cc51476f7a4a36dfb501ae2f6b4719}{R\+G\+B\+::get\+Status} gets the status that allows the ledstrip to be on or off. 
+
+\begin{DoxyReturn}{Returns}
+status which is a boolean that represents whether or not the ledstrip is on. 
+\end{DoxyReturn}
+\hypertarget{class_r_g_b_a0104a87de93066bb7572e4f1be73d97f}{}\index{R\+G\+B@{R\+G\+B}!set\+Color@{set\+Color}}
+\index{set\+Color@{set\+Color}!R\+G\+B@{R\+G\+B}}
+\subsubsection[{set\+Color(int a, std\+::string b)}]{\setlength{\rightskip}{0pt plus 5cm}void R\+G\+B\+::set\+Color (
+\begin{DoxyParamCaption}
+\item[{int}]{a, }
+\item[{std\+::string}]{b}
+\end{DoxyParamCaption}
+)}\label{class_r_g_b_a0104a87de93066bb7572e4f1be73d97f}
+
+
+\hyperlink{class_r_g_b_a0104a87de93066bb7572e4f1be73d97f}{R\+G\+B\+::set\+Color} sets the values for individual colors in the rbg spectrum in an array. 
+
+set\+Color uses an int to select the red, green or blue component of the light. It will then put a string into the the selected array slot. This string should be an integer between 0 and 255. 
+\begin{DoxyParams}{Parameters}
+{\em a} & is between 0 and 2, 0 selects the red component, 1 selects the green component, 2 selects the blue component of the rgb spectrum. \\
+\hline
+{\em b} & is a string that is between 0 and 255 to select the value of the in a defined component of rgb. \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_r_g_b_a945248479249115011175fb520c89d16}{}\index{R\+G\+B@{R\+G\+B}!set\+Color\+String@{set\+Color\+String}}
+\index{set\+Color\+String@{set\+Color\+String}!R\+G\+B@{R\+G\+B}}
+\subsubsection[{set\+Color\+String(std\+::string, std\+::string, std\+::string)}]{\setlength{\rightskip}{0pt plus 5cm}void R\+G\+B\+::set\+Color\+String (
+\begin{DoxyParamCaption}
+\item[{std\+::string}]{r, }
+\item[{std\+::string}]{g, }
+\item[{std\+::string}]{b}
+\end{DoxyParamCaption}
+)}\label{class_r_g_b_a945248479249115011175fb520c89d16}
+
+
+\hyperlink{class_r_g_b_a945248479249115011175fb520c89d16}{R\+G\+B\+::set\+Color\+String} requires 3 strings representing the values for red green and blue in the rgb spectrum. It will then call \hyperlink{class_knx_sensors_abf8b11a2204e9d076a0860f14a1f2cdc}{Knx\+Sensors\+::group\+Write()} to write this color to the K\+N\+X. 
+
+set\+Color\+String takes three strings to set the color of the rgb led attached to the K\+N\+X. 
+\begin{DoxyParams}{Parameters}
+{\em r} & is a string representation of the value for the red component of rgb. This value can be between 0 and 255. \\
+\hline
+{\em g} & is a string representation of the value for the green component of rgb. This value can be between 0 and 255. \\
+\hline
+{\em b} & is a string representation of the value for the blue component of rgb. This value can be between 0 and 255. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/\+Erwin/\+Documents/\+Project\+S\+D/\+Project\+Mirjam/src/rgb.\+h\item 
+C\+:/\+Users/\+Erwin/\+Documents/\+Project\+S\+D/\+Project\+Mirjam/src/rgb.\+cpp\end{DoxyCompactItemize}
