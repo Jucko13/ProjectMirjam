@@ -12,7 +12,8 @@ void Light::writeLamp(int pinA, bool status)
 
 Light::Light(int a) : pin(a)
 {
-	status = false;
+	pinMode(a,INPUT);
+	status = digitalRead(a);
 	pinMode(a,OUTPUT);
     //ctor
 }

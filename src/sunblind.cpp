@@ -13,7 +13,7 @@ Sunblind::~Sunblind()
 void Sunblind::open()
 {
     status = true;
-    servo.setAngle(90);
+    servo.setAngle(180);
 }
 
 void Sunblind::close()

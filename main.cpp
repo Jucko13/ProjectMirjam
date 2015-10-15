@@ -310,7 +310,7 @@ int main (int argc, char *argv[])
 			for (int t = 0; t < door.size(); t++){ response += "data.door[" + func::toString(t) + "] = " + func::toString(door[t]->getStatus()) + ";\r\n"; }
 			for (int t = 0; t < lamp.size(); t++) { response += "data.lamp[" + func::toString(t) + "] = " + func::toString(lamp[t]->getStatus()) + ";\r\n"; }
 			for (int t = 0; t < motion.size(); t++) { response += "data.motion[" + func::toString(t) + "] = " + func::toString(motion[t]->getStatus()) + ";\r\n"; }
-			for (int t = 0; t < 3; t++) { response += "data.rgb[" + func::toString(t) + "] = " + ledStrip.getColor(t) + ";\r\n"; }
+			for (int t = 0; t < 4; t++) { response += "data.rgb[" + func::toString(t) + "] = " + ledStrip.getColor(t) + ";\r\n"; }
 
 		}else if (pageurl.find("/door/") != std::string::npos) {
 			switch (checkUrlMode(pageurl, &objectIndex, &objectSettings, &objectState)) {
@@ -335,11 +335,12 @@ int main (int argc, char *argv[])
 		}else if (pageurl.find("/rgb/") != std::string::npos) {
 			switch (checkUrlMode(pageurl, &objectIndex, &objectSettings, &objectState)) {
 				case TTS_SET:
-					if (func::countChars(objectSettings,'_') == 2){
+					if (func::countChars(objectSettings,'_') == 3){
 						std::vector<std::string> rgbColors;
 						func::split(objectSettings, '_', rgbColors);
 
-						ledStrip.setColorString(rgbColors[0], rgbColors[1], rgbColors[2]);
+						ledStrip.setColorString(rgbColors[0], rgbColors[1], rgbColors[2], rgbColors[3]);
+						
 					}
 					break;
 			}
@@ -365,6 +366,7 @@ int main (int argc, char *argv[])
 					wekkerData.uncomp.state = objectState;
 					modifyWekkers(wekkers, wekkerData, objectSettings);
 					response += "timeSaved();";
+					response += "setTimeout(function(){addTimedCommand('time/times/0/0/0');}, 10);\r\n";
 					break;
 
 			}
@@ -387,6 +389,7 @@ int main (int argc, char *argv[])
 					modifyWekkers(wekkers, wekkerData, objectSettings);
 					
 					response += "timeSaved();";
+					response += "setTimeout(function(){addTimedCommand('time/times/0/0/0');}, 10);\r\n";
 					break;
 			}
 		}else if(pageurl.find("helpme/") != std::string::npos){
@@ -408,11 +411,15 @@ int main (int argc, char *argv[])
 								break;
 							case TOILETALARM:
 								break;
+							case SUNBLINDS:
+								response += "times.sunblinds[" + func::toString((int)wekkerData.uncomp.deviceindex) + "][" + func::toString((int)wekkerData.uncomp.state) + "] = \"" + wekkers[t]->getTime() + "\";\r\n";
+								response += "times.sunblinds[" + func::toString((int)wekkerData.uncomp.deviceindex) + "][2] = 1;\r\n";
+								break;
 						}
 					}
 
 					response += "timeSelectionChange();\r\n";
-
+					
 					break;
 					
 			}

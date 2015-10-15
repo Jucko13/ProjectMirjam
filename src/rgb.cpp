@@ -5,8 +5,7 @@ RGB::RGB(KnxSensors *k)
     kleuren[0] = "0";
     kleuren[1] = "0";
     kleuren[2] = "0";
-    w = 0;
-    status = 0;
+    kleuren[3] = "0";
     knx = k;
     //ctor
 }
@@ -21,29 +20,15 @@ void RGB::setColor(int a, std::string b)
     kleuren[a] = b;
 }
 
-void RGB::setColorString(std::string r, std::string g, std::string b)
+void RGB::setColorString(std::string r, std::string g, std::string b, std::string w)
 {
 	kleuren[0] = r;
 	kleuren[1] = g;
 	kleuren[2] = b;
+	kleuren[3] = w;
 	
 	knx->groupWrite("1/2/4", r + " " + g + " " + b);
-
-}
-
-void RGB::on()
-{
-    status = true;
-}
-
-void RGB::off()
-{
-    status = false;
-}
-
-bool RGB::getStatus() const
-{
-    return status;
+	knx->groupWrite("1/2/3", w);
 }
 
 
