@@ -12,10 +12,12 @@ public:
     virtual ~FileReader();
     void readFile();
     void writeFile();
-    void changeSettings(unsigned int i, string s);
-    string getTime(unsigned int i);
+    void changeSettings(int i, string s);
+    void getTime(unsigned int i, int *, string *);
+    void clearSettings();
 private:
-    vector<string> settings;
+    vector<int> settingsInt;
+    vector<string> settingsString;
 };
 
 #endif // FILEREADER_H

@@ -21,20 +21,23 @@ FileReader::~FileReader() {
  */
 void FileReader::readFile(){
     string line;
+    vector<string> temp;
     ifstream myfile;
     if (myfile.is_open()){
         while(getline(myfile,line)){
-            settings.push_back(line);
+            temp.push_back(line);
         }
         myfile.close();
     }
-    /*
-    else {
-        for(int i = 0; i < 10; i++){
-            settings.push_back(".");
-        }
+    for(int i = temp.size(); i > 0; --i){
+        istringstream iss(temp[i]);
+        string sub1;
+        iss >> sub1;
+        settingsInt.push_back(std::stoi(sub1));
+        string sub2;
+        iss >> sub2;
+        settingsString.push_back(sub2);
     }
-    */
 }
 
 /**
@@ -43,10 +46,13 @@ void FileReader::readFile(){
  */
 void FileReader::writeFile(){
     ofstream myfile;
+    string temp;
     myfile.open("settings.txt");
-    for(unsigned int i = 0; i < settings.size(); i++){
-        myfile<<settings[i];
-        myfile<<"\n";
+    for(unsigned int i = 0; i < settingsInt.size(); i++){
+        ostringstream oss;
+        oss << settingsInt[i];
+        temp = oss.str();
+        myfile << temp << " " << settingsString[i] << endl;
     }
     myfile.close();
 }
@@ -54,16 +60,12 @@ void FileReader::writeFile(){
 /**
  * @brief FileReader::changeSettings
  * the changeSettings function allows to change a timeslot in the settings.
- * @param unsinged integer i: is used to selects which setting is changed
+ * @param i: the integer that determines what wekker is selected
  * @param string s: is used to to edit the value of the time settings
  */
-void FileReader::changeSettings(unsigned int i, string t){
-    if(settings.size()<i){
-		for(unsigned int a = settings.size(); a < i; a++){
-			settings.push_back(".");
-		}
-	}
-    settings[i] = t;
+void FileReader::changeSettings(int i, string s){
+    settingsInt.push_back(i);
+    settingsString.push_back(s);
 }
 
 /**
@@ -72,11 +74,25 @@ void FileReader::changeSettings(unsigned int i, string t){
  * @param integer a: is used to select which time setting is to be requested
  * @return the time is returned as an integer, if the time was not set, 1 is returned.
  */
-string FileReader::getTime(unsigned int i){
-    string time;
-    if(settings.size()<i){
-		return ".";
-	}
-    time = settings[i];
-    return time;
+void FileReader::getTime(unsigned int i, int *w, string *s){
+    if(settingsInt.size()<=i && settingsString.size()<=i){
+        *w = settingsInt[i];
+        *s = settingsString[i];
+    }
+    else{
+        *w=0;
+        *s="";
+    }
+}
+
+/**
+ * @brief FileReader::clearSettings clears all settings currently in the vectors.
+ */
+void FileReader::clearSettings(){
+    while(settingsInt.size()){
+        settingsInt.pop_back();
+    }
+    while(settingsString.size()){
+        settingsString.pop_back();
+    }
 }
