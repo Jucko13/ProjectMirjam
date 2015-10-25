@@ -74,7 +74,7 @@ void FileReader::changeSettings(int i, string s){
  * @param integer a: is used to select which time setting is to be requested
  * @return the time is returned as an integer, if the time was not set, 1 is returned.
  */
-void FileReader::getTime(unsigned int i, int *w, string *s){
+void FileReader::getTimeSetting(unsigned int i, int *w, string *s){
     if(settingsInt.size()<=i && settingsString.size()<=i){
         *w = settingsInt[i];
         *s = settingsString[i];
@@ -89,10 +89,6 @@ void FileReader::getTime(unsigned int i, int *w, string *s){
  * @brief FileReader::clearSettings clears all settings currently in the vectors.
  */
 void FileReader::clearSettings(){
-    while(settingsInt.size()){
-        settingsInt.pop_back();
-    }
-    while(settingsString.size()){
-        settingsString.pop_back();
-    }
+	settingsInt.clear();
+	settingsString.clear();
 }

@@ -24,6 +24,8 @@ SOFTWARE.
 */
 #define ERR_MESSAGE "message.show('unknown request!'); setTimeout(function(){ message.hide();},1500);"
 
+//if we ever going to do something with the pictures of the camera: this is how you get all files in a folder for the html slideshow: "dir /b"
+
 //defines for checkUrlMode();
 #define TTS_TIME 0
 #define TTS_TOGGLE 1
@@ -86,6 +88,30 @@ void modifyWekkers(vector<Wekker*>& wekkers, wekkercompressed modifyWekkerData, 
 	}
 	if (t >= wekkers.size()) {// create new wekker
 		wekkers.push_back(new Wekker(time.c_str(), true, modifyWekkerData.comp));//absolute repeated
+	}
+}
+
+void saveWekkers(vector<Wekker*>& wekkers, FileReader &fr) {
+	fr.clearSettings();
+	
+	for (int t = 0; t < wekkers.size(); t++) {
+		fr.addSetting(t, wekkers[t]->getData(), wekkers[t]->getTime());
+	}
+
+	fr.writeFile();
+}
+
+void restoreWekkers(vector<Wekker*>& wekkers, FileReader &fr) {
+	int data = 0;
+	std::string time;
+	int t = 0;
+
+	fr.readFile();
+	fr.getTime(t, &data, &time);
+
+	while(time != ""){
+		wekkers.push_back(new Wekker(time, true, data));
+		fr.getTime(++t, &data, &time);
 	}
 }
 
@@ -221,18 +247,16 @@ int main (int argc, char *argv[])
 	buzzerPointer = &buzzers;
 	
 	FileReader fr;
-	fr.readFile();
-	
 	vector<Wekker *> wekkers;
 	wekkercompressed wekkerData;
 	
+	restoreWekkers(wekkers, fr);
+
 	KnxSensors k;
 	RGB ledStrip(&k);
 	
-
-	
-	attachInterrupt(5,triggerButton,RISING);
-	attachInterrupt(6,triggerButton,RISING);
+	attachInterrupt(5, triggerButton, RISING);
+	attachInterrupt(6, triggerButton, RISING);
 
 	motion.push_back(new MotionSensor(2, triggerMotion));
 	motion.push_back(new MotionSensor(3, triggerMotion));
@@ -340,7 +364,6 @@ int main (int argc, char *argv[])
 						func::split(objectSettings, '_', rgbColors);
 
 						ledStrip.setColorString(rgbColors[0], rgbColors[1], rgbColors[2], rgbColors[3]);
-						
 					}
 					break;
 			}
@@ -365,6 +388,7 @@ int main (int argc, char *argv[])
 					wekkerData.uncomp.deviceindex = objectIndex;
 					wekkerData.uncomp.state = objectState;
 					modifyWekkers(wekkers, wekkerData, objectSettings);
+					saveWekkers(wekkers, fr);
 					response += "timeSaved();";
 					response += "setTimeout(function(){addTimedCommand('time/times/0/0/0');}, 10);\r\n";
 					break;
@@ -387,7 +411,7 @@ int main (int argc, char *argv[])
 					wekkerData.uncomp.deviceindex = objectIndex;
 					wekkerData.uncomp.state = objectState;
 					modifyWekkers(wekkers, wekkerData, objectSettings);
-					
+					saveWekkers(wekkers, fr);
 					response += "timeSaved();";
 					response += "setTimeout(function(){addTimedCommand('time/times/0/0/0');}, 10);\r\n";
 					break;
