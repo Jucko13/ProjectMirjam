@@ -65,8 +65,7 @@
 			
 			
 			function initCamera(){
-				document.getElementById('cameraVideo').src = "http://10.0.2.4:8077/video.mjpg";
-				//http://10.0.2.100/mjpg/video.mjpg
+				document.getElementById('cameraVideo').src = "http://10.0.2.100/mjpg/video.mjpg";
 				document.getElementById('cameraLoad').innerHTML = "Loading Camera footage</br>...";
 				cameraAnimationStep = 0;
 				
@@ -935,7 +934,7 @@ function showWindow(whatwindow){
 	document.getElementById(whatwindow).style.visibility = "visible";
 	blackness.style.visibility = "visible";
 	if(whatwindow == 'rgb'){
-		setColor(data.rgb[0]+","+data.rgb[1]+","+data.rgb[2]);
+		setColor(data.rgb[0]+","+data.rgb[1]+","+data.rgb[2]+","+data.rgb[3]);
 	}else if(whatwindow == 'camera'){
 		initCamera();
 	}
