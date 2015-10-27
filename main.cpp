@@ -95,7 +95,7 @@ void saveWekkers(vector<Wekker*>& wekkers, FileReader &fr) {
 	fr.clearSettings();
 	
 	for (int t = 0; t < wekkers.size(); t++) {
-		fr.addSetting(t, wekkers[t]->getData(), wekkers[t]->getTime());
+		fr.changeSettings(wekkers[t]->getData(), wekkers[t]->getTime());
 	}
 
 	fr.writeFile();
@@ -106,12 +106,12 @@ void restoreWekkers(vector<Wekker*>& wekkers, FileReader &fr) {
 	std::string time;
 	int t = 0;
 
-	fr.readFile();
-	fr.getTime(t, &data, &time);
+	//fr.readFile();
+	fr.getTimeSetting(t, &data, &time);
 
 	while(time != ""){
-		wekkers.push_back(new Wekker(time, true, data));
-		fr.getTime(++t, &data, &time);
+		wekkers.push_back(new Wekker(time.c_str(), true, data));
+		fr.getTimeSetting(++t, &data, &time);
 	}
 }
 
@@ -245,8 +245,10 @@ int main (int argc, char *argv[])
 	vector<Sunblind *> sunblinds;
 	vector<Buzzer *> buzzers;
 	buzzerPointer = &buzzers;
+
 	
 	FileReader fr;
+	
 	vector<Wekker *> wekkers;
 	wekkercompressed wekkerData;
 	
@@ -319,7 +321,7 @@ int main (int argc, char *argv[])
 			inbound->sendMessage(response);
 			inbound->closeConnection();
 			continue;
-		}else if(pageurl.find(".png") != std::string::npos){
+		}else if(pageurl.find(".png") != std::string::npos || pageurl.find(".mjpg") != std::string::npos){
 			response = "HTTP/1.1 200 OK\r\n";
 			response += "Content-Type: image/png;\r\n\r\n";
 			

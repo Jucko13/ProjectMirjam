@@ -13,7 +13,7 @@ public:
     void readFile();
     void writeFile();
     void changeSettings(int i, string s);
-    void getTime(unsigned int i, int *, string *);
+    void getTimeSetting(unsigned int i, int *, string *);
     void clearSettings();
 private:
     vector<int> settingsInt;

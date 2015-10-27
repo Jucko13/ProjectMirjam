@@ -22,18 +22,22 @@ FileReader::~FileReader() {
 void FileReader::readFile(){
     string line;
     vector<string> temp;
-    ifstream myfile;
+    ifstream myfile("settings.txt");
+	clearSettings();
+	
     if (myfile.is_open()){
         while(getline(myfile,line)){
             temp.push_back(line);
         }
         myfile.close();
     }
-    for(int i = temp.size(); i > 0; --i){
+
+    
+    for(int i = 0; i < temp.size(); i++){
         istringstream iss(temp[i]);
         string sub1;
         iss >> sub1;
-        settingsInt.push_back(std::stoi(sub1));
+        settingsInt.push_back(atoi(sub1.c_str()));
         string sub2;
         iss >> sub2;
         settingsString.push_back(sub2);
@@ -75,11 +79,10 @@ void FileReader::changeSettings(int i, string s){
  * @return the time is returned as an integer, if the time was not set, 1 is returned.
  */
 void FileReader::getTimeSetting(unsigned int i, int *w, string *s){
-    if(settingsInt.size()<=i && settingsString.size()<=i){
+    if(i < settingsInt.size() && i< settingsString.size()){
         *w = settingsInt[i];
         *s = settingsString[i];
-    }
-    else{
+    }else{
         *w=0;
         *s="";
     }
