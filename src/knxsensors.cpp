@@ -19,7 +19,10 @@ KnxSensors::~KnxSensors()
  * @brief KnxSensors::init is used to start eibd as user pi for knx
  */
 void KnxSensors::init(){
-	system("killall eibd");
+	std::cout << "[ KNX    ] Kill Running EIBD...\r\n";
+	system("killall -q eibd");
+	
+	std::cout << "[ KNX    ] Starting EIBD...\r\n";
 	system("su --login pi -c \"eibd -i ipt:10.0.2.2\" &");
 }
 

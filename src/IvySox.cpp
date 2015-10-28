@@ -282,7 +282,7 @@ int IvySox::bindSocket()
 
     int rval = ::bind(socketNumber, addressInfoResults->ai_addr,
                       addressInfoResults->ai_addrlen );
-    if (rval < 0) perror("bindSocket...");
+    //if (rval < 0) perror("bindSocket...");
     return rval;
 }
 
@@ -484,7 +484,7 @@ int IvySox::openServerOnPort(int portNumber)
     int flags = fcntl(socketNumber,F_GETFL, 0);
 	flags = fcntl(socketNumber,F_SETFL, flags | O_NONBLOCK);
 	
-    if (rval < 0) perror("bindSocket...");
+    //if (rval < 0) perror("bindSocket...");
 
     return rval;
 

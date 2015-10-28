@@ -67,7 +67,7 @@ typedef union {
 	int comp;
 } wekkercompressed;
 
-enum devtype { LAMPS, SUNBLINDS, TOILETALARM };
+enum devtype { LAMPS, SUNBLINDS };
 
 void modifyWekkers(vector<Wekker*>& wekkers, wekkercompressed modifyWekkerData, string time){
 	wekkercompressed wekkerData;
@@ -135,8 +135,6 @@ void checkAllWekkers(vector<Wekker*>& wekkers, vector<Light *> &lamp, vector<Sun
 					}else{
 						sunblinds[wekkerData.uncomp.deviceindex]->close();
 					}
-					break;
-				case TOILETALARM:
 					break;
 			}
 			if ((*i)->isRepeating()) {//recuring
@@ -247,7 +245,8 @@ int main (int argc, char *argv[])
 	vector<Buzzer *> buzzers;
 	buzzerPointer = &buzzers;
 
-	
+	KnxSensors k;
+	RGB ledStrip(&k);
 	FileReader fr;
 	
 	vector<Wekker *> wekkers;
@@ -271,18 +270,14 @@ int main (int argc, char *argv[])
 	lamp.push_back(new Light(11));
 	
 	buzzers.push_back(new Buzzer(13));	
-	//            [ ERROR  ]
 	std::cout << "[ SERVER ] Creating Server...\r\n";
     if (listener.openServerOnPort(PORTNUMBER) < 0 || listener.listenToPort() < 0){
-        std::cout << "[ ERROR  ] Error opening port " << PORTNUMBER << "!\r\n";
+        std::cout << "[ ERROR  ] Error Starting server, port " << PORTNUMBER << " is in use!\r\n";
         exit(-1);
     }
 	
     std::cout << "[ SERVER ] Server Created! URL: http://" << func::getIpAddress() << ":" << func::toString(PORTNUMBER) << "\r\n";
-	std::cout << "[ SERVER ] Waiting for incomming connections...\r\n";
-	 
-	KnxSensors k;//werkt niet
-	RGB ledStrip(&k);
+	std::cout << "[ SOCKET ] Waiting for incomming connections...\r\n";
 	
 	while(1){
 		checkAllWekkers(wekkers, lamp, sunblinds);	
@@ -290,14 +285,14 @@ int main (int argc, char *argv[])
 		
 		
 		/*##########################################################*/
-		usleep(100000);
+		usleep(50000);
 		for (int t = 0; t < motion.size(); t++) { motion[t]->timeCheck(); }
 		
         int socketNumber = listener.acceptInbound(inbound);
         if(socketNumber == -1 && (errno == EAGAIN || errno == EWOULDBLOCK)) continue;
 		
 		connectionCounter++;
-        std::cout << "Received request from " << inbound->getIpAddress() << "\r\n";
+        std::cout << "[ SOCKET ] Received request from " << inbound->getIpAddress() << "\r\n";
         
         size_t bytesReceived = inbound->receive(messageBuffer, INBOUND_BUFFER_SIZE);
         string message = listener.messageToString(messageBuffer, bytesReceived);
@@ -318,6 +313,7 @@ int main (int argc, char *argv[])
 			response += func::openFile("html/top.htm");
 			response += func::openFile("html/index.htm");
 			response += func::openFile("html/bottom.htm");
+			response += "\r\n\r\n";
 			
 			inbound->sendMessage(response);
 			inbound->closeConnection();
@@ -344,6 +340,7 @@ int main (int argc, char *argv[])
 			for (int t = 0; t < door.size(); t++){ response += "data.door[" + func::toString(t) + "] = " + func::toString(door[t]->getStatus()) + ";\r\n"; }
 			for (int t = 0; t < lamp.size(); t++) { response += "data.lamp[" + func::toString(t) + "] = " + func::toString(lamp[t]->getStatus()) + ";\r\n"; }
 			for (int t = 0; t < motion.size(); t++) { response += "data.motion[" + func::toString(t) + "] = " + func::toString(motion[t]->getStatus()) + ";\r\n"; }
+			for (int t = 0; t < sunblinds.size(); t++) { response += "data.sunblinds[" + func::toString(t) + "] = " + func::toString(sunblinds[t]->getPosition()) + ";\r\n"; }
 			for (int t = 0; t < 4; t++) { response += "data.rgb[" + func::toString(t) + "] = " + ledStrip.getColor(t) + ";\r\n"; }
 
 		}else if (pageurl.find("/door/") != std::string::npos) {
@@ -443,8 +440,6 @@ int main (int argc, char *argv[])
 								response += "times.lamp[" + func::toString((int)wekkerData.uncomp.deviceindex) + "][" + func::toString((int)wekkerData.uncomp.state) + "] = \"" + wekkers[t]->getTime() + "\";\r\n";
 								response += "times.lamp[" + func::toString((int)wekkerData.uncomp.deviceindex) + "][2] = 1;\r\n";
 								break;
-							case TOILETALARM:
-								break;
 							case SUNBLINDS:
 								response += "times.sunblinds[" + func::toString((int)wekkerData.uncomp.deviceindex) + "][" + func::toString((int)wekkerData.uncomp.state) + "] = \"" + wekkers[t]->getTime() + "\";\r\n";
 								response += "times.sunblinds[" + func::toString((int)wekkerData.uncomp.deviceindex) + "][2] = 1;\r\n";
@@ -466,7 +461,7 @@ int main (int argc, char *argv[])
 
         // Close the connection
         inbound->closeConnection();
-        std::cout << "[ " << setw(7) << connectionCounter << " ] Waiting for incomming connections...\r\n";
+        std::cout << "[ SOCKET ] Connection " << connectionCounter << " closed. Waiting...\r\n";
         std::cout.flush();
 	};
 	
