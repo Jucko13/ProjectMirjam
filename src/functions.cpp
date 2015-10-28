@@ -19,11 +19,11 @@ string toString(T item){
 }*/
 
 /**
- * @brief func::split
- * @param s
- * @param delim
- * @param elems
- * @return
+ * @brief splits string on a character
+ * @param input string
+ * @param split character
+ * @param vector of elements
+ * @return vector of split occurrences
  */
 std::vector<std::string> &func::split(const std::string &s, char delim, std::vector<std::string> &elems) {
 	std::stringstream ss(s);
@@ -35,10 +35,10 @@ std::vector<std::string> &func::split(const std::string &s, char delim, std::vec
 }
 
 /**
- * @brief func::countChars
+ * @brief counts the number of occurrences in a string
  * @param input
- * @param whatChar
- * @return
+ * @param the char to search for
+ * @return number of occurrences
  */
 int func::countChars(string input, char whatChar) {
 	int howmany = 0;
@@ -51,10 +51,10 @@ int func::countChars(string input, char whatChar) {
 }
 
 /**
- * @brief func::getUrl
- * @param str
- * @param url
- * @return
+ * @brief get the url portion of the html request header of the client
+ * @param html request header string
+ * @param return the result
+ * @return if found or not
  */
 int func::getUrl (string str, string *url)
 {
@@ -87,8 +87,8 @@ int func::getUrl (string str, string *url)
 }
 
 /**
- * @brief func::getIpAddress
- * @return
+ * @brief get the ip of the current interface of the raspberry pi
+ * @return ip address
  */
 string func::getIpAddress(){
 	FILE * fp = popen("ifconfig eth0", "r");
@@ -113,9 +113,9 @@ string func::getIpAddress(){
 }
 
 /**
- * @brief func::openFile
+ * @brief get the contents of a file
  * @param fileName
- * @return
+ * @return file contents
  */
 string func::openFile(const char * fileName){
 	string line;
@@ -135,10 +135,10 @@ string func::openFile(const char * fileName){
 }
 
 /**
- * @brief func::openBinaryFile
+ * @brief open the file in binairy mode and return the contents + size
  * @param fileName
- * @param fsize
- * @return
+ * @param the string size
+ * @return file contents
  */
 string func::openBinaryFile(const char *fileName, int* fsize)
 {

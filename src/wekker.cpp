@@ -8,7 +8,7 @@
 //using namespace std;
 
 /**
- * @brief Wekker::Wekker
+ * @brief creates a timer
  */
 Wekker::Wekker() : data(0), repeating(true)
 {
@@ -17,10 +17,10 @@ Wekker::Wekker() : data(0), repeating(true)
 }
 
 /**
- * @brief Wekker::Wekker
- * @param duetimestr
- * @param repeat
- * @param userdata
+ * @brief creates a timer
+ * @param time to watch for expiry (hour:minute)
+ * @param repeating timer or not
+ * @param data for user
  */
 Wekker::Wekker(char const* duetimestr, bool repeat, int userdata) : data(userdata), repeating(repeat)
 {
@@ -29,9 +29,9 @@ Wekker::Wekker(char const* duetimestr, bool repeat, int userdata) : data(userdat
 }
 
 /**
- * @brief Wekker::Wekker
- * @param dueinmin
- * @param userdata
+ * @brief creates a timer
+ * @param timeout to watch for expiry (minutes)
+ * @param data for user
  */
 Wekker::Wekker(int dueinmin, int userdata) : data(userdata), repeating(false)
 {
@@ -47,8 +47,8 @@ Wekker::~Wekker()
 }
 
 /**
- * @brief Wekker::setTime
- * @param duetimestr
+ * @brief modify the due-time
+ * @param time to watch for expiry (hour:minute)
  */
 void Wekker::setTime(char const* duetimestr)
 {
@@ -57,8 +57,8 @@ void Wekker::setTime(char const* duetimestr)
 }
 
 /**
- * @brief Wekker::setTime
- * @param dueinmin
+ * @brief modify the due-time
+ * @param timeout to watch for expiry (minutes)
  */
 void Wekker::setTime(int dueinmin)
 {
@@ -70,8 +70,8 @@ void Wekker::setTime(int dueinmin)
 }
 
 /**
- * @brief Wekker::getTime
- * @return
+ * @brief retrive the due-time
+ * @return due-timestring (hour:minute)
  */
 std::string Wekker::getTime()
 {
@@ -79,8 +79,8 @@ std::string Wekker::getTime()
 }
 
 /**
- * @brief Wekker::isDue
- * @return
+ * @brief has the due-time been passed
+ * @return true if time has passed
  */
 bool Wekker::isDue()
 {
@@ -94,7 +94,7 @@ bool Wekker::isDue()
 }
 
 /**
- * @brief Wekker::recalculateTime
+ * @brief set the triggered timer for the next ocurrence of the due-time
  */
 void Wekker::recalculateTime()
 {
@@ -115,8 +115,8 @@ void Wekker::recalculateTime()
 }
 
 /**
- * @brief Wekker::getData
- * @return
+ * @brief gets the userdata
+ * @return data for user
  */
 int Wekker::getData()
 {
@@ -124,8 +124,8 @@ int Wekker::getData()
 }
 
 /**
- * @brief Wekker::isRepeating
- * @return
+ * @brief gets if the timer is to be repeating
+ * @return needs recalculate
  */
 bool Wekker::isRepeating()
 {

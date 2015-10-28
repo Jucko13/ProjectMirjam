@@ -70,10 +70,10 @@ typedef union {
 enum devtype { LAMPS, SUNBLINDS };
 
 /**
- * @brief modifyWekkers
- * @param wekkers
- * @param modifyWekkerData
- * @param time
+ * @brief Add a timer if its not found else modify it
+ * @param Use this parameter to pass the local wekkers in main to this function
+ * @param Pass the settings of the wekker that you want to change the time of
+ * @param The new time
  */
 void modifyWekkers(vector<Wekker*>& wekkers, wekkercompressed modifyWekkerData, string time){
 	wekkercompressed wekkerData;
@@ -93,15 +93,15 @@ void modifyWekkers(vector<Wekker*>& wekkers, wekkercompressed modifyWekkerData, 
 			break;//end the for loop
 		}
 	}
-	if (t >= wekkers.size()) {// create new wekker
+	if (t >= wekkers.size() && time != "-1") {// create new wekker
 		wekkers.push_back(new Wekker(time.c_str(), true, modifyWekkerData.comp));//absolute repeated
 	}
 }
 
 /**
- * @brief saveWekkers
- * @param wekkers
- * @param fr
+ * @brief Save the timers that are enabled to a file
+ * @param Use this parameter to pass the local wekkers in main to this function
+ * @param Use this parameter to pass the local filereader in main to this function
  */
 void saveWekkers(vector<Wekker*>& wekkers, FileReader &fr) {
 	fr.clearSettings();
@@ -114,9 +114,9 @@ void saveWekkers(vector<Wekker*>& wekkers, FileReader &fr) {
 }
 
 /**
- * @brief restoreWekkers
- * @param wekkers
- * @param fr
+ * @brief Load the saved wekkers from the settings file
+ * @param Use this parameter to pass the local wekkers in main to this function
+ * @param Use this parameter to pass the local filereader in main to this function
  */
 void restoreWekkers(vector<Wekker*>& wekkers, FileReader &fr) {
 	int data = 0;
@@ -133,10 +133,10 @@ void restoreWekkers(vector<Wekker*>& wekkers, FileReader &fr) {
 }
 
 /**
- * @brief checkAllWekkers
- * @param wekkers
- * @param lamp
- * @param sunblinds
+ * @brief This function checks every time you call it if an timer needs to trigger. If a timer triggers the action that is connected to the timer is executed.
+ * @param Use this parameter to pass the local wekkers in main to this function
+ * @param Use this parameter to pass the local lamps in main to this function
+ * @param Use this parameter to pass the local sunblinds in main to this function
  */
 void checkAllWekkers(vector<Wekker*>& wekkers, vector<Light *> &lamp, vector<Sunblind *> &sunblinds){
 	wekkercompressed wekkerData;
@@ -177,12 +177,12 @@ void checkAllWekkers(vector<Wekker*>& wekkers, vector<Light *> &lamp, vector<Sun
 // 1; /set/
 // 2; /time/
 /**
- * @brief checkUrlMode
- * @param pageurl
- * @param sensorNumber
- * @param sensorData
- * @param sensorState
- * @return
+ * @brief Check the mode of the url that is requested by the client
+ * @param The url requested by the client
+ * @param Returns the index number of the regarding vector
+ * @param Return the data that the regarding item needs to be set to
+ * @param State of the regarding item in the wekkers
+ * @return Returns the mode of the url. 0: toggle. 1: set. 2: time
  */
 int checkUrlMode(std::string pageurl, int * sensorNumber, string * sensorData, int * sensorState){
 	std::string tmpString;
@@ -236,7 +236,7 @@ int checkUrlMode(std::string pageurl, int * sensorNumber, string * sensorData, i
 
 
 /**
- * @brief triggerMotion
+ * @brief function that is triggered by an pin interrupt of any motionsensor
  */
 void triggerMotion(){
 	if (!motionPointer) return;
@@ -247,7 +247,7 @@ void triggerMotion(){
 
 
 /**
- * @brief triggerButton
+ * @brief function that is triggered by an pin interrupt of any buttons
  */
 void triggerButton(){
 	if (!buzzerPointer) return;
@@ -257,9 +257,9 @@ void triggerButton(){
 }
 
 /**
- * @brief main
- * @param argc
- * @param argv
+ * @brief All the magic happens here!
+ * @param not used
+ * @param not used
  * @return
  */
 int main (int argc, char *argv[])
@@ -345,9 +345,7 @@ int main (int argc, char *argv[])
 		}
 		
 		
-		response = "HTTP/1.1 200 OK\r\n\r\n";
-		//response += "pageurl: " + pageurl + "</br>\r\n";
-		
+
 		if(pageurl.compare("/") == 0 || pageurl.compare("/index.htm") == 0){
 			response = "HTTP/1.1 200 OK\r\n\r\n";
 			response += func::openFile("html/top.htm");
@@ -372,9 +370,11 @@ int main (int argc, char *argv[])
 			inbound->sendFile("html/camera" + pageurl);
 			inbound->closeConnection();
 			continue;
+		} else {
+			response = "HTTP/1.1 200 OK\r\n\r\n";
 		}
 		
-		response = "HTTP/1.1 200 OK\r\n\r\n";
+		//response = "HTTP/1.1 200 OK\r\n\r\n";
 		
 		if(pageurl.find("/all/") != std::string::npos){
 			for (int t = 0; t < door.size(); t++){ response += "data.door[" + func::toString(t) + "] = " + func::toString(door[t]->getStatus()) + ";\r\n"; }
