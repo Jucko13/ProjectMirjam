@@ -69,6 +69,12 @@ typedef union {
 
 enum devtype { LAMPS, SUNBLINDS };
 
+/**
+ * @brief modifyWekkers
+ * @param wekkers
+ * @param modifyWekkerData
+ * @param time
+ */
 void modifyWekkers(vector<Wekker*>& wekkers, wekkercompressed modifyWekkerData, string time){
 	wekkercompressed wekkerData;
 	int t = 0;
@@ -92,6 +98,11 @@ void modifyWekkers(vector<Wekker*>& wekkers, wekkercompressed modifyWekkerData, 
 	}
 }
 
+/**
+ * @brief saveWekkers
+ * @param wekkers
+ * @param fr
+ */
 void saveWekkers(vector<Wekker*>& wekkers, FileReader &fr) {
 	fr.clearSettings();
 	
@@ -102,6 +113,11 @@ void saveWekkers(vector<Wekker*>& wekkers, FileReader &fr) {
 	fr.writeFile();
 }
 
+/**
+ * @brief restoreWekkers
+ * @param wekkers
+ * @param fr
+ */
 void restoreWekkers(vector<Wekker*>& wekkers, FileReader &fr) {
 	int data = 0;
 	std::string time;
@@ -116,6 +132,12 @@ void restoreWekkers(vector<Wekker*>& wekkers, FileReader &fr) {
 	}
 }
 
+/**
+ * @brief checkAllWekkers
+ * @param wekkers
+ * @param lamp
+ * @param sunblinds
+ */
 void checkAllWekkers(vector<Wekker*>& wekkers, vector<Light *> &lamp, vector<Sunblind *> &sunblinds){
 	wekkercompressed wekkerData;
 	for (vector<Wekker *>::iterator i = wekkers.begin(); i != wekkers.end(); /*i++*/) {
@@ -154,6 +176,14 @@ void checkAllWekkers(vector<Wekker*>& wekkers, vector<Light *> &lamp, vector<Sun
 // 0; /toggle/
 // 1; /set/
 // 2; /time/
+/**
+ * @brief checkUrlMode
+ * @param pageurl
+ * @param sensorNumber
+ * @param sensorData
+ * @param sensorState
+ * @return
+ */
 int checkUrlMode(std::string pageurl, int * sensorNumber, string * sensorData, int * sensorState){
 	std::string tmpString;
 	std::size_t tmpPlace;
@@ -205,7 +235,9 @@ int checkUrlMode(std::string pageurl, int * sensorNumber, string * sensorData, i
 }
 
 
-
+/**
+ * @brief triggerMotion
+ */
 void triggerMotion(){
 	if (!motionPointer) return;
 	for(int i = 0; i < motionPointer->size(); i++){
@@ -214,7 +246,9 @@ void triggerMotion(){
 }
 
 
-
+/**
+ * @brief triggerButton
+ */
 void triggerButton(){
 	if (!buzzerPointer) return;
 	for(int i = 0; i < buzzerPointer->size(); i++){
@@ -222,6 +256,12 @@ void triggerButton(){
 	}
 }
 
+/**
+ * @brief main
+ * @param argc
+ * @param argv
+ * @return
+ */
 int main (int argc, char *argv[])
 {
 	InboundConnection inboundConnection;

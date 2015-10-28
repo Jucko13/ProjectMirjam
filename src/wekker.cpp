@@ -7,18 +7,32 @@
 
 //using namespace std;
 
+/**
+ * @brief Wekker::Wekker
+ */
 Wekker::Wekker() : data(0), repeating(true)
 {
 	std::time_t currentTime = std::time(NULL);
 	endTime = *localtime(&currentTime);
 }
 
+/**
+ * @brief Wekker::Wekker
+ * @param duetimestr
+ * @param repeat
+ * @param userdata
+ */
 Wekker::Wekker(char const* duetimestr, bool repeat, int userdata) : data(userdata), repeating(repeat)
 {
 	strptime(duetimestr, "%H:%M", &endTime);
 	recalculateTime();
 }
 
+/**
+ * @brief Wekker::Wekker
+ * @param dueinmin
+ * @param userdata
+ */
 Wekker::Wekker(int dueinmin, int userdata) : data(userdata), repeating(false)
 {
 	std::time_t currentTime = std::time(NULL);
@@ -32,12 +46,20 @@ Wekker::~Wekker()
 {
 }
 
+/**
+ * @brief Wekker::setTime
+ * @param duetimestr
+ */
 void Wekker::setTime(char const* duetimestr)
 {
 	strptime(duetimestr, "%H:%M", &endTime);
 	recalculateTime();
 }
 
+/**
+ * @brief Wekker::setTime
+ * @param dueinmin
+ */
 void Wekker::setTime(int dueinmin)
 {
 	std::time_t currentTime = std::time(NULL);
@@ -47,11 +69,19 @@ void Wekker::setTime(int dueinmin)
 	endTime = *currenttm;
 }
 
+/**
+ * @brief Wekker::getTime
+ * @return
+ */
 std::string Wekker::getTime()
 {
 	return func::toString<int>(endTime.tm_hour) + ":" + func::toString<int>(endTime.tm_min);
 }
 
+/**
+ * @brief Wekker::isDue
+ * @return
+ */
 bool Wekker::isDue()
 {
 	double seconds;
@@ -63,6 +93,9 @@ bool Wekker::isDue()
 	return true;
 }
 
+/**
+ * @brief Wekker::recalculateTime
+ */
 void Wekker::recalculateTime()
 {
 	double seconds;
@@ -81,11 +114,19 @@ void Wekker::recalculateTime()
 	}
 }
 
+/**
+ * @brief Wekker::getData
+ * @return
+ */
 int Wekker::getData()
 {
 	return data;
 }
 
+/**
+ * @brief Wekker::isRepeating
+ * @return
+ */
 bool Wekker::isRepeating()
 {
 	return repeating;

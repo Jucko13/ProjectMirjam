@@ -18,6 +18,13 @@ string toString(T item){
 	return (oss.str());
 }*/
 
+/**
+ * @brief func::split
+ * @param s
+ * @param delim
+ * @param elems
+ * @return
+ */
 std::vector<std::string> &func::split(const std::string &s, char delim, std::vector<std::string> &elems) {
 	std::stringstream ss(s);
 	std::string item;
@@ -27,6 +34,12 @@ std::vector<std::string> &func::split(const std::string &s, char delim, std::vec
 	return elems;
 }
 
+/**
+ * @brief func::countChars
+ * @param input
+ * @param whatChar
+ * @return
+ */
 int func::countChars(string input, char whatChar) {
 	int howmany = 0;
 	for (int i = 0; i < input.size(); i++) {
@@ -37,6 +50,12 @@ int func::countChars(string input, char whatChar) {
 	return howmany;
 }
 
+/**
+ * @brief func::getUrl
+ * @param str
+ * @param url
+ * @return
+ */
 int func::getUrl (string str, string *url)
 {
   //string str = "GET /index.htm HTTP/1.1";
@@ -67,6 +86,10 @@ int func::getUrl (string str, string *url)
     return 0;
 }
 
+/**
+ * @brief func::getIpAddress
+ * @return
+ */
 string func::getIpAddress(){
 	FILE * fp = popen("ifconfig eth0", "r");
 	if (fp) {
@@ -89,6 +112,11 @@ string func::getIpAddress(){
 	return "0.0.0.0";
 }
 
+/**
+ * @brief func::openFile
+ * @param fileName
+ * @return
+ */
 string func::openFile(const char * fileName){
 	string line;
 	string returnvalue;
@@ -106,6 +134,12 @@ string func::openFile(const char * fileName){
 	
 }
 
+/**
+ * @brief func::openBinaryFile
+ * @param fileName
+ * @param fsize
+ * @return
+ */
 string func::openBinaryFile(const char *fileName, int* fsize)
 {
   std::ifstream in(fileName, std::ios::in | std::ios::binary);
