@@ -60,7 +60,7 @@
 			
 			function removeCamera(){
 				document.getElementById('cameraVideo').src = "";
-				
+				document.getElementById('cameraVideo').style.visibility = "hidden";
 			}
 			
 			
@@ -229,7 +229,7 @@
 </canvas>
 
 </br>
-<input id="xycoords" style="position: absolute; top: 10px; -webkit-appearance:none; margin-left: 10px;" class="white bgcolor outline visible" type="text" value="0 0"/>
+<input id="xycoords" class="hidden" style="position: absolute; top: 10px; -webkit-appearance:none; margin-left: 10px;" class="white bgcolor outline visible" type="text" value="0 0"/>
 </br>
 
 <div class="bbox hidden" id="touchCircle" style="width: 300px; height: 300px; border: 20px solid #53fa00; position: fixed; z-index: 10000; top: 50%; left: 50%; border-radius: 50%; background-color: transparent;">

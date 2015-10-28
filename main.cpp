@@ -49,6 +49,7 @@ SOFTWARE.
 #include <string>
 #include <cstring>
 #include <vector>
+#include <iomanip>
 
 vector<MotionSensor *> * motionPointer = NULL;
 vector<Buzzer *> * buzzerPointer = NULL;
@@ -253,9 +254,6 @@ int main (int argc, char *argv[])
 	wekkercompressed wekkerData;
 	
 	restoreWekkers(wekkers, fr);
-
-	KnxSensors k;
-	RGB ledStrip(&k);
 	
 	attachInterrupt(5, triggerButton, RISING);
 	attachInterrupt(6, triggerButton, RISING);
@@ -273,16 +271,19 @@ int main (int argc, char *argv[])
 	lamp.push_back(new Light(11));
 	
 	buzzers.push_back(new Buzzer(13));	
-	
-	std::cout << "Creating Server...\r\n";
+	//            [ ERROR  ]
+	std::cout << "[ SERVER ] Creating Server...\r\n";
     if (listener.openServerOnPort(PORTNUMBER) < 0 || listener.listenToPort() < 0){
-        std::cout << "Error opening port " << PORTNUMBER << "!\r\n";
+        std::cout << "[ ERROR  ] Error opening port " << PORTNUMBER << "!\r\n";
         exit(-1);
     }
 	
-    std::cout << "Server Created! URL: http://" << func::getIpAddress() << ":" << func::toString(PORTNUMBER) << "\r\n" << "Waiting for incomming connections...\r\n";
-
-
+    std::cout << "[ SERVER ] Server Created! URL: http://" << func::getIpAddress() << ":" << func::toString(PORTNUMBER) << "\r\n";
+	std::cout << "[ SERVER ] Waiting for incomming connections...\r\n";
+	 
+	KnxSensors k;//werkt niet
+	RGB ledStrip(&k);
+	
 	while(1){
 		checkAllWekkers(wekkers, lamp, sunblinds);	
 		
@@ -321,11 +322,18 @@ int main (int argc, char *argv[])
 			inbound->sendMessage(response);
 			inbound->closeConnection();
 			continue;
-		}else if(pageurl.find(".png") != std::string::npos || pageurl.find(".mjpg") != std::string::npos){
+		}else if(pageurl.find(".png") != std::string::npos){
 			response = "HTTP/1.1 200 OK\r\n";
 			response += "Content-Type: image/png;\r\n\r\n";
 			
 			inbound->sendFile("html" + pageurl);
+			inbound->closeConnection();
+			continue;
+		}else if(pageurl.find(".jpg") != std::string::npos){
+			response = "HTTP/1.1 200 OK\r\n";
+			response += "Content-Type: image/jpg;\r\n\r\n";
+			
+			inbound->sendFile("html/camera" + pageurl);
 			inbound->closeConnection();
 			continue;
 		}
@@ -458,7 +466,7 @@ int main (int argc, char *argv[])
 
         // Close the connection
         inbound->closeConnection();
-        std::cout << "[" << connectionCounter << "]Waiting for incomming connections...\r\n";
+        std::cout << "[ " << setw(7) << connectionCounter << " ] Waiting for incomming connections...\r\n";
         std::cout.flush();
 	};
 	

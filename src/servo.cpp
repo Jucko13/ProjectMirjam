@@ -23,7 +23,7 @@ void Servo::setAngle(int pos)
 	
 	angleDelay = 750 + ((1500/180)*pos);
 
-    for(int i = 0; i<30; i++){
+    for(int i = 0; i<50; i++){
         digitalWrite(pin, HIGH);
         delayMicroseconds(angleDelay);
         digitalWrite(pin, LOW);
