@@ -17,7 +17,7 @@ FileReader::~FileReader() {
 
 /**
  * @brief FileReader::readFile
- * the readFile function reads the settings from the settings.txt file into the vector settings.
+ * the readFile function reads the settings from the settings.txt file into two vectors.
  */
 void FileReader::readFile(){
     string line;
@@ -46,7 +46,7 @@ void FileReader::readFile(){
 
 /**
  * @brief FileReader::writeFile
- * the writeFile function write the contents of the settings vector into the settings.txt file separated by an endline character.
+ * the writeFile function write the contents of the settings vectors into the settings.txt file separated by an endline character.
  */
 void FileReader::writeFile(){
     ofstream myfile;
@@ -64,8 +64,8 @@ void FileReader::writeFile(){
 /**
  * @brief FileReader::changeSettings
  * the changeSettings function allows to change a timeslot in the settings.
- * @param i: the integer that determines what wekker is selected
- * @param string s: is used to to edit the value of the time settings
+ * @param i: the integer idenentifier that determines which wekker is selected.
+ * @param string s: is used to to edit the value of the time settings.
  */
 void FileReader::changeSettings(int i, string s){
     settingsInt.push_back(i);
@@ -74,9 +74,10 @@ void FileReader::changeSettings(int i, string s){
 
 /**
  * @brief FileReader::getTime
- * the getTime functions allows to retreive the saved time setting for a particular setting slot
- * @param integer a: is used to select which time setting is to be requested
- * @return the time is returned as an integer, if the time was not set, 1 is returned.
+ * the getTime functions allows to retreive the saved time setting for a particular setting slot.
+ * @param unsinged integer i: is used to select which setting is to be retreived.
+ * @param integer *i: is used to retreive the integer value that determines which wekker is selected by the setting.
+ * @param string *s: is used to retreive the time that corresponds to the requested setting.
  */
 void FileReader::getTimeSetting(unsigned int i, int *w, string *s){
     if(i < settingsInt.size() && i< settingsString.size()){
