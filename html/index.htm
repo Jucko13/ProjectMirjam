@@ -5,7 +5,7 @@
 
 <div class="hidden" id="slideSunblindsHeight" style="height: 300px; position: absolute; z-index: 101;">
 	<div style='height: 100%'>
-		<table style='height: 100%;' border="0">
+		<table style='height: 100%; border: 0px;'>
 			<tr>
 				<td style='height: 100%;'>
 					<div id="slideSunblindsBar" class='outline' style='float: right; height: 100%; width: 10px; position: relative; '>
@@ -28,9 +28,9 @@
 	<div id="rgbContent" class="content" style="text-align: center;">
 		<b>Preview</b>
 		<div id="rgbPreview" class="border p"></div>
-		<br>
+		<br/>
 		Pre-defined Colors:
-		<br>
+		<br/>
 		<div class="c" style="background-color: #000;" onclick="setColor('0,0,0,0')"></div>
 		<div class="c" style="background-color: #f00;" onclick="setColor('99,0,0,0')"></div>
 		<div class="c" style="background-color: #0f0;" onclick="setColor('0,99,0,0')"></div>
@@ -40,7 +40,7 @@
 		<div class="c" style="background-color: #f0f;" onclick="setColor('99,0,99,0')"></div>
 		<div class="c" style="background-color: #fff;" onclick="setColor('99,99,99,99')"></div>
 	</div>
-	<br>
+	<br/>
 	<button onclick="location.reload()" class="">Refresh</button>
 </div>
 
@@ -50,7 +50,7 @@
 		<button onclick="closeWindow('camera')">Close</button>
 	</div>
 	<div style="text-align: center; position:absolute; left: 0px; right: 0px; top: 50px; bottom: 50px;">
-		<img id="cameraVideo" class="hidden" src="" style="position:relative; max-width: 100%; width: auto; height: 100%;"/>
+		<img alt="Camera Footage" id="cameraVideo" class="hidden" src="." style="position:relative; max-width: 100%; width: auto; height: 100%;"/>
 		<div id="cameraLoad" style="position: absolute; top: 50%; margin-top: -20px; width: 100%; font-size: 30px; font-weight: bold;">
 			
 		</div>
@@ -66,11 +66,11 @@
 			
 			function initCamera(){
 				document.getElementById('cameraVideo').src = "http://10.0.2.100/mjpg/video.mjpg";
-				document.getElementById('cameraLoad').innerHTML = "Loading Camera footage<br>...";
+				document.getElementById('cameraLoad').innerHTML = "Loading Camera footage<br/>...";
 				cameraAnimationStep = 0;
 				
 				cameraAnimationTimer = setInterval(function(){
-					document.getElementById('cameraLoad').innerHTML = "Loading Camera footage<br>" + Array(cameraAnimationStep).join(".");
+					document.getElementById('cameraLoad').innerHTML = "Loading Camera footage<br/>" + Array(cameraAnimationStep).join(".");
 					if(cameraAnimationStep++ > 7) cameraAnimationStep = 1;
 					
 				}, 200);
@@ -99,17 +99,17 @@
 	</div>
 	<div class="content">
 		<div style="font-size: 30px; text-align: center;">
-			<br>
+			<br/>
 			<select class="selection" id="timeObject" onchange="timeSelectionChange()">
 				
 			</select>
-			<br>
+			<br/>
 			<div style="padding-top: 20px; padding-bottom: 10px;">
-			<label><input id="timeCheck" style="width: 23px; height: 23px;" type="checkbox" onclick="checkTimeWindow()">Enabled</label><br>
+			<label><input id="timeCheck" style="width: 23px; height: 23px;" type="checkbox" onclick="checkTimeWindow()">Enabled</label><br/>
 			</div>
 			
 			<div id="timeWindow" style="">
-				<br>
+				<br/>
 				<table class="color center" style="font-size: 30px; display: inline-block;">
 					<tr>
 						<td colspan="3">
@@ -117,7 +117,7 @@
 						</td>
 					</tr>
 					<tr>
-						<td align="right">
+						<td style="text-align: right;">
 <table class="time">
 	<tr>
 		<td>
@@ -168,7 +168,7 @@
 						</td>
 					</tr>
 					<tr>
-						<td align="right">
+						<td style="text-align: right;">
 <table class="time">
 	<tr>
 		<td>
@@ -212,10 +212,10 @@
 					</tr>
 				</table>
 			</div>
-			<br>
+			<br/>
 			<button class="outline white bgcolor" style="font-size: 30px;" onclick="timeSaveClick();">Save</button>
-			<br>
-			<br>
+			<br/>
+			<br/>
 			<div id="timeSave" style="visibility: hidden;" class="outline bgcolor white">Settings Saved!!!</div>
 			<div id="timeLegenda">
 			
@@ -228,9 +228,9 @@
 	
 </canvas>
 
-<br>
-<input id="xycoords" class="hidden" style="position: absolute; top: 10px; -webkit-appearance:none; margin-left: 10px;" class="white bgcolor outline visible" type="text" value="0 0"/>
-<br>
+<br/>
+<input id="xycoords" style="position: absolute; top: 10px; -webkit-appearance:none; margin-left: 10px;" class="white bgcolor outline visible" type="text" value="0 0"/>
+<br/>
 
 <div class="bbox hidden" id="touchCircle" style="width: 300px; height: 300px; border: 20px solid #53fa00; position: fixed; z-index: 10000; top: 50%; left: 50%; border-radius: 50%; background-color: transparent;">
 	<div class="bbox" id="touchCircleBand" style="width: 280px; height: 280px; top: -10px; left: -10px; border: 15px solid #a0ff71; position: relative; z-index: 10000; border-radius: 50%; background-color: transparent;">
@@ -702,8 +702,7 @@ function sendTimedCommands(){
 			}
 		}
 		
-		var lsend = timedCommandList.pop();
-		console.log(lsend);
+		var lsend = timedCommandList.pop()
 		request.open('GET', lsend, true);
 		request.send();		
 	},10);
@@ -922,8 +921,6 @@ function dragUp(){
 		dragSunblinds.element = undefined;
 		
 		addTimedCommand('set/sunblinds/0/' + data.sunblinds[0]);
-		drawRoom();
-		//debugger;
 	}
 }
 
@@ -1034,9 +1031,9 @@ function refreshTimers(){
 	var i = document.getElementById('timeObject').value.split(":");
 	if(times[i[0]][i[1]][2] == "1"){
 		result += i[0] + " " + (parseInt(i[1])+1) + " Goes off in: " + convertTime(times[i[0]][i[1]][0]);
-		result += "<br>";
+		result += "<br/>";
 		result += i[0] + " " + (parseInt(i[1])+1) + " Goes on in: " + convertTime(times[i[0]][i[1]][1]);
-		result += "<br>";
+		result += "<br/>";
 	}else{
 		result += i[0] + " " + (parseInt(i[1])+1) + " timer is disabled!";
 	}
