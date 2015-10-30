@@ -1,0 +1,9 @@
+checklist:
+
+figure numbers
+table numbers
+references
+footnotes
+function - methode
+caps for classes
+form: I, you, we, they.
