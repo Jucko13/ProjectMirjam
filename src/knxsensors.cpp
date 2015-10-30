@@ -34,7 +34,7 @@ void KnxSensors::init(){
  */
 void KnxSensors::groupWrite(std::string group, std::string value){
 	FILE *in;
-        std::string command ="groupwrite ip:localhost " + group + " " + value;
+    std::string command ="groupwrite ip:localhost " + group + " " + value;
 	
 	if(!(in = popen(command.c_str(), "r"))){
 		return;

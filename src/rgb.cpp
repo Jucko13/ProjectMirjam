@@ -46,7 +46,6 @@ void RGB::setColorString(std::string r, std::string g, std::string b, std::strin
 	
 	knx->groupWrite("1/2/4", r + " " + g + " " + b);
 	knx->groupWrite("1/2/3", w);
-
 }
 
 

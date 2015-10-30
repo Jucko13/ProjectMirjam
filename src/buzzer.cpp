@@ -14,9 +14,4 @@ void Buzzer::playAlarm(){
 		digitalWrite(pin, LOW);
 		delayMicroseconds(100);
 	}
-	/*
-	digitalWrite(pin, HIGH);
-	delay(1000);
-	digitalWrite(pin, LOW);
-	*/
 }
