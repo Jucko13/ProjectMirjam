@@ -5,26 +5,26 @@
 \item 
 \hypertarget{class_wekker_a6dfbdf69cc3f11a4b995ec3393a62507}{}\hyperlink{class_wekker_a6dfbdf69cc3f11a4b995ec3393a62507}{Wekker} ()\label{class_wekker_a6dfbdf69cc3f11a4b995ec3393a62507}
 
-\begin{DoxyCompactList}\small\item\em \hyperlink{class_wekker_a6dfbdf69cc3f11a4b995ec3393a62507}{Wekker\+::\+Wekker}. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em creates a timer \end{DoxyCompactList}\item 
 \hyperlink{class_wekker_a430abbc87ca880cddbf18b89c07aabe8}{Wekker} (char const $\ast$duetimestr, bool repeat, int userdata)
-\begin{DoxyCompactList}\small\item\em \hyperlink{class_wekker_a6dfbdf69cc3f11a4b995ec3393a62507}{Wekker\+::\+Wekker}. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em creates a timer \end{DoxyCompactList}\item 
 \hyperlink{class_wekker_a16083e8bda81545ec6abb84eb8a933e4}{Wekker} (int dueinmin, int userdata)
-\begin{DoxyCompactList}\small\item\em \hyperlink{class_wekker_a6dfbdf69cc3f11a4b995ec3393a62507}{Wekker\+::\+Wekker}. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em creates a timer \end{DoxyCompactList}\item 
 void \hyperlink{class_wekker_ad22f1f5fbd543892690cc94bd1b586f5}{set\+Time} (char const $\ast$duetimestr)
-\begin{DoxyCompactList}\small\item\em \hyperlink{class_wekker_ad22f1f5fbd543892690cc94bd1b586f5}{Wekker\+::set\+Time}. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em modify the due-\/time \end{DoxyCompactList}\item 
 void \hyperlink{class_wekker_a0a6ca8af43c1525e66ccfeace3da5d7b}{set\+Time} (int dueinmin)
-\begin{DoxyCompactList}\small\item\em \hyperlink{class_wekker_ad22f1f5fbd543892690cc94bd1b586f5}{Wekker\+::set\+Time}. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em modify the due-\/time \end{DoxyCompactList}\item 
 std\+::string \hyperlink{class_wekker_a1386592e7c4f638cfee0f922bb5e03ab}{get\+Time} ()
-\begin{DoxyCompactList}\small\item\em \hyperlink{class_wekker_a1386592e7c4f638cfee0f922bb5e03ab}{Wekker\+::get\+Time}. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em retrive the due-\/time \end{DoxyCompactList}\item 
 bool \hyperlink{class_wekker_a99ffd9a102d8c591749ac17aed52fb0f}{is\+Due} ()
-\begin{DoxyCompactList}\small\item\em \hyperlink{class_wekker_a99ffd9a102d8c591749ac17aed52fb0f}{Wekker\+::is\+Due}. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em has the due-\/time been passed \end{DoxyCompactList}\item 
 \hypertarget{class_wekker_abbafe0b0a3f660d85b30fb923707ed48}{}void \hyperlink{class_wekker_abbafe0b0a3f660d85b30fb923707ed48}{recalculate\+Time} ()\label{class_wekker_abbafe0b0a3f660d85b30fb923707ed48}
 
-\begin{DoxyCompactList}\small\item\em \hyperlink{class_wekker_abbafe0b0a3f660d85b30fb923707ed48}{Wekker\+::recalculate\+Time}. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em set the triggered timer for the next ocurrence of the due-\/time \end{DoxyCompactList}\item 
 int \hyperlink{class_wekker_adb34df213d2ea19760e81c5bb2594540}{get\+Data} ()
-\begin{DoxyCompactList}\small\item\em \hyperlink{class_wekker_adb34df213d2ea19760e81c5bb2594540}{Wekker\+::get\+Data}. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em gets the userdata \end{DoxyCompactList}\item 
 bool \hyperlink{class_wekker_a53428c73d0b3c1fae67ee38687f2aac0}{is\+Repeating} ()
-\begin{DoxyCompactList}\small\item\em \hyperlink{class_wekker_a53428c73d0b3c1fae67ee38687f2aac0}{Wekker\+::is\+Repeating}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em gets if the timer is to be repeating \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \subsection{Constructor \& Destructor Documentation}
@@ -39,15 +39,15 @@ bool \hyperlink{class_wekker_a53428c73d0b3c1fae67ee38687f2aac0}{is\+Repeating} (
 )}\label{class_wekker_a430abbc87ca880cddbf18b89c07aabe8}
 
 
-\hyperlink{class_wekker_a6dfbdf69cc3f11a4b995ec3393a62507}{Wekker\+::\+Wekker}. 
+creates a timer 
 
 
 \begin{DoxyParams}{Parameters}
-{\em duetimestr} & \\
+{\em time} & to watch for expiry (hour\+:minute) \\
 \hline
-{\em repeat} & \\
+{\em repeating} & timer or not \\
 \hline
-{\em userdata} & \\
+{\em data} & for user \\
 \hline
 \end{DoxyParams}
 \hypertarget{class_wekker_a16083e8bda81545ec6abb84eb8a933e4}{}\index{Wekker@{Wekker}!Wekker@{Wekker}}
@@ -60,13 +60,13 @@ bool \hyperlink{class_wekker_a53428c73d0b3c1fae67ee38687f2aac0}{is\+Repeating} (
 )}\label{class_wekker_a16083e8bda81545ec6abb84eb8a933e4}
 
 
-\hyperlink{class_wekker_a6dfbdf69cc3f11a4b995ec3393a62507}{Wekker\+::\+Wekker}. 
+creates a timer 
 
 
 \begin{DoxyParams}{Parameters}
-{\em dueinmin} & \\
+{\em timeout} & to watch for expiry (minutes) \\
 \hline
-{\em userdata} & \\
+{\em data} & for user \\
 \hline
 \end{DoxyParams}
 
@@ -81,10 +81,10 @@ bool \hyperlink{class_wekker_a53428c73d0b3c1fae67ee38687f2aac0}{is\+Repeating} (
 )}\label{class_wekker_adb34df213d2ea19760e81c5bb2594540}
 
 
-\hyperlink{class_wekker_adb34df213d2ea19760e81c5bb2594540}{Wekker\+::get\+Data}. 
+gets the userdata 
 
 \begin{DoxyReturn}{Returns}
-
+data for user 
 \end{DoxyReturn}
 \hypertarget{class_wekker_a1386592e7c4f638cfee0f922bb5e03ab}{}\index{Wekker@{Wekker}!get\+Time@{get\+Time}}
 \index{get\+Time@{get\+Time}!Wekker@{Wekker}}
@@ -95,10 +95,10 @@ bool \hyperlink{class_wekker_a53428c73d0b3c1fae67ee38687f2aac0}{is\+Repeating} (
 )}\label{class_wekker_a1386592e7c4f638cfee0f922bb5e03ab}
 
 
-\hyperlink{class_wekker_a1386592e7c4f638cfee0f922bb5e03ab}{Wekker\+::get\+Time}. 
+retrive the due-\/time 
 
 \begin{DoxyReturn}{Returns}
-
+due-\/timestring (hour\+:minute) 
 \end{DoxyReturn}
 \hypertarget{class_wekker_a99ffd9a102d8c591749ac17aed52fb0f}{}\index{Wekker@{Wekker}!is\+Due@{is\+Due}}
 \index{is\+Due@{is\+Due}!Wekker@{Wekker}}
@@ -109,10 +109,10 @@ bool \hyperlink{class_wekker_a53428c73d0b3c1fae67ee38687f2aac0}{is\+Repeating} (
 )}\label{class_wekker_a99ffd9a102d8c591749ac17aed52fb0f}
 
 
-\hyperlink{class_wekker_a99ffd9a102d8c591749ac17aed52fb0f}{Wekker\+::is\+Due}. 
+has the due-\/time been passed 
 
 \begin{DoxyReturn}{Returns}
-
+true if time has passed 
 \end{DoxyReturn}
 \hypertarget{class_wekker_a53428c73d0b3c1fae67ee38687f2aac0}{}\index{Wekker@{Wekker}!is\+Repeating@{is\+Repeating}}
 \index{is\+Repeating@{is\+Repeating}!Wekker@{Wekker}}
@@ -123,10 +123,10 @@ bool \hyperlink{class_wekker_a53428c73d0b3c1fae67ee38687f2aac0}{is\+Repeating} (
 )}\label{class_wekker_a53428c73d0b3c1fae67ee38687f2aac0}
 
 
-\hyperlink{class_wekker_a53428c73d0b3c1fae67ee38687f2aac0}{Wekker\+::is\+Repeating}. 
+gets if the timer is to be repeating 
 
 \begin{DoxyReturn}{Returns}
-
+needs recalculate 
 \end{DoxyReturn}
 \hypertarget{class_wekker_ad22f1f5fbd543892690cc94bd1b586f5}{}\index{Wekker@{Wekker}!set\+Time@{set\+Time}}
 \index{set\+Time@{set\+Time}!Wekker@{Wekker}}
@@ -137,11 +137,11 @@ bool \hyperlink{class_wekker_a53428c73d0b3c1fae67ee38687f2aac0}{is\+Repeating} (
 )}\label{class_wekker_ad22f1f5fbd543892690cc94bd1b586f5}
 
 
-\hyperlink{class_wekker_ad22f1f5fbd543892690cc94bd1b586f5}{Wekker\+::set\+Time}. 
+modify the due-\/time 
 
 
 \begin{DoxyParams}{Parameters}
-{\em duetimestr} & \\
+{\em time} & to watch for expiry (hour\+:minute) \\
 \hline
 \end{DoxyParams}
 \hypertarget{class_wekker_a0a6ca8af43c1525e66ccfeace3da5d7b}{}\index{Wekker@{Wekker}!set\+Time@{set\+Time}}
@@ -153,16 +153,16 @@ bool \hyperlink{class_wekker_a53428c73d0b3c1fae67ee38687f2aac0}{is\+Repeating} (
 )}\label{class_wekker_a0a6ca8af43c1525e66ccfeace3da5d7b}
 
 
-\hyperlink{class_wekker_ad22f1f5fbd543892690cc94bd1b586f5}{Wekker\+::set\+Time}. 
+modify the due-\/time 
 
 
 \begin{DoxyParams}{Parameters}
-{\em dueinmin} & \\
+{\em timeout} & to watch for expiry (minutes) \\
 \hline
 \end{DoxyParams}
 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
-src/wekker.\+h\item 
-src/wekker.\+cpp\end{DoxyCompactItemize}
+C\+:/\+Users/\+Erwin/\+Documents/\+Project\+S\+D/\+Project\+Mirjam/src/wekker.\+h\item 
+C\+:/\+Users/\+Erwin/\+Documents/\+Project\+S\+D/\+Project\+Mirjam/src/wekker.\+cpp\end{DoxyCompactItemize}

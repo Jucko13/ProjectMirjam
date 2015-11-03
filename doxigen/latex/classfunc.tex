@@ -7,17 +7,17 @@
 
 \item 
 static string \hyperlink{classfunc_a36bd8c048b9131d38ba31bb61bb41800}{get\+Ip\+Address} ()
-\begin{DoxyCompactList}\small\item\em \hyperlink{classfunc_a36bd8c048b9131d38ba31bb61bb41800}{func\+::get\+Ip\+Address} \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em get the ip of the current interface of the raspberry pi \end{DoxyCompactList}\item 
 static string \hyperlink{classfunc_a9a5d752d785a76823f94b4cc7c40f411}{open\+File} (const char $\ast$file\+Name)
-\begin{DoxyCompactList}\small\item\em \hyperlink{classfunc_a9a5d752d785a76823f94b4cc7c40f411}{func\+::open\+File} \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em get the contents of a file \end{DoxyCompactList}\item 
 static string \hyperlink{classfunc_a073c637fff7acd1dbd46ed0e36aca523}{open\+Binary\+File} (const char $\ast$file\+Name, int $\ast$fsize)
-\begin{DoxyCompactList}\small\item\em \hyperlink{classfunc_a073c637fff7acd1dbd46ed0e36aca523}{func\+::open\+Binary\+File} \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em open the file in binairy mode and return the contents + size \end{DoxyCompactList}\item 
 static int \hyperlink{classfunc_a7906b81c00a850d060d41ab192f26642}{get\+Url} (string str, string $\ast$url)
-\begin{DoxyCompactList}\small\item\em \hyperlink{classfunc_a7906b81c00a850d060d41ab192f26642}{func\+::get\+Url} \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em get the url portion of the html request header of the client \end{DoxyCompactList}\item 
 static vector$<$ string $>$ \& \hyperlink{classfunc_a4b7932b4cfd2c66a8d64d13bec30e1c8}{split} (const string \&s, char delim, vector$<$ string $>$ \&elems)
-\begin{DoxyCompactList}\small\item\em \hyperlink{classfunc_a4b7932b4cfd2c66a8d64d13bec30e1c8}{func\+::split} \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em splits string on a character \end{DoxyCompactList}\item 
 static int \hyperlink{classfunc_a61132399dfb600836d144459e06491c8}{count\+Chars} (string input, char what\+Char)
-\begin{DoxyCompactList}\small\item\em \hyperlink{classfunc_a61132399dfb600836d144459e06491c8}{func\+::count\+Chars} \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em counts the number of occurrences in a string \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \subsection{Member Function Documentation}
@@ -31,17 +31,17 @@ static int \hyperlink{classfunc_a61132399dfb600836d144459e06491c8}{count\+Chars}
 )\hspace{0.3cm}{\ttfamily [static]}}\label{classfunc_a61132399dfb600836d144459e06491c8}
 
 
-\hyperlink{classfunc_a61132399dfb600836d144459e06491c8}{func\+::count\+Chars} 
+counts the number of occurrences in a string 
 
 
 \begin{DoxyParams}{Parameters}
 {\em input} & \\
 \hline
-{\em what\+Char} & \\
+{\em the} & char to search for \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-
+number of occurrences 
 \end{DoxyReturn}
 \hypertarget{classfunc_a36bd8c048b9131d38ba31bb61bb41800}{}\index{func@{func}!get\+Ip\+Address@{get\+Ip\+Address}}
 \index{get\+Ip\+Address@{get\+Ip\+Address}!func@{func}}
@@ -52,10 +52,10 @@ static int \hyperlink{classfunc_a61132399dfb600836d144459e06491c8}{count\+Chars}
 )\hspace{0.3cm}{\ttfamily [static]}}\label{classfunc_a36bd8c048b9131d38ba31bb61bb41800}
 
 
-\hyperlink{classfunc_a36bd8c048b9131d38ba31bb61bb41800}{func\+::get\+Ip\+Address} 
+get the ip of the current interface of the raspberry pi 
 
 \begin{DoxyReturn}{Returns}
-
+ip address 
 \end{DoxyReturn}
 \hypertarget{classfunc_a7906b81c00a850d060d41ab192f26642}{}\index{func@{func}!get\+Url@{get\+Url}}
 \index{get\+Url@{get\+Url}!func@{func}}
@@ -67,17 +67,17 @@ static int \hyperlink{classfunc_a61132399dfb600836d144459e06491c8}{count\+Chars}
 )\hspace{0.3cm}{\ttfamily [static]}}\label{classfunc_a7906b81c00a850d060d41ab192f26642}
 
 
-\hyperlink{classfunc_a7906b81c00a850d060d41ab192f26642}{func\+::get\+Url} 
+get the url portion of the html request header of the client 
 
 
 \begin{DoxyParams}{Parameters}
-{\em str} & \\
+{\em html} & request header string \\
 \hline
-{\em url} & \\
+{\em return} & the result \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-
+if found or not 
 \end{DoxyReturn}
 \hypertarget{classfunc_a073c637fff7acd1dbd46ed0e36aca523}{}\index{func@{func}!open\+Binary\+File@{open\+Binary\+File}}
 \index{open\+Binary\+File@{open\+Binary\+File}!func@{func}}
@@ -89,17 +89,17 @@ static int \hyperlink{classfunc_a61132399dfb600836d144459e06491c8}{count\+Chars}
 )\hspace{0.3cm}{\ttfamily [static]}}\label{classfunc_a073c637fff7acd1dbd46ed0e36aca523}
 
 
-\hyperlink{classfunc_a073c637fff7acd1dbd46ed0e36aca523}{func\+::open\+Binary\+File} 
+open the file in binairy mode and return the contents + size 
 
 
 \begin{DoxyParams}{Parameters}
 {\em file\+Name} & \\
 \hline
-{\em fsize} & \\
+{\em the} & string size \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-
+file contents 
 \end{DoxyReturn}
 \hypertarget{classfunc_a9a5d752d785a76823f94b4cc7c40f411}{}\index{func@{func}!open\+File@{open\+File}}
 \index{open\+File@{open\+File}!func@{func}}
@@ -110,7 +110,7 @@ static int \hyperlink{classfunc_a61132399dfb600836d144459e06491c8}{count\+Chars}
 )\hspace{0.3cm}{\ttfamily [static]}}\label{classfunc_a9a5d752d785a76823f94b4cc7c40f411}
 
 
-\hyperlink{classfunc_a9a5d752d785a76823f94b4cc7c40f411}{func\+::open\+File} 
+get the contents of a file 
 
 
 \begin{DoxyParams}{Parameters}
@@ -118,7 +118,7 @@ static int \hyperlink{classfunc_a61132399dfb600836d144459e06491c8}{count\+Chars}
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-
+file contents 
 \end{DoxyReturn}
 \hypertarget{classfunc_a4b7932b4cfd2c66a8d64d13bec30e1c8}{}\index{func@{func}!split@{split}}
 \index{split@{split}!func@{func}}
@@ -131,23 +131,23 @@ static int \hyperlink{classfunc_a61132399dfb600836d144459e06491c8}{count\+Chars}
 )\hspace{0.3cm}{\ttfamily [static]}}\label{classfunc_a4b7932b4cfd2c66a8d64d13bec30e1c8}
 
 
-\hyperlink{classfunc_a4b7932b4cfd2c66a8d64d13bec30e1c8}{func\+::split} 
+splits string on a character 
 
 
 \begin{DoxyParams}{Parameters}
-{\em s} & \\
+{\em input} & string \\
 \hline
-{\em delim} & \\
+{\em split} & character \\
 \hline
-{\em elems} & \\
+{\em vector} & of elements \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-
+vector of split occurrences 
 \end{DoxyReturn}
 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
-src/functions.\+h\item 
-src/functions.\+cpp\end{DoxyCompactItemize}
+C\+:/\+Users/\+Erwin/\+Documents/\+Project\+S\+D/\+Project\+Mirjam/src/functions.\+h\item 
+C\+:/\+Users/\+Erwin/\+Documents/\+Project\+S\+D/\+Project\+Mirjam/src/functions.\+cpp\end{DoxyCompactItemize}
